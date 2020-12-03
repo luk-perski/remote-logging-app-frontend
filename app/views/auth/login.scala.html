@@ -1,0 +1,32 @@
+@(r: play.mvc.Http.Request, u: utils.Utils, page_settings: utils.app.page.PageSettings, redirect: String)
+
+@base.body(r, u, u.l.l(r, "auth.title.login"), page_settings) { } {
+
+    <div class="container-fluid">
+      	<h1>@u.l.l(r, "auth.title.login")</h1>
+
+        @base.flash_form_result(r, u.l)
+
+      	<form class="validate-form" action="@controllers.routes.AuthenticationController.submitLogin()" method="post">
+            @helper.CSRF.formField(r.asScala)
+
+            <input type="hidden" name="redirect" value="@(redirect)">
+
+            <div class="form-row">
+                <div class="col-sm col-md-4 mb-3">
+                    <label for="username">@u.l.l(r, "auth.label.username")</label>
+                    <input type="text" name="username" class="form-control validate-not-empty validate-blur validate-no-valid-feedback" data-invalid-feedback="@u.l.l(r, "auth.text.username_cannot_be_empty")" placeholder="@u.l.l(r, "auth.label.username")" aria-label="@u.l.l(r, "auth.label.username")" aria-describedby="username" autofocus>
+                </div>
+                <div class="col-sm col-md-4 mb-3">
+                    <label for="password">@u.l.l(r, "auth.label.password")</label>
+                    <input type="password" name="password" class="form-control validate-not-empty validate-blur validate-no-valid-feedback" data-invalid-feedback="@u.l.l(r, "auth.text.password_cannot_be_empty")" placeholder="@u.l.l(r, "auth.label.password")" aria-label="@u.l.l(r, "auth.label.password")" aria-describedby="password" >
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-sm col-md-4 mb-3">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-sign-in"></i> @u.l.l(r, "auth.label.login")</button>
+                </div>
+            </div>
+      	</form>
+    </div>
+} { }

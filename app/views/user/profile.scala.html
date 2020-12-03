@@ -1,0 +1,93 @@
+@(r: play.mvc.Http.Request, u: utils.Utils, page_settings: utils.app.page.PageSettings, auth_user: utils.auth.models.AuthenticatedUser)
+
+@base.bo_body(r, u, u.l.l(r, "user.title.profile"), page_settings) { } {
+
+	<div class="container-fluid">
+
+	  	<h1>@u.l.l(r, "user.title.profile")</h1>
+
+		@if(auth_user != null && auth_user.getUser() != null){
+
+			<div class="row">
+				<div class="col-md-3 col-sm-3">
+					@defining(auth_user.getUser().getUserPhotoURL(r)){ user_photo =>
+						@if(user_photo != null){
+							<img src="@(user_photo)" class="img-fluid" alt="User photo" />
+						}
+					}
+				</div>
+
+				<div class="col-md-9 col-sm-9">
+					<div class="row">
+						<div class="col-md-2 col-sm-4">
+							<div class="value-group">
+								<div class="label">@u.l.l(r, "user.label.id")</div>
+								<div class="value">@auth_user.getUser().getID()</div>
+							</div>
+						</div>
+
+						<div class="col-md-4 col-sm-8">
+							<div class="value-group">
+								<div class="label">@u.l.l(r, "user.label.username")</div>
+								<div class="value">@auth_user.getUser().getUsername()</div>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="value-group">
+								<div class="label">E-Mail</div>
+								<div class="value">@auth_user.getUser().getEmail()</div>
+							</div>
+						</div>
+
+						<div class="col-md-8">
+							<div class="value-group">
+								<div class="label">@u.l.l(r, "user.label.name")</div>
+								<div class="value">@auth_user.getUser().getName()</div>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="value-group">
+								<div class="label">@u.l.l(r, "user.label.role")</div>
+								<div class="value">@u.l.lto(r, auth_user.getRole(), "getLabel")</div>
+							</div>
+						</div>
+
+						<div class="col-md-8">
+							<div class="value-group">
+								<div class="label">@u.l.l(r, "user.label.possible_roles")</div>
+								<div class="value">
+									@if(auth_user.getPossibleRoles() != null){
+								  		@for(role <- auth_user.getPossibleRoles()){
+								  			@u.l.lto(r, role, "getLabel");
+								  		}
+							  		}
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="value-group">
+								<div class="label">@u.l.l(r, "user.label.admin_mode")</div>
+								<div class="value">@auth_user.isAdminMode()</div>
+							</div>
+						</div>
+
+						@if(auth_user.getAdminUser() != null){
+							<div class="col-md-3">
+								<div class="value-group">
+									<div class="label">@u.l.l(r, "user.label.admin_user")</div>
+									<div class="value">@auth_user.getAdminUser().getUsername() (@auth_user.getAdminUser().getID())</div>
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+	  	}else{
+	  		<p class="alert alert-danger">No authenticated user found</p>
+	  	}
+
+	</div>
+} { }

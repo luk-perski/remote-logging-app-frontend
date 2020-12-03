@@ -1,0 +1,20 @@
+@(r: play.mvc.Http.Request, u: utils.Utils, all_roles: List[models.db.user.Role])
+
+@import utils.app.report.configurations.models.UserReportConfiguration
+
+@if(all_roles != null && !all_roles.isEmpty()){
+	<div class="row mt-3 mb-4">
+		<div class="col-md-6 col-lg-4">
+			<div class="form-group ">
+				<label for="@(UserReportConfiguration.FILTER_ROLE_PROPERTY)">@u.l.l(r, "reports.label.choose_role")</label>
+				<div>
+					<select name="@(UserReportConfiguration.FILTER_ROLE_PROPERTY)" id="@(UserReportConfiguration.FILTER_ROLE_PROPERTY)" class="form-control">
+						@for(role <- all_roles){
+							<option value="@role.getID()">@u.l.lto(r, role, "getLabel")</option>
+						}
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+}

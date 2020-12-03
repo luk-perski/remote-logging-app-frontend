@@ -1,0 +1,83 @@
+@(r: play.mvc.Http.Request, u: utils.Utils, title: String, page_settings: utils.app.page.PageSettings)(custom_head: Html)(content: Html)(custom_javascript: Html)
+
+@base.body(r, u, title, page_settings)(custom_head) {
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-2">
+				@defining(u.menu_helper.getBackofficeMenu()){ backoffice_menu =>
+					@if(backoffice_menu != null && backoffice_menu.canBeShownInContext(r, u)){
+						<div class="sidebar-menu mb-3 mt-2" id="#backoffice_menu">
+							@defining(u.session_manager.getAuthenticatedUser(r)){ auth_user =>
+								@if(auth_user != null){
+									<div class="user-info">
+										@defining(auth_user.getUserPhotoURL(r)){ user_photo =>
+											@if(user_photo != null){
+												<a href="@controllers.bo.routes.BackofficeUserController.renderProfilePage()">
+				                					<div class="photo" style="background-image: url('@(user_photo)');"></div>
+            									</a>
+											}
+
+		                					<div class="identification">
+		                						<div class="name">@auth_user.getDisplayName()</div>
+		                						<div class="role">
+		                							@defining(u.session_manager.getAuthenticatedRole(r)){ auth_role =>
+		                								@if(auth_role != null){
+				                							@if(auth_user.hasMultipleRoles()){
+					                							<a href="@controllers.bo.routes.BackofficeUserController.renderRoleChange()" class="authenticated-role">
+						                							@u.l.lto(r, auth_role, "getLabel")
+					                							</a>
+				                							}else{
+				                								@u.l.lto(r, auth_role, "getLabel")
+				                							}
+		                								}
+		                							}
+		                						</div>
+		                					</div>
+										}
+									</div>
+								}
+							}
+
+							@defining(backoffice_menu.getContextualChildren(r, u)){ children =>
+								@if(children != null){
+									@for((menu, index) <- children.zipWithIndex){
+										<div class="menu">
+							    			<div class="menu-label" id="bo_menu_@(index)">
+						        				<a class="@if(!menu.openedByDefault()){collapsed}" data-toggle="collapse" data-target="#bo_menu_@(index)_target" aria-expanded="false" aria-controls="bo_menu_@(index)_target">
+						        					<i class="toggle-icon fa"></i>
+						          					<i class="@menu.getIconCSSClass()"></i> @u.l.lto(r, menu, "getLabel")
+						        				</a>
+							    			</div>
+
+							    			<div class="menu-options collapse @if(menu.openedByDefault){show}" id="bo_menu_@(index)_target" aria-labelledby="bo_menu_@(index)" data-parent="#backoffice_menu">
+							    				@defining(menu.getContextualChildren(r, u)){ menu_options =>
+							    					@if(menu_options != null){
+							    						<div class="options">
+							    							@for(option <- menu_options){
+							    								<a href="@option.getURL()" class="menu-option @if(r.uri().startsWith(option.getURL())){ active }">
+							    									<i class="@option.getIconCSSClass()"></i> @u.l.lto(r, option, "getLabel")
+							    								</a>
+							    							}
+							    						</div>
+							    					}
+							    				}
+										    </div>
+										</div>
+									}
+								}
+							}
+						</div>
+					}
+				}
+			</div>
+
+			<div class="col-md-10">
+				@content
+			</div>
+		</div>
+	</div>
+
+} {
+	@custom_javascript
+}

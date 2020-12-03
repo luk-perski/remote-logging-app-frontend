@@ -1,0 +1,125 @@
+@(r: play.mvc.Http.Request, u: utils.Utils, page_settings: utils.app.page.PageSettings)
+
+@import utils.app.config.AppConfig
+
+@base.bo_body(r, u, u.l.l(r, "system.title.config"), page_settings) { } {
+
+	<div class="container-fluid">
+		@defining(AppConfig.getInstance()){ app_config =>
+			@if(app_config != null){
+
+			  	<h1>@u.l.l(r, "system.title.config")</h1>
+
+			  	@base.flash_form_result(r, u.l)
+
+				<div class="row">
+				  	<div class="col">
+				  		<div class="value-group">
+				  			<div class="label">@u.l.l(r, "system.label.application_name_pt")</div>
+				  			<div class="value">@app_config.getApplicationNamePT()</div>
+				  		</div>
+				  	</div>
+
+				  	<div class="col">
+				  		<div class="value-group">
+				  			<div class="label">@u.l.l(r, "system.label.application_name_en")</div>
+				  			<div class="value">@app_config.getApplicationNameEN()</div>
+				  		</div>
+				  	</div>
+
+				  	<div class="col">
+				  		<div class="value-group">
+				  			<div class="label">@u.l.l(r, "system.label.environment")</div>
+				  			<div class="value">@u.l.l(r, "system.label.env_" + app_config.getEnvironment())</div>
+				  		</div>
+				  	</div>
+				</div>
+
+				<div class="row">
+				  	<div class="col">
+				  		<div class="value-group">
+				  			<div class="label">@u.l.l(r, "system.label.application_description_pt")</div>
+				  			<div class="value">@app_config.getApplicationDescriptionPT()</div>
+				  		</div>
+				  	</div>
+				</div>
+
+				<div class="row">
+				  	<div class="col">
+				  		<div class="value-group">
+				  			<div class="label">@u.l.l(r, "system.label.application_description_en")</div>
+				  			<div class="value">@app_config.getApplicationDescriptionEN()</div>
+				  		</div>
+				  	</div>
+				</div>
+
+				<div class="row">
+				  	<div class="col">
+				  		<div class="value-group">
+				  			<div class="label">@u.l.l(r, "system.label.base_domain")</div>
+				  			<div class="value">@app_config.getBaseDomain()</div>
+				  		</div>
+				  	</div>
+
+				  	<div class="col">
+				  		<div class="value-group">
+				  			<div class="label">@u.l.l(r, "system.label.base_url")</div>
+				  			<div class="value">
+				  				<a href="@app_config.getBaseURL()">@app_config.getBaseURL()</a>
+				  			</div>
+				  		</div>
+				  	</div>
+
+				  	<div class="col">
+				  		<div class="value-group">
+				  			<div class="label">@u.l.l(r, "system.label.files_path")</div>
+				  			<div class="value">
+				  				<kbd>@app_config.getFilesPath()</kbd>
+				  			</div>
+				  		</div>
+				  	</div>
+				</div>
+
+				<div class="mt-3 mb-3">
+			  		<a class="btn btn-primary" href="@controllers.bo.routes.BackofficeSystemController.renderSystemConfigEdit()">
+			  			<i class="fa fa-edit"></i> @u.l.l(r, "general.label.edit")
+			  		</a>
+			  	</div>
+
+			  	<h3 class="mt-3 mb-3">@u.l.l(r, "system.label.dynamic_properties")</h3>
+
+			  	@if(app_config.getProperties() != null){
+					<div class="mt-3 mb-3">
+						<table class="table table-responsive table-striped">
+							<thead class="thead-light">
+								<tr>
+									<th scope="col">@u.l.l(r, "system.label.property_label")</th>
+									<th scope="col">@u.l.l(r, "system.label.property_value")</th>
+									<th scope="col" class="text-center">@u.l.l(r, "general.label.options")</th>
+								</tr>
+							</thead>
+							<tbody>
+								@for(property <- app_config.getProperties()){
+									<tr>
+										<td><b><code>@property.getLabel()</b></code></td>
+										<td><code>@property.getValue()</code></td>
+										<td class="text-center">
+											<a href="@controllers.bo.routes.BackofficeSystemController.renderEditSystemConfigPropertyForm(property.getID())" class="mr-2"><i class="fa fa-edit"></i></a>
+											<a href="@controllers.bo.routes.BackofficeSystemController.renderDeleteSystemConfigPropertyConfirmation(property.getID())" class="text-danger"><i class="fa fa-trash"></i></a>
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+
+					<div class="mt-3 mb-3">
+						<a class="btn btn-outline-primary" href="@controllers.bo.routes.BackofficeSystemController.renderAddSystemConfigPropertyForm()">
+							<i class="fa fa-plus-square"></i> @u.l.l(r, "general.label.add")
+						</a>
+					</div>
+			  	}
+			}
+		}
+	</div>
+} { }

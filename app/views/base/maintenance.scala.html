@@ -1,0 +1,58 @@
+@(r: play.mvc.Http.RequestHeader, u: utils.Utils, page_settings: utils.app.page.PageSettings)(content: Html)
+
+@if(page_settings == null){
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>@u.l.l(r, "general.label.maintenance")</title>
+        </head>
+        <body>
+            <div id="maintenance_page" class="container-fluid">
+                <p>@u.l.l(r, "general.text.maintenance")</p>
+            </div>
+        </body>
+    </html>
+}else{
+    <!DOCTYPE html>
+    <html @if(page_settings.getLanguageCode() != null){ lang="@page_settings.getLanguageCode()" }>
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+
+            @* Custom Meta Tags *@
+            @if(page_settings.getMetaTags() != null){
+                @for((key, value) <- page_settings.getMetaTags()){
+                    <meta name="@(key)" content="@(value)">
+                }
+            }
+
+            <title>@u.l.l(r, "general.label.maintenance")</title>
+
+            <link rel="stylesheet" type="text/css" media="screen" href="@page_settings.getMainCSSURL()">
+            <link rel="shortcut icon" type="image/png" href="@page_settings.getFaviconURL()">
+            @if(page_settings.getAlternateLanguageCode != null && page_settings.getAlternateURL() != null){
+                <link rel="alternate" hreflang="@page_settings.getAlternateLanguageCode()" href="@page_settings.getAlternateURL()">
+            }
+        </head>
+        <body>
+            <div id="maintenance_page">
+                @if(content != null){
+                    @content
+                }else{
+                    <div class="container-fluid">
+                        @u.l.l(r, "general.text.maintenance")
+                    </div>
+                }
+            </div>
+
+            <!-- Jquery is required by Bootstrap -->
+            <script src="@controllers.routes.Assets.versioned("javascripts/dependencies/jquery-3.4.1.min.js")" type="text/javascript"></script>
+            <!-- Bootstrap (full bundle with JS dependencies - Popper, Tooltip) -->
+            <script src="@controllers.routes.Assets.versioned("stylesheets/bootstrap-scss-utils/bootstrap/js/bootstrap.bundle.min.js")" type="text/javascript"></script>
+        </body>
+    </html>
+}

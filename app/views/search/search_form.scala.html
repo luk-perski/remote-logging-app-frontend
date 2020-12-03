@@ -1,0 +1,31 @@
+@(r: play.mvc.Http.Request, u: utils.Utils, page_settings: utils.app.page.PageSettings, search_term: String)(search_content: Html)
+
+@base.body(r, u, u.l.l(r, "search.title.search_form"), page_settings) { } {
+
+	<div class="container-fluid mt-3">
+		<h1>@u.l.l(r, "search.title.search_form")</h1>
+
+		<form class="form-paginate-results validate-form" action="@controllers.routes.SearchController.submitSearchForm()" method="post">
+			@helper.CSRF.formField(r.asScala)
+
+			<input type="hidden" name="page" value="1" />
+
+			<div class="form-row">
+				<div class="col">
+					<label class="sr-only" for="search_term">@u.l.l(r, "search.label.search_term")</label>
+			  		<input type="search" class="form-control validate-not-empty validate-regex validate-blur validate-no-valid-feedback" pattern=".{3,}" name="search_term" id="search_term" value="@(search_term)" placeholder="@u.l.l(r, "search.label.search_term")" aria-label="@u.l.l(r, "search.label.search_term")">
+					<small class="form-text text-muted">@u.l.lh(r, "search.text.tip")</small>
+				</div>
+				<div class="col">
+					<button class="btn btn-primary ml-3" type="submit"><i class="fa fa-search"></i> @u.l.l(r, "search.label.search")</button>
+				</div>
+			</div>
+		</form>
+
+		@if(search_content != null){
+			<hr/>
+			@search_content
+		}
+	</div>
+} { }
+

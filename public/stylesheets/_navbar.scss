@@ -1,0 +1,172 @@
+/*  Navbar */
+
+.navbar {
+	&.navbar-light {
+		background-color: $banner;
+
+		> .navbar-brand {
+			> .navbar-app {
+				color: $primary;
+			}
+
+			> .navbar-institution ~ .separator {
+				color: $dark;
+			}
+		}
+
+		> .collapse > .navbar-nav > .nav-item > a {
+            color: $dark;
+
+            &.disabled {
+                color: lighten($dark, 40%);
+            }
+
+			&:hover {
+				color: $dark;
+			}
+		}
+
+		.languages > .language-label {
+			a {
+				color: $dark;
+			}
+
+			a.disabled {
+				color: lighten($dark, 40%);
+			}
+		}
+	}
+
+	&.navbar-dark {
+		background-color: $dark;
+
+		> .navbar-brand {
+			> .navbar-app {
+				color: $light;
+			}
+
+			> .navbar-institution ~ .separator {
+				color: $light;
+			}
+		}
+
+		> .collapse > .navbar-nav > .nav-item > a {
+            color: $light;
+
+            &.disabled {
+                color: darken($light, 40%);
+            }
+
+			&:hover {
+				color: $light;
+			}
+		}
+
+		.languages > .language-label {
+			a {
+				color: $light;
+			}
+
+			a.disabled {
+				color: lighten($light, 40%);
+			}
+		}
+	}
+
+	&.testing {
+		background-color: #528E73 !important;
+
+		.environment-message {
+			padding: 			4px 8px;
+			color: 				$dark;
+			background-color: 	#FFCE00;
+			text-transform: 	uppercase;
+			font-size: 			0.8em;
+			font-weight: 		bold;
+		}
+
+		> .collapse > .navbar-nav > .nav-item > a.disabled {
+			color: darken($light, 20%);
+		}
+	}
+
+	.navbar-brand {
+		.navbar-institution {
+			display: inline-block;
+			height: $navbar-institution-logo-size;
+			padding-top: calc(#{$navbar-institution-logo-size} / 4);
+			padding-right: calc(#{$navbar-institution-logo-size} / 4);
+			padding-bottom: calc(#{$navbar-institution-logo-size} / 4);
+			margin: -($navbar-padding-y + $navbar-brand-padding-y) 0;
+
+			img {
+				height: 100%;
+			}
+		}
+
+		.navbar-app {
+			@include font-size($navbar-brand-font-size);
+			font-weight: $font-weight-bold;
+			line-height: inherit;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+
+		.navbar-institution ~ .separator {
+			@include font-size($navbar-brand-font-size);
+			font-weight: $font-weight-bold;
+			margin-right: $navbar-padding-x;
+		}
+	}
+
+	.languages {
+		margin-left: 0;
+
+		@media (min-width: $screen-lg-min) {
+			margin-left: 2rem;
+		}
+
+		.language-label {
+			margin-right: 0.5rem;
+		}
+	}
+
+	.navbar-nav {
+		.nav-item {
+			a:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	.environment-message {
+		position: absolute;
+		top: $navbar-institution-logo-size;
+		right: $navbar-padding-x;
+	}
+}
+
+@include media-breakpoint-down(sm) {
+	.navbar > .navbar-brand {
+		> .navbar-institution {
+			display: block;
+			padding-right: 0;
+			margin-bottom: 0;
+		}
+
+		> .navbar-app {
+			@include font-size($h5-font-size);
+			font-weight: $font-weight-normal;
+		}
+
+		> .navbar-institution ~ .separator {
+			display: none;
+		}
+	}
+
+	.navbar > .navbar-toggler {
+		margin-top: -($navbar-institution-logo-size / 2);
+	}
+}

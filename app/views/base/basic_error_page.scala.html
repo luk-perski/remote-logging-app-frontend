@@ -1,0 +1,12 @@
+@(r: play.mvc.Http.RequestHeader, u: utils.Utils, page_settings: utils.app.page.PageSettings, error_title: String, error_msg: String, is_html: Boolean)
+
+@base.body(r, u, error_title, page_settings) { } {
+
+	<div class="container-fluid">
+		<h1 class="top-buffer-20">@error_title</h1>
+
+		<p class="alert alert-danger top-buffer-20">
+			@if(is_html){ @Html(error_msg) }else{ @error_msg }
+		</p>
+	</div>
+} { }

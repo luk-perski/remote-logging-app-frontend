@@ -1,0 +1,163 @@
+@import 'contrast_utils';
+
+/*
+* This is a set of utility classes that are not related with Bootstrap but
+* that may be useful.
+*/
+
+@mixin alpha($value){
+	/* for IE */
+	filter: alpha(opacity=$value);
+	/* for CSS3-standard browsers */
+	opacity: $value/100;
+}
+
+code {
+	padding: 4px 2px;
+	line-height: 1.8em;
+	white-space: pre-wrap;
+	background-color: #ddd;
+	color: #855;
+	font-weight: bold;
+}
+
+.crumbs {
+	@extend .medium;
+	@include alpha(70);
+	margin-top: 1em;
+	margin-bottom: 1.1em;
+
+	.active {
+		color: #000;
+	}
+}
+
+.table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    -webkit-overflow-scrolling: touch;
+    border: 0;
+}
+
+.table-responsive>.table {
+    margin-bottom: 0;
+}
+
+.table-responsive>.table>thead>tr>th,
+.table-responsive>.table>tbody>tr>th,
+.table-responsive>.table>tfoot>tr>th,
+.table-responsive>.table>thead>tr>td,
+.table-responsive>.table>tbody>tr>td,
+.table-responsive>.table>tfoot>tr>td {
+    white-space: nowrap;
+}
+
+.table-nonfluid {
+   width: auto !important;
+}
+
+.large {
+	font-size: 1.2rem !important;
+
+	* {
+		font-size: 1.2rem !important;
+	}
+}
+
+.medium {
+	font-size: 0.9rem !important;
+
+	* {
+		font-size: 0.9rem !important;
+	}
+}
+
+.small {
+	font-size: 0.8rem !important;
+
+	* {
+		font-size: 0.8rem !important;
+	}
+}
+
+.no-rounded-corners {
+	-webkit-border-radius: 0 !important;
+	-moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+@mixin rounded-corners($value){
+	-webkit-border-radius: $value $value $value $value;
+	-moz-border-radius: $value $value $value $value;
+	border-radius: $value $value $value $value;
+}
+
+$sizes: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50;
+
+@mixin buffer-x-list {
+  	@each $size in $sizes {
+  		.top-buffer-#{$size} { margin-top: #{$size}px; };
+  		.bottom-buffer-#{$size} { margin-bottom: #{$size}px; };
+  		.left-buffer-#{$size} { margin-left: #{$size}px; };
+  		.right-buffer-#{$size} { margin-right: #{$size}px; };
+  		.buffer-#{$size} { margin: #{$size}px; };
+  	}
+}
+
+@include buffer-x-list;
+
+@mixin padder-x-list {
+  	@each $size in $sizes {
+  		.top-padder-#{$size} { padding-top: #{$size}px; };
+  		.bottom-padder-#{$size} { padding-bottom: #{$size}px; };
+  		.left-padder-#{$size} { padding-left: #{$size}px; };
+  		.right-padder-#{$size} { padding-right: #{$size}px; };
+  		.padder-#{$size} { padding: #{$size}px; };
+  	}
+}
+
+@include padder-x-list;
+
+.greyed-out {
+	@include alpha(50);
+}
+
+.progress-bar {
+	-webkit-transition: none;
+	-moz-transition: none;
+	-ms-transition: none;
+	-o-transition: none;
+	transition: none;
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+img.inactive {
+    -webkit-filter: grayscale(90%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(90%);
+}
+
+img.inactive:hover {
+    -webkit-filter: grayscale(0%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(0%);
+}
+
+// Adding contextual classes ($theme-colors is defined in bootstrap variables)
+@each $color, $value in $theme-colors {
+	.#{$color}-fg-color {
+		color: $value;
+	}
+
+	.#{$color}-bg-color {
+		background-color: $value;
+	}
+
+	.#{$color}-theme-lighter {
+		@include alert-variant(theme-color-level($color, $alert-bg-level), theme-color-level($color, $alert-border-level), theme-color-level($color, $alert-color-level));
+	}
+}

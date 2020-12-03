@@ -1,0 +1,85 @@
+@(r: play.mvc.Http.Request, u: utils.Utils, page_settings: utils.app.page.PageSettings)
+
+@base.bo_body(r, u, u.l.l(r, "system.title.users_logs"), page_settings) { } {
+
+	<div class="container-fluid">
+
+	  	<h1>@u.l.l(r, "system.title.users_logs")</h1>
+
+	  	<div id="app" v-cloak>
+  			<user-log-box :user_logs="user_logs" :lang="language" :has_more_data="has_more_data" @@load-more-data="loadMoreData"></user-log-box>
+
+	  		<div class="loading-block">
+	  			<i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+				<span class="sr-only">Loading...</span>
+	  		</div>
+	  	</div>
+
+	</div>
+} {
+    @base.vue_dependency()
+
+    <script src="@controllers.routes.Assets.versioned("javascripts/vue/components/user_management_user_log.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+		var INTERVAL = 5000;
+		var app = new Vue({
+		  	el: '#app',
+		  	components: {
+		  		'user-log-box': user_log_box_component
+		  	},
+		  	data: {
+		    	user_logs: [],
+		    	language: "",
+		    	nr_pages: 1,
+		    	has_more_data: false
+		  	},
+		  	methods: {
+				loadMoreData: function () {
+					this.nr_pages++;
+					updateUserLogs();
+				}
+			}
+		});
+
+		var next_update = undefined;
+
+		function updateUserLogs(){
+			jsRoutes.controllers.ajax.AJAXSystemController.getAllUserLogs(app.nr_pages).ajax().done(function(data){
+				if(data && data.data && data.data.user_logs && Array.isArray(data.data.user_logs)){
+					// Update data
+					app.language = data.language;
+					app.user_logs = data.data.user_logs;
+					app.has_more_data = data.data.has_more_data;
+
+					// Set to execute this again in INTERVAL miliseconds
+					if(next_update){
+						clearTimeout(next_update);
+					}
+
+					next_update = setTimeout(updateUserLogs, INTERVAL);
+				}else{
+					app.user_logs = [];
+					app.has_more_data = false;
+				}
+			}).fail(function(jqxhr){
+				app.user_logs = [];
+				app.has_more_data = false;
+
+				try{
+					console.log(jqxhr.responseText);
+					var data = JSON.parse(jqxhr.responseText);
+					if(data && data.error_message){
+						showDialog('danger', messages('error.label.unexpected_error'), data.error_message);
+					}
+				}catch(err) {
+					console.error(err);
+					showDialog('danger', messages('error.label.unexpected_error'), messages("general.text.operation_error"));
+				}
+			});
+		}
+
+		$(document).ready(updateUserLogs);
+
+    </script>
+}

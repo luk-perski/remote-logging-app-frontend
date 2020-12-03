@@ -1,0 +1,29 @@
+@(r: play.mvc.Http.Request, u: utils.Utils, page_settings: utils.app.page.PageSettings, report_types: List[models.db.app.report.ReportType])
+
+@base.bo_body(r, u, u.l.l(r, "reports.title.report_request_create"), page_settings) { } {
+
+	<div class="container-fluid">
+
+	  	<h1>@u.l.l(r, "reports.title.report_request_create")</h1>
+
+	  	@if(report_types == null || report_types.isEmpty()){
+	  		<p class="alert alert-warning mt-3 mb-3">@u.l.l(r, "reports.text.no_report_types_yet")</p>
+	  	}else{
+	  		<p>@u.l.l(r, "reports.text.choose_a_type_of_report"):</p>
+
+	  		<ul>
+	  			@for(report_type <- report_types){
+	  				<li>
+	  					@if(report_type.isActive()){
+		  					<a href="@controllers.bo.routes.BackofficeReportsController.renderAddReportRequestByTypeForm(report_type.getID())">
+		  						@u.l.lto(r, report_type, "getLabel")
+		  					</a> - @u.l.lto(r, report_type, "getDescription")
+	  					}else{
+		  					<strike title="@u.l.l(r, "reports.text.report_type_is_not_active")">@u.l.lto(r, report_type, "getLabel")</strike>
+	  					}
+	  				</li>
+	  			}
+	  		</ul>
+	  	}
+	</div>
+} { }

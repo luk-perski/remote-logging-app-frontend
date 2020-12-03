@@ -1,0 +1,10 @@
+User-agent: *
+
+Disallow: /login
+Disallow: /logout
+
+Allow: /
+Allow: /assets
+Allow: /assets/*
+Allow: /public
+Allow: /public/*

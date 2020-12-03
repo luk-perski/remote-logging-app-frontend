@@ -1,0 +1,17 @@
+/* TEAM */
+
+System Architect and Full-stack Developer: António Lopes.
+Site: https://ciencia.iscte-iul.pt/authors/antonio-luis-lopes/cv
+Twitter: @tonyvirtual
+Location: Lisboa, Portugal.
+
+/* THANKS */
+
+Mom, Dad, parrot, etc.
+
+/* SITE */
+
+Standards: HTML5, CSS3, JSON
+Languages: Java, Javascript, Scala, HTML, CSS
+Components: Play! Framework, jQuery, SCSS, Font Awesome, Bootstrap
+Software: Sublime Text, Eclipse

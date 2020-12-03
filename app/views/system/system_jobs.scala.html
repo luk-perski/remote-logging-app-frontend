@@ -1,0 +1,100 @@
+@(r: play.mvc.Http.Request, u: utils.Utils, page_settings: utils.app.page.PageSettings, jobs: List[models.db.sys.JobDescription])
+
+@base.bo_body(r, u, u.l.l(r, "system.title.jobs"), page_settings) { } {
+
+	<div class="container-fluid">
+
+	  	<h1>@u.l.l(r, "system.title.jobs")</h1>
+
+	  	@helper.CSRF.formField(r.asScala)
+
+	  	<div id="app" v-cloak>
+	  		<div v-if="show_jobs">
+	  			<system-job class="mb-3" v-for="system_job in system_jobs" v-bind:job="system_job" v-bind:lang="language" v-bind:key="system_job.id" @@updated-event="updatedEventReceived"></system-job>
+	  		</div>
+	  		<div v-else>
+	  			<p :class="'alert alert-' + custom_message_type" >{{ custom_message }}</p>
+	  			<button class="btn btn-primary" onclick="updateSystemJobs()"><i class="fa fa-refresh"></i> @u.l.l(r, "general.label.refresh")</button>
+	  		</div>
+
+	  		<div class="loading-block">
+	  			<i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+				<span class="sr-only">Loading...</span>
+	  		</div>
+	  	</div>
+	</div>
+} {
+    @base.vue_dependency()
+
+    <script src="@controllers.routes.Assets.versioned("javascripts/vue/components/base.js")" type="text/javascript"></script>
+    <script src="@controllers.routes.Assets.versioned("javascripts/vue/components/system_jobs.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+		var INTERVAL = 5000;
+		var app = new Vue({
+		  	el: '#app',
+		  	components: {
+		  		'system-job': system_job_component
+		  	},
+		  	data: {
+		  		show_jobs: true,
+		    	system_jobs: [],
+		    	language: "",
+		    	custom_message: "",
+		    	custom_message_type: ""
+		  	},
+		  	methods: {
+				updatedEventReceived: function () {
+					// Received updated-event from child, will update the whole thing
+					updateSystemJobs();
+				}
+			}
+		});
+
+		var next_update = undefined;
+
+		function updateSystemJobs(){
+			jsRoutes.controllers.ajax.AJAXSystemController.renderSystemJobs().ajax().done(function(data){
+				if(data && data.data && Array.isArray(data.data)){
+					if(data.data.length > 0){
+						// Update data
+						app.show_jobs = true;
+						app.language = data.language;
+						app.system_jobs = data.data;
+
+						// Set to execute this again in INTERVAL miliseconds
+						if(next_update){
+							clearTimeout(next_update);
+						}
+
+						next_update = setTimeout(updateSystemJobs, INTERVAL);
+					}else{
+						app.show_jobs = false;
+						app.custom_message_type = "warning";
+						app.custom_message = messages("system.text.no_jobs_configured");
+					}
+				}else {
+					app.show_jobs = false;
+					app.custom_message_type = "danger";
+					app.custom_message = messages("error.text.unexpected_error");
+				}
+			}).fail(function(jqxhr){
+				try{
+					console.log(jqxhr.responseText);
+					var data = JSON.parse(jqxhr.responseText);
+					if(data && data.error_message){
+						app.show_jobs = false;
+						app.custom_message_type = "danger";
+						app.custom_message = data.error_message;
+					}
+				}catch(err) {
+					console.error(err);
+					showDialog('danger', messages('error.label.unexpected_error'), messages("general.text.operation_error"));
+				}
+			});
+		}
+
+		$(document).ready(updateSystemJobs);
+
+    </script>
+}

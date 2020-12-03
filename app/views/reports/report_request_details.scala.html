@@ -1,0 +1,138 @@
+@(r: play.mvc.Http.Request, u: utils.Utils, page_settings: utils.app.page.PageSettings, report_request: models.db.app.report.ReportRequest)
+
+@base.bo_body(r, u, u.l.l(r, "reports.title.report_request_details"), page_settings) { } {
+
+	<div class="container-fluid">
+
+	  	<h1>@u.l.l(r, "reports.title.report_request_details")</h1>
+
+	  	@if(report_request == null){
+	  		<p class="alert alert-danger mt-3 mb-3">@u.l.l(r, "general.text.record_not_found")</p>
+	  	}else{
+	  		<table class="table table-responsive table-bordered mt-3 mb-3">
+	  			<thead class="thead-dark">
+	  				<tr>
+	  					<th>@u.l.l(r, "reports.label.report_type")</th>
+	  					<th>@u.l.l(r, "reports.label.request_user")</th>
+	  					<th class="text-center">@u.l.l(r, "reports.label.request_date")</th>
+	  					<th class="text-center">@u.l.l(r, "reports.label.is_recurrent") (@u.l.l(r, "reports.label.periodicity"))</th>
+	  					<th class="text-center">@u.l.l(r, "reports.label.executions")</th>
+	  					<th class="text-center">@u.l.l(r, "reports.label.is_active")</th>
+	  				</tr>
+	  			</thead>
+	  			<tbody>
+  					<tr class="@if(report_request.isActive()){ @if(report_request.isExecuting()){ table-warning }else{ @if(report_request.hasExecutions()){ table-success }else{ table-primary } } }else{ table-danger }">
+  						<td>
+  							@if(report_request.getReportType() != null){
+  								@u.l.lto(r, report_request.getReportType(), "getLabel")
+  							}
+  						</td>
+  						<td>
+  							@if(report_request.getRequestUser() != null){
+  								<a href="mailto:@report_request.getRequestUser().getEmail()">@report_request.getRequestUser().getDisplayName()</a>
+  							}
+  						</td>
+  						<td class="text-center">
+  							<span title="@u.date_utils.getStringFromDateTime(report_request.getRequestDate(), null)">@u.date_utils.getRelativeDate(report_request.getRequestDate()) @u.l.l(r, "general.label.ago")</span>
+  						</td>
+  						<td class="text-center">
+  							@if(report_request.isRecurrent()){
+  								<i class="fa fa-retweet" title="@u.l.l(r, "general.label.yes")"></i>
+  								(@report_request.getPeriodicity() min.)
+  							}else{
+  								<span title="@u.l.l(r, "general.label.no")">
+  									<i class="fa fa-times text-danger" title="@u.l.l(r, "general.label.no")"></i>
+  								</span>
+  							}
+  						</td>
+  						<td class="text-center">
+  							@if(report_request.isExecuting()){
+  								<i class="fa fa-cog fa-spin fa-fw"></i>
+  							}else{
+  								@if(report_request.hasExecutions()){
+  									@report_request.getExecutions().size()
+  								}else{
+  									<i class="fa fa-times text-danger" title="@u.l.l(r, "general.label.no")"></i>
+  								}
+  							}
+  						</td>
+  						<td class="text-center">
+  							@if(!report_request.isExecuting() && (!report_request.hasExecutions() || report_request.isRecurrent())){
+	  							<form action="@controllers.bo.routes.BackofficeReportsController.toggleReportRequestState(report_request.getID())" method="post" class="force-inline">
+	  								@helper.CSRF.formField(r.asScala)
+	  								@if(report_request.isActive()){
+	  									<button type="submit" class="btn btn-link text-success p-0"><i class="fa fa-toggle-on"></i></button>
+	  								}else{
+	  									<button type="submit" class="btn btn-link text-danger p-0"><i class="fa fa-toggle-off"></i></button>
+	  								}
+	  								</button>
+	  							</form>
+  							}else{
+  								@if(report_request.isActive()){
+  									<i class="fa fa-check text-success" title="@u.l.l(r, "general.label.yes")"></i>
+  								}else{
+  									<i class="fa fa-times text-danger" title="@u.l.l(r, "general.label.no")"></i>
+  								}
+  							}
+  						</td>
+  					</tr>
+	  			</tbody>
+	  		</table>
+
+	  		<h3>@u.l.l(r, "reports.label.configuration")</h3>
+
+	  		<div class="mt-3 mb-3">
+	  			@report_request.renderConfiguration(r, u)
+	  		</div>
+
+	  		<h3>@u.l.l(r, "reports.label.executions")</h3>
+
+	  		@if(report_request.getExecutions() == null || report_request.getExecutions().isEmpty()){
+	  			<p class="alert alert-warning">@u.l.l(r, "reports.text.report_request_not_executed")</p>
+	  		}else{
+	  			<table class="small table table-striped table-responsive">
+	  				<thead class="thead-light">
+	  					<tr>
+	  						<th class="text-center">@u.l.l(r, "reports.label.execution_date_begin")</th>
+	  						<th class="text-center">@u.l.l(r, "reports.label.execution_date_end")</th>
+	  						<th class="text-center">@u.l.l(r, "reports.label.execution_date_duration")</th>
+	  						<th>@u.l.l(r, "reports.label.execution_log")</th>
+	  						<th>Outputs</th>
+	  						<th>@u.l.l(r, "reports.label.outputs_access_logs")</th>
+	  					</tr>
+	  				</thead>
+	  				<tbody>
+	  					@for(execution <- report_request.getExecutions()){
+	  						<tr>
+		  						<td class="text-center">
+		  							<span title="@u.date_utils.getStringFromDateTime(execution.getExecutionDateBegin(), null)">@u.date_utils.getRelativeDate(execution.getExecutionDateBegin()) @u.l.l(r, "general.label.ago")</span>
+		  						</td>
+		  						<td class="text-center">
+		  							<span title="@u.date_utils.getStringFromDateTime(execution.getExecutionDateEnd(), null)">@u.date_utils.getRelativeDate(execution.getExecutionDateEnd()) @u.l.l(r, "general.label.ago")</span>
+		  						</td>
+		  						<td class="text-center">
+		  							@u.date_utils.timeDifferenceInMinutes(execution.getExecutionDateBegin(), execution.getExecutionDateEnd()) min.
+		  						</td>
+		  						<td>
+		  							<a href="@controllers.bo.routes.BackofficeReportsController.renderReportExecutionLog(report_request.getID(), execution.getID())"><i class="fa fa-list"></i> @u.l.l(r, "reports.label.view_log")</a>
+		  						</td>
+		  						<td>
+		  							@defining(execution.getOutputs()){ outputs =>
+		  								@if(outputs != null && !outputs.isEmpty()){
+		  									@for((output, index) <- outputs.zipWithIndex){
+		  										@if(index > 0){, }<a href="@controllers.routes.FileController.renderResourceAssociatedFile(output.getID())" target="_blank"><i class="fa fa-file"></i> @output.getFileName()</a>
+		  									}
+		  								}else{ -- }
+		  							}
+		  						</td>
+		  						<td>
+		  							<a href="@controllers.bo.routes.BackofficeReportsController.renderReportExecutionAccessLogs(report_request.getID(), execution.getID())"><i class="fa fa-user-circle"></i> @u.l.l(r, "reports.label.view_access_logs")</a>
+		  						</td>
+	  						</tr>
+	  					}
+	  				</tbody>
+	  			</table>
+	  		}
+	  	}
+	</div>
+} { }

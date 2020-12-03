@@ -1,0 +1,3 @@
+[submodule "public/stylesheets/bootstrap-scss-utils"]
+	path = public/stylesheets/bootstrap-scss-utils
+	url = git@bitbucket.org:si-iscte-iul/bootstrap-scss-utils.git
