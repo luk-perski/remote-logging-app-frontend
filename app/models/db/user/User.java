@@ -1,29 +1,22 @@
 package models.db.user;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.mindrot.jbcrypt.BCrypt;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import io.ebean.Finder;
 import io.ebean.Model;
 import io.ebean.annotation.Index;
 import models.db.app.files.ResourceAssociatedFile;
 import models.db.app.files.ResourceAssociatedFileType;
+import models.db.remote.logging.Team;
+import org.mindrot.jbcrypt.BCrypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import play.mvc.Http.Request;
 import utils.auth.oauth.models.OAuthUserInfo;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "user_user")
@@ -60,6 +53,9 @@ public class User extends Model {
 	// The roles that the user can have in the system
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private List<UserRole> roles;
+
+	@ManyToOne
+	private Team team;
 
 	private static final Finder<Long, User> finder = new Finder<Long, User>(User.class);
 
@@ -290,5 +286,13 @@ public class User extends Model {
 			return user_oauth.getData();
 		}
 		return null;
+	}
+
+	public Team getTeam() {
+		return team;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 }

@@ -1,4 +1,4 @@
-package repository;
+package repository.math;
 
 import io.ebean.Finder;
 import models.db.math.Sum;

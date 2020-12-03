@@ -14,7 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Http.Request;
 import play.mvc.Result;
 import pt.iscte_iul.gdsi.utils.TypeUtils;
-import repository.MathRepository;
+import repository.math.MathRepository;
 import utils.Utils;
 import utils.app.page.PageSettings;
 import views.html.math.math;

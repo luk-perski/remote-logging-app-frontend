@@ -1,4 +1,4 @@
-package repository;
+package repository.math;
 
 import models.db.math.Sum;
 

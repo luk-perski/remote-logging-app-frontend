@@ -104,7 +104,6 @@ create table sys_job_description (
 create table remote_logging_project (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
-  manager_id                    bigint not null,
   is_active                     tinyint(1) default 0,
   description                   varchar(255),
   crated_date                   DATETIME DEFAULT NOW(),
@@ -290,12 +289,10 @@ create table sys_system_sent_email (
 );
 
 create table remote_logging_task (
-  i_d                           bigint auto_increment not null,
+  id                            bigint auto_increment not null,
   name                          varchar(255) not null,
   project_id                    bigint not null,
-  creator_id                    bigint not null,
   priority                      integer not null,
-  assignee_id                   bigint,
   category                      integer not null,
   crated_date                   DATETIME DEFAULT NOW(),
   description                   varchar(255),
@@ -304,15 +301,14 @@ create table remote_logging_task (
   time_spent                    bigint,
   run_start                     datetime(6),
   run_end                       datetime(6),
-  constraint pk_remote_logging_task primary key (i_d)
+  constraint pk_remote_logging_task primary key (id)
 );
 
 create table remote_logging_team (
-  i_d                           bigint auto_increment not null,
+  id                            bigint auto_increment not null,
   name                          varchar(255) not null,
-  manager_id                    bigint not null,
   crated_date                   DATETIME DEFAULT NOW(),
-  constraint pk_remote_logging_team primary key (i_d)
+  constraint pk_remote_logging_team primary key (id)
 );
 
 create table user_user (
@@ -322,6 +318,7 @@ create table user_user (
   username                      varchar(50) not null,
   email                         varchar(100) not null,
   local_pwd                     varchar(255),
+  team_id                       bigint,
   constraint uq_user_user_username unique (username),
   constraint uq_user_user_email unique (email),
   constraint pk_user_user primary key (id)
@@ -404,6 +401,9 @@ alter table app_files_resource_associated_file_access_record add constraint fk_a
 create index ix_search_search_content_ranked_content_prepared_id on search_search_content_ranked (content_prepared_id);
 alter table search_search_content_ranked add constraint fk_search_search_content_ranked_content_prepared_id foreign key (content_prepared_id) references search_search_content_prepared (id) on delete restrict on update restrict;
 
+create index ix_user_user_team_id on user_user (team_id);
+alter table user_user add constraint fk_user_user_team_id foreign key (team_id) references remote_logging_team (id) on delete restrict on update restrict;
+
 create index ix_log_user_log_user_id on log_user_log (user_id);
 alter table log_user_log add constraint fk_log_user_log_user_id foreign key (user_id) references user_user (id) on delete restrict on update restrict;
 
@@ -463,6 +463,9 @@ drop index ix_app_files_resource_associated_file_access_record_resou_2 on app_fi
 
 alter table search_search_content_ranked drop foreign key fk_search_search_content_ranked_content_prepared_id;
 drop index ix_search_search_content_ranked_content_prepared_id on search_search_content_ranked;
+
+alter table user_user drop foreign key fk_user_user_team_id;
+drop index ix_user_user_team_id on user_user;
 
 alter table log_user_log drop foreign key fk_log_user_log_user_id;
 drop index ix_log_user_log_user_id on log_user_log;

@@ -131,3 +131,6 @@ GET 	/math 						controllers.MathController.renderCalculator(request: Request ,r
 POST 	/ajax/math                  controllers.MathController.ajaxSubmitCompareNumber(request: Request, numberOne: String, numberTwo: String)
 +nocsrf
 POST 	/ajax/math/getSumData       controllers.MathController.ajaxGetSumData(request: Request)
+
+# Remote logging API
+GET /remote-logging/users           controllers.remote.logging.UserController.getAll()

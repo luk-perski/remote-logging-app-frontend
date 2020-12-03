@@ -1,28 +1,26 @@
 package models.db.remote.logging;
 
+import io.ebean.Model;
 import lombok.Data;
+import models.db.user.User;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
 @Entity
 @Table(name = "remote_logging_project")
 
-public class Project {
+public class Project extends Model {
 
     @Id
     Long id;
     @Column(nullable = false)
     String name;
-    ArrayList<String> taskList;
     @Column(nullable = false)
-    Long managerId;
-    @Column(columnDefinition="tinyint(1) default 0")
+    @OneToMany
+    User manager;
+    @Column(columnDefinition = "tinyint(1) default 0")
     Boolean isActive;
     String description;
     @Column(columnDefinition = "DATETIME DEFAULT NOW()")
