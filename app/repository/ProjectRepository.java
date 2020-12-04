@@ -9,7 +9,7 @@ import java.util.List;
 @Singleton
 public class ProjectRepository implements IProjectRepository {
 
-    Finder<Integer, Project> finder = new Finder<Integer, Project>(Project.class);
+    Finder<Long, Project> finder = new Finder<>(Project.class);
 
     @Override
     public List<Project> getAll() {
@@ -27,5 +27,10 @@ public class ProjectRepository implements IProjectRepository {
         project.update();
         project.refresh();
         return project;
+    }
+
+    @Override
+    public Project getById(Long projectId) {
+        return (projectId == null) ? null : finder.byId(projectId);
     }
 }

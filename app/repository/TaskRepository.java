@@ -9,7 +9,7 @@ import java.util.List;
 @Singleton
 public class TaskRepository implements ITaskRepository {
 
-    Finder<Integer, Task> finder = new Finder<Integer, Task>(Task.class);
+    Finder<Long, Task> finder = new Finder<>(Task.class);
 
     @Override
     public List<Task> getAll() {
@@ -28,5 +28,10 @@ public class TaskRepository implements ITaskRepository {
         task.update();
         task.refresh();
         return task;
+    }
+
+    @Override
+    public Task getById(Long id) {
+        return finder.byId(id);
     }
 }

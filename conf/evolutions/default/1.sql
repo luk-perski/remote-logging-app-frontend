@@ -104,9 +104,10 @@ create table sys_job_description (
 create table remote_logging_project (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
+  manager_id                    bigint not null,
   is_active                     tinyint(1) default 0,
   description                   varchar(255),
-  crated_date                   DATETIME DEFAULT NOW(),
+  crated_date                   DATETIME DEFAULT NOW() not null,
   start_date                    datetime(6),
   end_date                      datetime(6),
   constraint pk_remote_logging_project primary key (id)
@@ -290,11 +291,13 @@ create table sys_system_sent_email (
 
 create table remote_logging_task (
   id                            bigint auto_increment not null,
-  name                          varchar(255) not null,
   project_id                    bigint not null,
+  name                          varchar(255) not null,
+  creator_id                    bigint not null,
   priority                      integer not null,
+  assignee_id                   bigint,
   category                      integer not null,
-  crated_date                   DATETIME DEFAULT NOW(),
+  crated_date                   DATETIME DEFAULT NOW() not null,
   description                   varchar(255),
   estimate                      bigint,
   resolved_date                 datetime(6),
@@ -307,7 +310,8 @@ create table remote_logging_task (
 create table remote_logging_team (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
-  crated_date                   DATETIME DEFAULT NOW(),
+  manager_id                    bigint not null,
+  created_date                  DATETIME DEFAULT NOW() not null,
   constraint pk_remote_logging_team primary key (id)
 );
 
@@ -374,6 +378,9 @@ alter table app_form_form_element add constraint fk_app_form_form_element_parent
 create index ix_app_form_form_element_property_form_element_id on app_form_form_element_property (form_element_id);
 alter table app_form_form_element_property add constraint fk_app_form_form_element_property_form_element_id foreign key (form_element_id) references app_form_form_element (id) on delete restrict on update restrict;
 
+create index ix_remote_logging_project_manager_id on remote_logging_project (manager_id);
+alter table remote_logging_project add constraint fk_remote_logging_project_manager_id foreign key (manager_id) references user_user (id) on delete restrict on update restrict;
+
 create index ix_app_report_report_execution_report_request_id on app_report_report_execution (report_request_id);
 alter table app_report_report_execution add constraint fk_app_report_report_execution_report_request_id foreign key (report_request_id) references app_report_report_request (id) on delete restrict on update restrict;
 
@@ -400,6 +407,18 @@ alter table app_files_resource_associated_file_access_record add constraint fk_a
 
 create index ix_search_search_content_ranked_content_prepared_id on search_search_content_ranked (content_prepared_id);
 alter table search_search_content_ranked add constraint fk_search_search_content_ranked_content_prepared_id foreign key (content_prepared_id) references search_search_content_prepared (id) on delete restrict on update restrict;
+
+create index ix_remote_logging_task_project_id on remote_logging_task (project_id);
+alter table remote_logging_task add constraint fk_remote_logging_task_project_id foreign key (project_id) references remote_logging_project (id) on delete restrict on update restrict;
+
+create index ix_remote_logging_task_creator_id on remote_logging_task (creator_id);
+alter table remote_logging_task add constraint fk_remote_logging_task_creator_id foreign key (creator_id) references user_user (id) on delete restrict on update restrict;
+
+create index ix_remote_logging_task_assignee_id on remote_logging_task (assignee_id);
+alter table remote_logging_task add constraint fk_remote_logging_task_assignee_id foreign key (assignee_id) references user_user (id) on delete restrict on update restrict;
+
+create index ix_remote_logging_team_manager_id on remote_logging_team (manager_id);
+alter table remote_logging_team add constraint fk_remote_logging_team_manager_id foreign key (manager_id) references user_user (id) on delete restrict on update restrict;
 
 create index ix_user_user_team_id on user_user (team_id);
 alter table user_user add constraint fk_user_user_team_id foreign key (team_id) references remote_logging_team (id) on delete restrict on update restrict;
@@ -437,6 +456,9 @@ drop index ix_app_form_form_element_parent_id on app_form_form_element;
 alter table app_form_form_element_property drop foreign key fk_app_form_form_element_property_form_element_id;
 drop index ix_app_form_form_element_property_form_element_id on app_form_form_element_property;
 
+alter table remote_logging_project drop foreign key fk_remote_logging_project_manager_id;
+drop index ix_remote_logging_project_manager_id on remote_logging_project;
+
 alter table app_report_report_execution drop foreign key fk_app_report_report_execution_report_request_id;
 drop index ix_app_report_report_execution_report_request_id on app_report_report_execution;
 
@@ -463,6 +485,18 @@ drop index ix_app_files_resource_associated_file_access_record_resou_2 on app_fi
 
 alter table search_search_content_ranked drop foreign key fk_search_search_content_ranked_content_prepared_id;
 drop index ix_search_search_content_ranked_content_prepared_id on search_search_content_ranked;
+
+alter table remote_logging_task drop foreign key fk_remote_logging_task_project_id;
+drop index ix_remote_logging_task_project_id on remote_logging_task;
+
+alter table remote_logging_task drop foreign key fk_remote_logging_task_creator_id;
+drop index ix_remote_logging_task_creator_id on remote_logging_task;
+
+alter table remote_logging_task drop foreign key fk_remote_logging_task_assignee_id;
+drop index ix_remote_logging_task_assignee_id on remote_logging_task;
+
+alter table remote_logging_team drop foreign key fk_remote_logging_team_manager_id;
+drop index ix_remote_logging_team_manager_id on remote_logging_team;
 
 alter table user_user drop foreign key fk_user_user_team_id;
 drop index ix_user_user_team_id on user_user;

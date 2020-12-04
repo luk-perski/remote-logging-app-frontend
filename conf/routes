@@ -133,4 +133,7 @@ POST 	/ajax/math                  controllers.MathController.ajaxSubmitCompareNu
 POST 	/ajax/math/getSumData       controllers.MathController.ajaxGetSumData(request: Request)
 
 # Remote logging API
-GET /remote-logging/users           controllers.remote.logging.UserController.getAll()
+GET    /api/v1/remote-logging/user         controllers.remote.logging.UserController.getAll()
+GET   /api/v1/remote-logging/team         controllers.remote.logging.TeamController.getAll()
+POST  /api/v1/remote-logging/team         controllers.remote.logging.TeamController.add(request: Request, managerId: Long)
+

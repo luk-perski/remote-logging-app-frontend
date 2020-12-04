@@ -10,4 +10,6 @@ public interface IProjectRepository {
     Project add(Project project);
 
     Project update(Project project);
+
+    Project getById(Long projectId);
 }

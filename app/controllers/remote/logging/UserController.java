@@ -6,14 +6,14 @@ import com.google.inject.Inject;
 import models.db.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import play.mvc.Controller;
 import play.mvc.Result;
-import play.mvc.Results;
 import service.UserService;
 
 import java.util.List;
 
 
-public class UserController {
+public class UserController extends Controller {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
@@ -30,10 +30,10 @@ public class UserController {
 //            log.error(e.getMessage());
 //        }
         try {
-            return Results.ok(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(userList));
+            return ok(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(userList));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return Results.badRequest();
+        return badRequest();
     }
 }

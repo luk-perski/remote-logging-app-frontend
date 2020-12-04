@@ -29,4 +29,9 @@ public class UserRepository implements IUserRepository {
         user.refresh();
         return user;
     }
+
+    @Override
+    public User getById(Long id) {
+        return User.getByID(id);
+    }
 }

@@ -18,7 +18,7 @@ public class UserService {
     }
 
     //todo allow user belong to more that one team
-    public Boolean addUser(Team team, User user) {
+    public Boolean addUserToTeam(Team team, User user) {
         user.setTeam(team);
         userRepository.update(user);
         return user.getTeam() != null;

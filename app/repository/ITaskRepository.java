@@ -10,4 +10,6 @@ public interface ITaskRepository {
     Task add(Task task);
 
     Task update(Task task);
+
+    Task getById(Long id);
 }

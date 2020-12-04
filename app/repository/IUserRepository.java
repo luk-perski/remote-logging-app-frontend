@@ -10,4 +10,6 @@ public interface IUserRepository {
     User add(User user);
 
     User update(User user);
+
+    User getById(Long id);
 }
