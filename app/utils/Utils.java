@@ -10,8 +10,6 @@ import pt.iscte_iul.gdsi.utils.TypeUtils;
 import pt.iscte_iul.gdsi.utils.ValidationUtils;
 import pt.iscte_iul.gdsi.utils.WebUtils;
 import utils.app.menu.MenuHelper;
-import utils.app.page.BreadcrumbHelper;
-import utils.app.page.PageSettingsHelper;
 import utils.language.LanguageUtils;
 import utils.other.OtherUtils;
 import utils.session.SessionManager;
@@ -49,12 +47,6 @@ public class Utils {
 
 	@Inject
 	public MenuHelper menu_helper;
-
-	@Inject
-	public BreadcrumbHelper breacrumb_helper;
-
-	@Inject
-	public PageSettingsHelper page_settings_helper;
 
 	@Inject
 	public StaticContentUtils static_content_utils;

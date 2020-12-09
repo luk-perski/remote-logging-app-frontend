@@ -3,13 +3,16 @@ package models.db.remote.logging;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.ebean.Model;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import models.db.user.User;
 import utils.Constant;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "remote_logging_task")
 public class Task extends Model {

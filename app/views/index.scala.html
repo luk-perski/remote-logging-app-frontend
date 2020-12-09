@@ -1,22 +1,13 @@
-@(r: play.mvc.Http.Request, u: utils.Utils, page_settings: utils.app.page.PageSettings)
+@(routes:List[String])
 
 @import utils.app.config.AppConfig
 
-@base.body(r, u, u.l.l(r, "general.title.index"), page_settings) { } {
-
 	@defining(AppConfig.getInstance()){ app_config =>
-		@if(app_config == null){
-			<div class="container-fluid">
-				<h1>No Application Configuration</h1>
-				@base.basic_error_message("Could not find the application configuration instance!", false)
-			</div>
-		}else{
 			<div class="jumbotron mt-0 no-rounded-corners">
-				<h1 class="display-4">@u.l.lto(r, app_config, "getApplicationName")</h1>
-				<p class="lead">@u.l.lto(r, app_config, "getApplicationDescription")</p>
+				<ul>
+					@for(rout <- routes) {
+					<li>@rout</li>
+					}
+				</ul>
 			</div>
-		}
 	}
-} {
-	<script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/index.js")"></script>
-}

@@ -28,13 +28,8 @@ import play.mvc.Http.Session;
 import play.mvc.Result;
 import utils.Utils;
 import utils.app.file.validators.AuthenticatedUsersValidator;
-import utils.app.page.BreadcrumbElement;
-import utils.app.page.Breadcrumbs;
-import utils.app.page.FormSubmissionResult;
-import utils.app.page.PageSettings;
 import utils.auth.exception.UserCannotHaveRoleException;
 import utils.auth.models.AuthenticatedUser;
-import utils.auth.oauth.Office365OAuthHelper;
 import utils.auth.oauth.models.AuthenticationStepResult;
 import utils.auth.oauth.models.OAuthUserInfo;
 import utils.auth.oauth.models.UserPhoto;
@@ -42,8 +37,6 @@ import utils.log.models.UserLoginAction;
 import utils.log.models.UserLogoutAction;
 import utils.session.SessionManager;
 import utils.session.exception.InvalidIDSessionParameterException;
-import views.html.auth.login;
-import views.html.base.basic_error_page;
 
 public class AuthenticationController extends Controller {
 
@@ -63,87 +56,9 @@ public class AuthenticationController extends Controller {
 	@Inject
 	private FormFactory ff;
 
-	@Inject
-	private Office365OAuthHelper office365_oauth_helper;
 
 	@Inject
 	private SessionManager session_manager;
-
-	public Result renderDefaultLogin(Request request, String redirect) {
-		if (redirect == null || redirect.trim().isEmpty()) {
-			redirect = request.header("referer").get();
-		}
-
-		// return redirect(controllers.routes.AuthenticationController.renderLogin(redirect));
-		return redirect(controllers.routes.AuthenticationController.loginWithOffice365(redirect));
-	}
-
-	public Result renderDefaultLogout(Request request) {
-		return redirect(controllers.routes.AuthenticationController.logout());
-	}
-
-	public Result loginWithOffice365(Request request, String redirect) {
-		// Generate a nonce UUID
-		UUID nonce = UUID.randomUUID();
-
-		log.trace("GENERATED NONCE: " + nonce.toString());
-
-		// Add the generated nonce to the user session
-		Session session = this.session_manager.setAuthenticatedUserSessionParameter(request, NONCE_KEY, nonce.toString());
-
-		// Redirect to the generated URL (to start the authentication process)
-		return redirect(this.office365_oauth_helper.buildOAuthFirstStepURL(request, nonce.toString(), redirect)).withSession(session);
-	}
-
-	public CompletionStage<Result> processOffice365OAuthLoginCallback(Request request) {
-		try {
-			DynamicForm form = this.ff.form().bindFromRequest(request);
-
-			String error = form.get("error");
-			if (error != null && !error.trim().isEmpty()) {
-				log.trace("ERROR: " + error);
-			}
-			String error_description = form.get("error_description");
-			if (error_description != null && !error_description.trim().isEmpty()) {
-				log.trace("ERROR DESCRIPTION: " + error_description);
-			}
-
-			if (error != null && !error.trim().isEmpty() && error_description != null && !error_description.trim().isEmpty()) {
-				switch (error) {
-				case "invalid_request":
-					return CompletableFuture.supplyAsync(() -> showError(request, "auth.error." + error, error_description));
-				case "consent_required":
-					return CompletableFuture.supplyAsync(() -> showError(request, "auth.error." + error, "auth.error.consent_required_explanation"));
-				}
-			}
-
-			log.trace("SESSION DATA: " + request.session().data().toString());
-
-			String code = form.get("code");
-			log.trace("CODE: " + code);
-			String id_token = form.get("id_token");
-			log.trace("ID TOKEN: " + id_token);
-			String state = form.get("state");
-			log.trace("STATE: " + state);
-			String session_state = form.get("session_state");
-			log.trace("SESSION STATE: " + session_state);
-			String expected_nonce = this.utils.session_manager.getAuthenticatedUserSessionParameter(request, NONCE_KEY);
-			log.trace("EXPECTED NONCE: " + expected_nonce);
-
-			if (id_token == null) {
-				return CompletableFuture.supplyAsync(() -> showError(request, "auth.error.title", "auth.error.invalid_data_received"));
-			}
-
-			CompletionStage<AuthenticationStepResult> login_callback_response = this.office365_oauth_helper.processLoginCallback(request, code, id_token, expected_nonce, state, session_state);
-			CompletionStage<AuthenticationStepResult> oauth_user_info_response = login_callback_response.thenApplyAsync(login_callback_step_result -> processOAuthUserInfo(request, login_callback_step_result));
-			CompletionStage<AuthenticationStepResult> user_info_response = oauth_user_info_response.thenCompose(oauth_user_info_step_result -> getUserPhoto(request, oauth_user_info_step_result));
-			return user_info_response.thenApplyAsync(user_info_step_result -> loadUserSession(request, user_info_step_result));
-		} catch (RuntimeException e) {
-			return CompletableFuture.supplyAsync(() -> showError(request, "auth.error.title", e.getMessage()));
-		} catch (Exception e) {
-			return CompletableFuture.supplyAsync(() -> showError(request, "auth.error.title", e.getMessage()));
-		}
-	}
 
 	private AuthenticationStepResult processOAuthUserInfo(Request request, AuthenticationStepResult step_result) {
 		if (step_result != null) {
@@ -167,18 +82,6 @@ public class AuthenticationController extends Controller {
 		return new AuthenticationStepResult(true, "auth.error.invalid_data_received", null);
 	}
 
-	private CompletionStage<AuthenticationStepResult> getUserPhoto(Request request, AuthenticationStepResult step_result) {
-		if (step_result != null && step_result.getResultData() != null && step_result.getResultData() instanceof User) {
-			User user = (User) step_result.getResultData();
-
-			OAuthUserInfo oauth_info = user.getOAuthUserInfo();
-			if (oauth_info != null) {
-				CompletionStage<UserPhoto> user_photo_result = this.office365_oauth_helper.getUserPhoto(request, oauth_info);
-				return user_photo_result.thenCompose(image_bytes -> savePhoto(user, image_bytes, step_result));
-			}
-		}
-		return CompletableFuture.supplyAsync(() -> step_result);
-	}
 
 	private CompletionStage<AuthenticationStepResult> savePhoto(User user, UserPhoto user_photo, AuthenticationStepResult step_result) {
 		if (user_photo != null && user_photo.getImageBytes() != null) {
@@ -267,7 +170,7 @@ public class AuthenticationController extends Controller {
 					}
 
 					// Otherwise, redirect to the backoffice index
-					return redirect(controllers.bo.routes.BackofficeUserController.renderBackofficeIndex());
+					return ok();
 
 				} catch (InvalidIDSessionParameterException e) {
 					return showError(request, "auth.error.title", e.getMessage());
@@ -282,14 +185,6 @@ public class AuthenticationController extends Controller {
 		return showError(request, "auth.error.title", "auth.error.invalid_data_received");
 	}
 
-	public Result renderLogin(Request request, String redirect) {
-		if (this.utils.session_manager.isAuthenticated(request)) {
-			return redirect(controllers.bo.routes.BackofficeUserController.renderProfilePage());
-		}
-
-		Breadcrumbs crumbs = this.utils.breacrumb_helper.getBreadcrumbsWithElements(request, this.utils.l, new BreadcrumbElement(this.utils.l.l(request, "auth.title.login"), request.uri(), true));
-		return ok(login.render(request, this.utils, new PageSettings(request, this.utils.l, null, crumbs), redirect));
-	}
 
 	public Result submitLogin(Request request) {
 
@@ -325,7 +220,7 @@ public class AuthenticationController extends Controller {
 				}
 
 				// Redirect to Profile page
-				return redirect(controllers.bo.routes.BackofficeUserController.renderProfilePage()).withSession(session);
+				return ok();
 
 			} catch (InvalidIDSessionParameterException e) {
 				return redirectLoginAux(request, e.getMessage());
@@ -339,9 +234,9 @@ public class AuthenticationController extends Controller {
 
 	private Result redirectLoginAux(Request request, String error) {
 		if (error != null) {
-			return redirect(controllers.routes.AuthenticationController.renderLogin(null)).flashing(FormSubmissionResult.FLASH_RESULT, error).flashing(FormSubmissionResult.FLASH_IS_ERROR, "true");
+		return ok();
 		}
-		return redirect(controllers.routes.AuthenticationController.renderLogin(null));
+		return ok();
 	}
 
 	public Result logout(Request request) {
@@ -400,6 +295,6 @@ public class AuthenticationController extends Controller {
 	}
 
 	private Result showError(Request request, String title, String message) {
-		return internalServerError(basic_error_page.render(request, this.utils, new PageSettings(request, this.utils.l, null, null), this.utils.l.l(request, title), this.utils.l.l(request, message), true));
+	return internalServerError();
 	}
 }

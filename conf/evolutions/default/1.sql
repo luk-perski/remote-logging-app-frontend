@@ -124,49 +124,6 @@ create table sys_redirect_record (
   constraint pk_sys_redirect_record primary key (id)
 );
 
-create table app_report_report_execution (
-  id                            bigint auto_increment not null,
-  report_request_id             bigint,
-  execution_date_begin          DATETIME DEFAULT NOW() not null,
-  execution_date_end            DATETIME DEFAULT NOW() not null,
-  execution_log                 TEXT,
-  constraint pk_app_report_report_execution primary key (id)
-);
-
-create table app_report_report_request (
-  id                            bigint auto_increment not null,
-  report_type_id                integer,
-  request_user_id               bigint,
-  request_date                  DATETIME DEFAULT NOW() not null,
-  is_recurrent                  TINYINT DEFAULT 0 not null,
-  periodicity                   integer,
-  configuration                 TEXT,
-  is_active                     TINYINT DEFAULT 1 not null,
-  is_executing                  TINYINT DEFAULT 0 not null,
-  constraint pk_app_report_report_request primary key (id)
-);
-
-create table app_report_report_type (
-  id                            integer auto_increment not null,
-  label_pt                      varchar(255) not null,
-  label_en                      varchar(255) not null,
-  description_pt                varchar(1000) not null,
-  description_en                varchar(1000) not null,
-  report_config_class           varchar(255),
-  report_config_helper_class    varchar(255),
-  report_execution_class        varchar(255) not null,
-  is_active                     TINYINT DEFAULT 1 not null,
-  constraint pk_app_report_report_type primary key (id)
-);
-
-create table app_report_report_type_role (
-  id                            integer auto_increment not null,
-  report_type_id                integer,
-  role_id                       integer,
-  has_access                    TINYINT DEFAULT 0 not null,
-  constraint pk_app_report_report_type_role primary key (id)
-);
-
 create table app_files_resource_associated_file (
   id                            bigint auto_increment not null,
   resource_id                   varchar(20),
@@ -381,21 +338,6 @@ alter table app_form_form_element_property add constraint fk_app_form_form_eleme
 create index ix_remote_logging_project_manager_id on remote_logging_project (manager_id);
 alter table remote_logging_project add constraint fk_remote_logging_project_manager_id foreign key (manager_id) references user_user (id) on delete restrict on update restrict;
 
-create index ix_app_report_report_execution_report_request_id on app_report_report_execution (report_request_id);
-alter table app_report_report_execution add constraint fk_app_report_report_execution_report_request_id foreign key (report_request_id) references app_report_report_request (id) on delete restrict on update restrict;
-
-create index ix_app_report_report_request_report_type_id on app_report_report_request (report_type_id);
-alter table app_report_report_request add constraint fk_app_report_report_request_report_type_id foreign key (report_type_id) references app_report_report_type (id) on delete restrict on update restrict;
-
-create index ix_app_report_report_request_request_user_id on app_report_report_request (request_user_id);
-alter table app_report_report_request add constraint fk_app_report_report_request_request_user_id foreign key (request_user_id) references user_user (id) on delete restrict on update restrict;
-
-create index ix_app_report_report_type_role_report_type_id on app_report_report_type_role (report_type_id);
-alter table app_report_report_type_role add constraint fk_app_report_report_type_role_report_type_id foreign key (report_type_id) references app_report_report_type (id) on delete restrict on update restrict;
-
-create index ix_app_report_report_type_role_role_id on app_report_report_type_role (role_id);
-alter table app_report_report_type_role add constraint fk_app_report_report_type_role_role_id foreign key (role_id) references user_role (id) on delete restrict on update restrict;
-
 create index ix_app_files_resource_associated_file_file_type_id on app_files_resource_associated_file (file_type_id);
 alter table app_files_resource_associated_file add constraint fk_app_files_resource_associated_file_file_type_id foreign key (file_type_id) references app_files_resource_associated_file_type (id) on delete restrict on update restrict;
 
@@ -459,21 +401,6 @@ drop index ix_app_form_form_element_property_form_element_id on app_form_form_el
 alter table remote_logging_project drop foreign key fk_remote_logging_project_manager_id;
 drop index ix_remote_logging_project_manager_id on remote_logging_project;
 
-alter table app_report_report_execution drop foreign key fk_app_report_report_execution_report_request_id;
-drop index ix_app_report_report_execution_report_request_id on app_report_report_execution;
-
-alter table app_report_report_request drop foreign key fk_app_report_report_request_report_type_id;
-drop index ix_app_report_report_request_report_type_id on app_report_report_request;
-
-alter table app_report_report_request drop foreign key fk_app_report_report_request_request_user_id;
-drop index ix_app_report_report_request_request_user_id on app_report_report_request;
-
-alter table app_report_report_type_role drop foreign key fk_app_report_report_type_role_report_type_id;
-drop index ix_app_report_report_type_role_report_type_id on app_report_report_type_role;
-
-alter table app_report_report_type_role drop foreign key fk_app_report_report_type_role_role_id;
-drop index ix_app_report_report_type_role_role_id on app_report_report_type_role;
-
 alter table app_files_resource_associated_file drop foreign key fk_app_files_resource_associated_file_file_type_id;
 drop index ix_app_files_resource_associated_file_file_type_id on app_files_resource_associated_file;
 
@@ -532,14 +459,6 @@ drop table if exists sys_job_description;
 drop table if exists remote_logging_project;
 
 drop table if exists sys_redirect_record;
-
-drop table if exists app_report_report_execution;
-
-drop table if exists app_report_report_request;
-
-drop table if exists app_report_report_type;
-
-drop table if exists app_report_report_type_role;
 
 drop table if exists app_files_resource_associated_file;
 

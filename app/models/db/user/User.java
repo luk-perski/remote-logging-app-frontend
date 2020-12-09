@@ -255,21 +255,6 @@ public class User extends Model {
 		}
 	}
 
-	public String getUserPhotoURL(Request request) {
-		OAuthUserInfo oauth_user_info = getOAuthUserInfo();
-		if (oauth_user_info != null) {
-			if (oauth_user_info.getPictureURL() != null) {
-				return oauth_user_info.getPictureURL();
-			}
-		}
-
-		ResourceAssociatedFile resource_file = getUserPhoto();
-		if (resource_file != null) {
-			return controllers.routes.FileController.renderResourceAssociatedFile(resource_file.getID()).absoluteURL(request);
-		}
-
-		return controllers.routes.FileController.renderDefaultUserPhoto().absoluteURL(request);
-	}
 
 	private ResourceAssociatedFile getUserPhoto() {
 		List<ResourceAssociatedFile> files = ResourceAssociatedFile.getByResourceAndType(this.getClass().getCanonicalName(), this.id.toString(), ResourceAssociatedFileType.USER_PHOTO);

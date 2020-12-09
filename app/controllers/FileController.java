@@ -21,7 +21,6 @@ import play.mvc.Http.Request;
 import play.mvc.Result;
 import utils.Utils;
 import utils.app.file.FileRestrictedAccessValidator;
-import views.html.base.basic_error_page;
 
 public class FileController extends Controller {
 
@@ -31,7 +30,7 @@ public class FileController extends Controller {
 	private Utils utils;
 
 	public Result renderDefaultUserPhoto(Request request) {
-		return redirect(routes.Assets.versioned(new Asset("images/default_user.png")));
+		return ok();
 	}
 
 	public Result renderResourceAssociatedFile(Request request, Long id) {
@@ -40,14 +39,13 @@ public class FileController extends Controller {
 
 			ResourceAssociatedFile resource_file = ResourceAssociatedFile.getByID(id);
 			if (resource_file == null) {
-				return internalServerError(basic_error_page.render(request, this.utils, null, this.utils.l.l(request, "error.label.unexpected_error"), this.utils.l.l(request, "general.text.record_not_found"), false));
+				return ok();
 			}
 
 			// Check if the record has restricted access and if this request's user can access it
 			if (!resourceIsAccessible(request, resource_file)) {
 				// If not, show forbidden error
-				return forbidden(basic_error_page.render(request, this.utils, null, this.utils.l.l(request, "error.label.forbidden"), this.utils.l.l(request, "error.text.forbidden"), false));
-			}
+				return ok();			}
 
 			// If access record audit is activated for this resource file
 			if (resource_file.recordAccesses()) {
@@ -61,8 +59,7 @@ public class FileController extends Controller {
 			log.error("ERROR: " + e.getMessage());
 			e.printStackTrace();
 		}
-		return internalServerError(basic_error_page.render(request, this.utils, null, this.utils.l.l(request, "error.label.unexpected_error"), this.utils.l.l(request, "general.text.record_not_found"), false));
-
+		return ok();
 	}
 
 	private boolean resourceIsAccessible(Request request, ResourceAssociatedFile resource_file) {
@@ -100,14 +97,12 @@ public class FileController extends Controller {
 					return response.as(resource_file.getFileContentType());
 				}
 			} else {
-				return internalServerError(basic_error_page.render(request, this.utils, null, this.utils.l.l(request, "error.label.unexpected_error"), this.utils.l.l(request, "error.text.file_hash_integrity"), false));
-			}
+				return ok();			}
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		return internalServerError(basic_error_page.render(request, this.utils, null, this.utils.l.l(request, "error.label.unexpected_error"), this.utils.l.l(request, "general.text.record_not_found"), false));
-	}
+		return ok();	}
 }

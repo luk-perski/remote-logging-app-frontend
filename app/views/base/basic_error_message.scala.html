@@ -1,5 +1,0 @@
-@(error_msg: String, is_html: Boolean)
-
-<p class="alert alert-danger">
-	@if(is_html){ @Html(error_msg) }else{ @error_msg }
-</p>

@@ -9,6 +9,7 @@ import controllers.ajax.AJAXControllerUtils;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import utils.session.SessionManager;
 
 /**
@@ -27,19 +28,6 @@ public class AuthenticatedAction extends Action.Simple {
 	private AJAXControllerUtils ajax_controller_utils;
 
 	public CompletionStage<Result> call(Http.Request request) {
-		// If authenticated, delegate to appropriate url
-		if (this.session_manager.isAuthenticated(request)) {
-			return delegate.call(request);
-		}
-
-		// Check if the request is for an AJAX request
-		String request_with = request.getHeaders().get("X-Requested-With").orElse("");
-		if (request_with.equalsIgnoreCase(AJAX_REQUEST)) {
-			// If so, send the corresponding error response
-			return CompletableFuture.completedFuture(this.ajax_controller_utils.rendeAJAXErrorResponse(request, Http.Status.FORBIDDEN, "error.text.forbidden"));
-		}
-
-		// If not, redirect to login page
-		return CompletableFuture.completedFuture(redirect(controllers.routes.AuthenticationController.renderDefaultLogin(request.uri())));
+		return CompletableFuture.completedFuture(notFound());
 	}
 }

@@ -30,31 +30,6 @@ public class AuthenticatedAsAction extends Action<IsAuthenticatedAs> {
 	private AJAXControllerUtils ajax_controller_utils;
 
 	public CompletionStage<Result> call(Http.Request request) {
-		// Check role parameters, if authenticated as any of them, delegate to
-		// appropriate url
-		for (String val : configuration.value()) {
-			try {
-				if (this.session_manager.isAuthenticatedAs(AuthenticationController.ROLE_KEY, val, request)) {
-					return delegate.call(request);
-				}
-			} catch (InvalidRoleDataException ignore) {
-			}
-		}
-
-		// Check if the request is for an AJAX request
-		String request_with = request.getHeaders().get("X-Requested-With").orElse("");
-		if (request_with.equalsIgnoreCase(AJAX_REQUEST)) {
-			// If so, send the corresponding error response
-			return CompletableFuture.completedFuture(this.ajax_controller_utils.rendeAJAXErrorResponse(request, Http.Status.FORBIDDEN, "error.text.forbidden"));
-		}
-
-		// If authenticated but not with one of the required roles, redirect to
-		// role change page
-		if (this.session_manager.isAuthenticated(request)) {
-			return CompletableFuture.completedFuture(redirect(controllers.bo.routes.BackofficeUserController.renderRoleChange()));
-		}
-
-		// If not authenticated, redirect to login page
-		return CompletableFuture.completedFuture(redirect(controllers.routes.AuthenticationController.renderDefaultLogin(request.uri())));
+		return CompletableFuture.completedFuture(ok());
 	}
 }

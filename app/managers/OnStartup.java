@@ -11,9 +11,6 @@ import org.slf4j.LoggerFactory;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import managers.jobs.JobsHelper;
-import managers.jobs.JobsManager;
-import managers.jobs.JobsManagerProtocol;
 import models.db.app.config.ApplicationConfiguration;
 import utils.app.config.AppConfig;
 
@@ -26,21 +23,14 @@ public class OnStartup {
 	private static final Duration JOBS_INTERVAL = Duration.ofSeconds(15);
 
 	private final ActorSystem actor_system;
-	private final JobsHelper jobs_helper;
 
 	@Inject
-	public OnStartup(ActorSystem actor_system, JobsHelper jobs_helper) {
+	public OnStartup(ActorSystem actor_system) {
 
 		this.actor_system = actor_system;
-		this.jobs_helper = jobs_helper;
 
 		log.info("Application starting...");
 		// ApplicationLog.log(new Date(), this.getClass(), new ApplicationGeneralAction("Application starting"));
-
-		if (loadApplicationConfiguration()) {
-			loadJobsManager();
-		}
-
 		// ApplicationLog.log(new Date(), this.getClass(), new ApplicationGeneralAction("Application started"));
 	}
 
@@ -57,18 +47,5 @@ public class OnStartup {
 		}
 
 		return true;
-	}
-
-	private void loadJobsManager() {
-		log.info("Setting up job scheduler...");
-
-		// Instantiate the actor for the jobs manager
-		ActorRef manager_actor = actor_system.actorOf(Props.create(JobsManager.class, this.jobs_helper));
-		// Schedule message to process jobs (continuously)
-		this.actor_system.scheduler().scheduleAtFixedRate(JOBS_INITIAL_DELAY, JOBS_INTERVAL, manager_actor, new JobsManagerProtocol.ProcessJobs(), this.actor_system.dispatcher(), manager_actor);
-
-		log.info("...done");
-
-		// ApplicationLog.log(new Date(), this.getClass(), new ApplicationGeneralAction("Job scheduler was set up"));
 	}
 }
