@@ -19,4 +19,15 @@ public class TaskController extends Controller {
         taskService.add(task, creatorId, projectId);
         return ApiUtils.getOkResult(task);
     }
+
+    public Result update(Http.Request request) {
+        Task task = ApiUtils.getObjectFromRequest(request, Task.class);
+        taskService.update(task);
+        return ApiUtils.getOkResult(task);
+    }
+
+    public Result logWork(Long taskId, Long time) {
+        taskService.logWork(taskId, time);
+        return ok();
+    }
 }

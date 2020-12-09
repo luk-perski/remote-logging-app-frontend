@@ -36,6 +36,9 @@ public class Task extends Model {
     String description;
     Long estimate;
     Date resolvedDate;
+    /**
+     * Time in ms.
+     */
     Long timeSpent;
     Date runStart;
     Date runEnd;
