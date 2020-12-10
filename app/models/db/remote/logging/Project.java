@@ -31,6 +31,8 @@ public class Project extends Model {
     @Column(nullable = false, columnDefinition = "DATETIME DEFAULT NOW()")
     @JsonFormat(pattern = Constant.DATE_FORMAT)
     Date cratedDate;
+    @JsonFormat(pattern = Constant.DATE_FORMAT)
     Date startDate;
+    @JsonFormat(pattern = Constant.DATE_FORMAT)
     Date endDate;
 }

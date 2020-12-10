@@ -7,6 +7,7 @@ import repository.UserRepository;
 
 import javax.inject.Inject;
 import java.util.Date;
+import java.util.List;
 
 public class ProjectService {
 
@@ -25,5 +26,9 @@ public class ProjectService {
 
     public Project update(Project project) {
         return projectRepository.update(project);
+    }
+
+    public List<Project> getAll(){
+        return projectRepository.getAll();
     }
 }

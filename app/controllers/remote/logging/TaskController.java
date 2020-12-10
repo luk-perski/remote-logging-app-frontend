@@ -8,6 +8,7 @@ import service.TaskService;
 import utils.api.ApiUtils;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class TaskController extends Controller {
 
@@ -29,5 +30,10 @@ public class TaskController extends Controller {
     public Result logWork(Long taskId, Long time) {
         taskService.logWork(taskId, time);
         return ok();
+    }
+
+    public Result getAll(){
+        List<Task> tasks = taskService.getAll();
+        return ApiUtils.getOkResult(tasks);
     }
 }

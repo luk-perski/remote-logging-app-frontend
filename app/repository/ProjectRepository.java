@@ -13,7 +13,7 @@ public class ProjectRepository implements IProjectRepository {
 
     @Override
     public List<Project> getAll() {
-        return null;
+        return finder.all();
     }
 
     public Project add(Project project) {

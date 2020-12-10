@@ -39,50 +39,6 @@ create table log_application_log (
   constraint pk_log_application_log primary key (id)
 );
 
-create table app_menu_application_menu (
-  id                            integer auto_increment not null,
-  parent_id                     integer,
-  label_pt                      varchar(50) not null,
-  label_en                      varchar(50) not null,
-  short_label_pt                varchar(30) not null,
-  short_label_en                varchar(30) not null,
-  url                           varchar(200),
-  icon_css_class                varchar(255),
-  is_active                     TINYINT DEFAULT 0 not null,
-  is_public                     TINYINT DEFAULT 0 not null,
-  show_when_authenticated       TINYINT DEFAULT 0 not null,
-  order_within_parent           INT DEFAULT 1 not null,
-  has_divider_before            TINYINT DEFAULT 0 not null,
-  opened_by_default             TINYINT DEFAULT 0 not null,
-  custom_validation_class       varchar(250),
-  constraint pk_app_menu_application_menu primary key (id)
-);
-
-create table app_menu_application_menu_role (
-  id                            integer auto_increment not null,
-  menu_id                       integer,
-  role_id                       integer,
-  has_access                    TINYINT DEFAULT 0 not null,
-  constraint pk_app_menu_application_menu_role primary key (id)
-);
-
-create table app_form_form_element (
-  id                            bigint auto_increment not null,
-  component                     varchar(255) not null,
-  element_id                    varchar(255),
-  parent_id                     bigint,
-  order_within_parent           integer,
-  constraint pk_app_form_form_element primary key (id)
-);
-
-create table app_form_form_element_property (
-  id                            bigint auto_increment not null,
-  form_element_id               bigint,
-  name                          varchar(255) not null,
-  value                         varchar(255) not null,
-  constraint pk_app_form_form_element_property primary key (id)
-);
-
 create table sys_job_description (
   id                            integer auto_increment not null,
   name_pt                       varchar(200) not null,
@@ -168,44 +124,6 @@ create table user_role (
   constraint uq_user_role_short_label_pt unique (short_label_pt),
   constraint uq_user_role_short_label_en unique (short_label_en),
   constraint pk_user_role primary key (id)
-);
-
-create table search_search_content_class_custom_handler (
-  content_class                 varchar(200) not null,
-  custom_handler_class          varchar(200),
-  constraint pk_search_search_content_class_custom_handler primary key (content_class)
-);
-
-create table search_search_content_prepared (
-  id                            bigint auto_increment not null,
-  content_id                    varchar(20) not null,
-  content_class                 varchar(200) not null,
-  title                         varchar(2000) not null,
-  slug                          varchar(200) not null,
-  published                     tinyint(1) not null,
-  publication_start             datetime(6),
-  publication_end               datetime(6),
-  submitted                     datetime(6),
-  s1                            MEDIUMTEXT,
-  s2                            TEXT,
-  constraint pk_search_search_content_prepared primary key (id)
-);
-
-create table search_search_content_ranked (
-  id                            bigint auto_increment not null,
-  search                        varchar(255),
-  content_prepared_id           bigint,
-  hits                          bigint,
-  constraint pk_search_search_content_ranked primary key (id)
-);
-
-create table math_sum (
-  id                            bigint auto_increment not null,
-  number_one                    integer not null,
-  number_two                    integer not null,
-  result                        integer not null,
-  instant                       DATETIME DEFAULT NOW() not null,
-  constraint pk_math_sum primary key (id)
 );
 
 create table sys_system_buffered_email (
@@ -320,21 +238,6 @@ create index ix_log_user_log_instant on log_user_log (instant);
 create index ix_app_config_application_configuration_property_applicat_1 on app_config_application_configuration_property (application_configuration_id);
 alter table app_config_application_configuration_property add constraint fk_app_config_application_configuration_property_applicat_1 foreign key (application_configuration_id) references app_config_application_configuration (id) on delete restrict on update restrict;
 
-create index ix_app_menu_application_menu_parent_id on app_menu_application_menu (parent_id);
-alter table app_menu_application_menu add constraint fk_app_menu_application_menu_parent_id foreign key (parent_id) references app_menu_application_menu (id) on delete restrict on update restrict;
-
-create index ix_app_menu_application_menu_role_menu_id on app_menu_application_menu_role (menu_id);
-alter table app_menu_application_menu_role add constraint fk_app_menu_application_menu_role_menu_id foreign key (menu_id) references app_menu_application_menu (id) on delete restrict on update restrict;
-
-create index ix_app_menu_application_menu_role_role_id on app_menu_application_menu_role (role_id);
-alter table app_menu_application_menu_role add constraint fk_app_menu_application_menu_role_role_id foreign key (role_id) references user_role (id) on delete restrict on update restrict;
-
-create index ix_app_form_form_element_parent_id on app_form_form_element (parent_id);
-alter table app_form_form_element add constraint fk_app_form_form_element_parent_id foreign key (parent_id) references app_form_form_element (id) on delete restrict on update restrict;
-
-create index ix_app_form_form_element_property_form_element_id on app_form_form_element_property (form_element_id);
-alter table app_form_form_element_property add constraint fk_app_form_form_element_property_form_element_id foreign key (form_element_id) references app_form_form_element (id) on delete restrict on update restrict;
-
 create index ix_remote_logging_project_manager_id on remote_logging_project (manager_id);
 alter table remote_logging_project add constraint fk_remote_logging_project_manager_id foreign key (manager_id) references user_user (id) on delete restrict on update restrict;
 
@@ -346,9 +249,6 @@ alter table app_files_resource_associated_file_access_record add constraint fk_a
 
 create index ix_app_files_resource_associated_file_access_record_resou_2 on app_files_resource_associated_file_access_record (resource_associated_file_id);
 alter table app_files_resource_associated_file_access_record add constraint fk_app_files_resource_associated_file_access_record_resou_2 foreign key (resource_associated_file_id) references app_files_resource_associated_file (id) on delete restrict on update restrict;
-
-create index ix_search_search_content_ranked_content_prepared_id on search_search_content_ranked (content_prepared_id);
-alter table search_search_content_ranked add constraint fk_search_search_content_ranked_content_prepared_id foreign key (content_prepared_id) references search_search_content_prepared (id) on delete restrict on update restrict;
 
 create index ix_remote_logging_task_project_id on remote_logging_task (project_id);
 alter table remote_logging_task add constraint fk_remote_logging_task_project_id foreign key (project_id) references remote_logging_project (id) on delete restrict on update restrict;
@@ -383,21 +283,6 @@ alter table user_user_role add constraint fk_user_user_role_role_id foreign key 
 alter table app_config_application_configuration_property drop foreign key fk_app_config_application_configuration_property_applicat_1;
 drop index ix_app_config_application_configuration_property_applicat_1 on app_config_application_configuration_property;
 
-alter table app_menu_application_menu drop foreign key fk_app_menu_application_menu_parent_id;
-drop index ix_app_menu_application_menu_parent_id on app_menu_application_menu;
-
-alter table app_menu_application_menu_role drop foreign key fk_app_menu_application_menu_role_menu_id;
-drop index ix_app_menu_application_menu_role_menu_id on app_menu_application_menu_role;
-
-alter table app_menu_application_menu_role drop foreign key fk_app_menu_application_menu_role_role_id;
-drop index ix_app_menu_application_menu_role_role_id on app_menu_application_menu_role;
-
-alter table app_form_form_element drop foreign key fk_app_form_form_element_parent_id;
-drop index ix_app_form_form_element_parent_id on app_form_form_element;
-
-alter table app_form_form_element_property drop foreign key fk_app_form_form_element_property_form_element_id;
-drop index ix_app_form_form_element_property_form_element_id on app_form_form_element_property;
-
 alter table remote_logging_project drop foreign key fk_remote_logging_project_manager_id;
 drop index ix_remote_logging_project_manager_id on remote_logging_project;
 
@@ -409,9 +294,6 @@ drop index ix_app_files_resource_associated_file_access_record_user_id on app_fi
 
 alter table app_files_resource_associated_file_access_record drop foreign key fk_app_files_resource_associated_file_access_record_resou_2;
 drop index ix_app_files_resource_associated_file_access_record_resou_2 on app_files_resource_associated_file_access_record;
-
-alter table search_search_content_ranked drop foreign key fk_search_search_content_ranked_content_prepared_id;
-drop index ix_search_search_content_ranked_content_prepared_id on search_search_content_ranked;
 
 alter table remote_logging_task drop foreign key fk_remote_logging_task_project_id;
 drop index ix_remote_logging_task_project_id on remote_logging_task;
@@ -446,14 +328,6 @@ drop table if exists app_config_application_configuration_property;
 
 drop table if exists log_application_log;
 
-drop table if exists app_menu_application_menu;
-
-drop table if exists app_menu_application_menu_role;
-
-drop table if exists app_form_form_element;
-
-drop table if exists app_form_form_element_property;
-
 drop table if exists sys_job_description;
 
 drop table if exists remote_logging_project;
@@ -467,14 +341,6 @@ drop table if exists app_files_resource_associated_file_access_record;
 drop table if exists app_files_resource_associated_file_type;
 
 drop table if exists user_role;
-
-drop table if exists search_search_content_class_custom_handler;
-
-drop table if exists search_search_content_prepared;
-
-drop table if exists search_search_content_ranked;
-
-drop table if exists math_sum;
 
 drop table if exists sys_system_buffered_email;
 

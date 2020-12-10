@@ -11,13 +11,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import actions.IsAuthenticatedAs;
 import io.ebean.Ebean;
 import io.ebean.PagedList;
-import models.db.app.menu.ApplicationMenu;
 import models.db.log.ApplicationLog;
 import models.db.log.UserLog;
 import models.db.sys.JobDescription;
 import models.db.user.Role;
 import models.db.user.User;
-import models.helpers.app.menu.ApplicationMenuHelper;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -44,9 +42,6 @@ public class AJAXSystemController extends Controller {
 
 	@Inject
 	private FormFactory ff;
-
-	@Inject
-	private ApplicationMenuHelper app_menu_helper;
 
 	@IsAuthenticatedAs({ Role.ADMIN })
 	public Result renderSystemJobs(Request request) {
@@ -149,14 +144,7 @@ public class AJAXSystemController extends Controller {
 		try {
 			Ebean.beginTransaction();
 
-			ApplicationMenu.updateMenuRoleAssociations(Role.getAll());
-
 			Ebean.commitTransaction();
-
-			List<ApplicationMenu> root_menus = ApplicationMenu.getRootMenus();
-			if (root_menus != null) {
-				return this.ajax_controller_utils.renderAJAXResponse(request, Json.toJson(root_menus));
-			}
 			return this.ajax_controller_utils.rendeAJAXErrorResponse(request, Http.Status.INTERNAL_SERVER_ERROR, "general.text.operation_error");
 
 		} catch (Exception e) {
@@ -176,8 +164,6 @@ public class AJAXSystemController extends Controller {
 				return this.ajax_controller_utils.rendeAJAXErrorResponse(request, Http.Status.INTERNAL_SERVER_ERROR, "general.text.invalid_data_sent");
 			}
 
-			this.app_menu_helper.createData(form, request);
-
 			Ebean.commitTransaction();
 
 			return this.ajax_controller_utils.renderAJAXResponse(request, Json.toJson(Json.newObject()));
@@ -194,22 +180,6 @@ public class AJAXSystemController extends Controller {
 		try {
 			Ebean.beginTransaction();
 
-			ApplicationMenu menu = ApplicationMenu.getByID(menu_id);
-			if (menu != null) {
-				System.out.println("Saving menu data for #" + menu_id);
-
-				DynamicForm form = this.ff.form().bindFromRequest(request);
-				if (form == null) {
-					return this.ajax_controller_utils.rendeAJAXErrorResponse(request, Http.Status.INTERNAL_SERVER_ERROR, "general.text.invalid_data_sent");
-				}
-
-				this.app_menu_helper.updateData(menu, form, request);
-
-				Ebean.commitTransaction();
-
-				return this.ajax_controller_utils.renderAJAXResponse(request, Json.toJson(Json.newObject()));
-			}
-
 			return this.ajax_controller_utils.rendeAJAXErrorResponse(request, Http.Status.INTERNAL_SERVER_ERROR, "general.text.operation_error");
 
 		} catch (Exception e) {
@@ -223,17 +193,6 @@ public class AJAXSystemController extends Controller {
 	public Result deleteMenuData(Request request, Integer menu_id) {
 		try {
 			Ebean.beginTransaction();
-
-			ApplicationMenu menu = ApplicationMenu.getByID(menu_id);
-			if (menu != null) {
-				System.out.println("Deleting menu data for #" + menu_id);
-
-				menu.delete();
-
-				Ebean.commitTransaction();
-
-				return this.ajax_controller_utils.renderAJAXResponse(request, Json.toJson(Json.newObject()));
-			}
 
 			return this.ajax_controller_utils.rendeAJAXErrorResponse(request, Http.Status.INTERNAL_SERVER_ERROR, "general.text.operation_error");
 

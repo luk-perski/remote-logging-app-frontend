@@ -9,7 +9,6 @@ import pt.iscte_iul.gdsi.utils.StringUtils;
 import pt.iscte_iul.gdsi.utils.TypeUtils;
 import pt.iscte_iul.gdsi.utils.ValidationUtils;
 import pt.iscte_iul.gdsi.utils.WebUtils;
-import utils.app.menu.MenuHelper;
 import utils.language.LanguageUtils;
 import utils.other.OtherUtils;
 import utils.session.SessionManager;
@@ -44,9 +43,6 @@ public class Utils {
 
 	@Inject
 	public OtherUtils other_utils;
-
-	@Inject
-	public MenuHelper menu_helper;
 
 	@Inject
 	public StaticContentUtils static_content_utils;

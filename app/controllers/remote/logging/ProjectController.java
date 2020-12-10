@@ -8,6 +8,7 @@ import service.ProjectService;
 import utils.api.ApiUtils;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class ProjectController extends Controller {
 
@@ -24,5 +25,10 @@ public class ProjectController extends Controller {
         Project project = ApiUtils.getObjectFromRequest(request, Project.class);
         projectService.update(project);
         return ApiUtils.getOkResult(project);
+    }
+
+    public Result getAll(){
+        List<Project> projects = projectService.getAll();
+        return ApiUtils.getOkResult(projects);
     }
 }

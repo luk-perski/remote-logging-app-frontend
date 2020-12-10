@@ -9,6 +9,7 @@ import repository.UserRepository;
 
 import javax.inject.Inject;
 import java.util.Date;
+import java.util.List;
 
 public class TaskService {
 
@@ -43,5 +44,9 @@ public class TaskService {
         Task task = taskRepository.getById(taskId);
         addTimeToTask(task, time);
         return true;
+    }
+
+    public List<Task> getAll(){
+        return taskRepository.getAll();
     }
 }
