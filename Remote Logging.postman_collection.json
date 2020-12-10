@@ -1,0 +1,348 @@
+{
+	"info": {
+		"_postman_id": "9bd969b9-4fa5-4183-98bc-a62a332ae3b6",
+		"name": "Remote Logging",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{user}}",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{user}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "team",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"TEAM\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{team}}?managerId=1",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{team}}"
+					],
+					"query": [
+						{
+							"key": "managerId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "team",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{team}}",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{team}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "task",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{task}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "task",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}?creatorId=1&projectId=1",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{task}}"
+					],
+					"query": [
+						{
+							"key": "creatorId",
+							"value": "1"
+						},
+						{
+							"key": "projectId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "task/log-work",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}/{{logWork}}?taskId&time",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{task}}",
+						"{{logWork}}"
+					],
+					"query": [
+						{
+							"key": "taskId",
+							"value": null
+						},
+						{
+							"key": "time",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "task",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{task}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "project",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Project Name\",\n    \"isActive\" : true,\n    \"description\" : \"Description\",\n    \"startDate\" : \"2020-12-09T15:02Z\",\n    \"endDate\" : \"2020-12-11T15:02Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{project}}?managerId=1",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{project}}"
+					],
+					"query": [
+						{
+							"key": "managerId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "project",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Project Name\",\n    \"isActive\" : true,\n    \"description\" : \"Description\",\n    \"startDate\" : \"2020-12-09T15:02Z\",\n    \"endDate\" : \"2020-12-11T15:02Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{project}}",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{project}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "project",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\" : 1,\n    \"name\" : \"Project Name 2\",\n    \"isActive\" : false,\n    \"description\" : \"Description Updated\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{project}}",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{project}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "39821fad-1f05-43b8-894e-47a40bef6475",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a20fffa2-a01d-44ff-ae83-baedd29a18d7",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "e5ead3e2-7e8c-42c6-9eba-793385c0116a",
+			"key": "task",
+			"value": "task"
+		},
+		{
+			"id": "2891be79-2337-4df7-821b-8515bcc8fd04",
+			"key": "server_url",
+			"value": "http://localhost"
+		},
+		{
+			"id": "aa94f722-a840-4213-b773-1f31348e945c",
+			"key": "port",
+			"value": "9292"
+		},
+		{
+			"id": "27d2b4c4-fd5e-45e7-a23a-ae4e2f728959",
+			"key": "api_root",
+			"value": "api/v1/remote-logging"
+		},
+		{
+			"id": "7d939bf4-31c6-4345-b8dc-6bc352550051",
+			"key": "team",
+			"value": "team"
+		},
+		{
+			"id": "65bca9e1-f033-4614-b73e-c5b7a154e39e",
+			"key": "user",
+			"value": "user"
+		},
+		{
+			"id": "6dadefb1-a00b-4d22-83e0-b7df55985b29",
+			"key": "logWork",
+			"value": "log-work"
+		},
+		{
+			"id": "4db21ef2-467d-4ee0-bb0f-f9ef74f90cdd",
+			"key": "project",
+			"value": "project"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
