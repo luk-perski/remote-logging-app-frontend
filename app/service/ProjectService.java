@@ -28,7 +28,11 @@ public class ProjectService {
         return projectRepository.update(project);
     }
 
-    public List<Project> getAll(){
+    public List<Project> getAll() {
         return projectRepository.getAll();
+    }
+
+    public Project getById(Long id) {
+        return projectRepository.getById(id);
     }
 }

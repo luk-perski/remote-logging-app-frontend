@@ -5,6 +5,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.ProjectService;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import utils.api.ApiUtils;
 
 import javax.inject.Inject;
@@ -27,8 +28,12 @@ public class ProjectController extends Controller {
         return ApiUtils.getOkResult(project);
     }
 
-    public Result getAll(){
+    public Result getAll() {
         List<Project> projects = projectService.getAll();
         return ApiUtils.getOkResult(projects);
+    }
+
+    public Result getById(Long id) {
+        throw new NotImplementedException();
     }
 }

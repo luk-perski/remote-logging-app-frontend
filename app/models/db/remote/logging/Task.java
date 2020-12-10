@@ -2,7 +2,6 @@ package models.db.remote.logging;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.ebean.Model;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import models.db.user.User;
@@ -32,7 +31,9 @@ public class Task extends Model {
     @ManyToOne
     @JoinColumn(name = "assignee_id")
     User assignee;
-    int category;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    Category category;
     @JsonFormat(pattern = Constant.DATE_FORMAT)
     @Column(nullable = false, columnDefinition = "DATETIME DEFAULT NOW()")
     Date cratedDate;

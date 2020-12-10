@@ -39,6 +39,13 @@ create table log_application_log (
   constraint pk_log_application_log primary key (id)
 );
 
+create table remote_logging_category (
+  id                            bigint auto_increment not null,
+  name                          varchar(255),
+  crated_date                   DATETIME DEFAULT NOW() not null,
+  constraint pk_remote_logging_category primary key (id)
+);
+
 create table sys_job_description (
   id                            integer auto_increment not null,
   name_pt                       varchar(200) not null,
@@ -171,7 +178,7 @@ create table remote_logging_task (
   creator_id                    bigint not null,
   priority                      integer not null,
   assignee_id                   bigint,
-  category                      integer not null,
+  category_id                   bigint,
   crated_date                   DATETIME DEFAULT NOW() not null,
   description                   varchar(255),
   estimate                      bigint,
@@ -259,6 +266,9 @@ alter table remote_logging_task add constraint fk_remote_logging_task_creator_id
 create index ix_remote_logging_task_assignee_id on remote_logging_task (assignee_id);
 alter table remote_logging_task add constraint fk_remote_logging_task_assignee_id foreign key (assignee_id) references user_user (id) on delete restrict on update restrict;
 
+create index ix_remote_logging_task_category_id on remote_logging_task (category_id);
+alter table remote_logging_task add constraint fk_remote_logging_task_category_id foreign key (category_id) references remote_logging_category (id) on delete restrict on update restrict;
+
 create index ix_remote_logging_team_manager_id on remote_logging_team (manager_id);
 alter table remote_logging_team add constraint fk_remote_logging_team_manager_id foreign key (manager_id) references user_user (id) on delete restrict on update restrict;
 
@@ -304,6 +314,9 @@ drop index ix_remote_logging_task_creator_id on remote_logging_task;
 alter table remote_logging_task drop foreign key fk_remote_logging_task_assignee_id;
 drop index ix_remote_logging_task_assignee_id on remote_logging_task;
 
+alter table remote_logging_task drop foreign key fk_remote_logging_task_category_id;
+drop index ix_remote_logging_task_category_id on remote_logging_task;
+
 alter table remote_logging_team drop foreign key fk_remote_logging_team_manager_id;
 drop index ix_remote_logging_team_manager_id on remote_logging_team;
 
@@ -327,6 +340,8 @@ drop table if exists app_config_application_configuration;
 drop table if exists app_config_application_configuration_property;
 
 drop table if exists log_application_log;
+
+drop table if exists remote_logging_category;
 
 drop table if exists sys_job_description;
 

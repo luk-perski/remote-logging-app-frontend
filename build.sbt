@@ -21,16 +21,16 @@ libraryDependencies ++=Seq(
 	// Mailer
 	"com.typesafe.play" %% "play-mailer" % "7.0.1",
 	"com.typesafe.play" %% "play-mailer-guice" % "7.0.1",
-    // PDF generation
-    "com.itextpdf" % "itextpdf" % "5.5.13.1",
-    "com.itextpdf.tool" % "xmlworker" % "5.5.13.1",
+	// PDF generation
+	"com.itextpdf" % "itextpdf" % "5.5.13.1",
+	"com.itextpdf.tool" % "xmlworker" % "5.5.13.1",
 	// IP-based location utils
 	"com.maxmind.geoip2" % "geoip2" % "2.12.0",
 	// Support for Messages in Javascript
 	"org.julienrf" %% "play-jsmessages" % "4.0.0",
 	// Lombok
-	"org.projectlombok" % "lombok" % "1.12.6",
-    // Play-related
+	"org.projectlombok" % "lombok" % "1.16.20",
+	// Play-related
 	guice,
 	ehcache,
 	javaWs,

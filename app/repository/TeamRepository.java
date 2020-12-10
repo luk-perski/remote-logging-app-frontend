@@ -9,7 +9,7 @@ import java.util.List;
 @Singleton
 public class TeamRepository implements ITeamRepository {
 
-    Finder<Integer, Team> finder = new Finder<Integer, Team>(Team.class);
+    Finder<Long, Team> finder = new Finder<>(Team.class);
 
     @Override
     public List<Team> getAll() {
@@ -28,5 +28,10 @@ public class TeamRepository implements ITeamRepository {
         team.update();
         team.refresh();
         return team;
+    }
+
+    @Override
+    public Team getById(Long id) {
+        return finder.byId(id);
     }
 }

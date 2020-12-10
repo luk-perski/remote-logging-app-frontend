@@ -23,4 +23,8 @@ public class UserService {
         userRepository.update(user);
         return user.getTeam() != null;
     }
+
+    public User getById(Long id) {
+        return userRepository.getById(id);
+    }
 }

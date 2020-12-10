@@ -10,4 +10,6 @@ public interface ITeamRepository {
     Team add(Team team);
 
     Team update(Team team);
+
+    Team getById(Long id);
 }
