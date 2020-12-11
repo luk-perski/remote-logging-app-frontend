@@ -12,4 +12,6 @@ public interface IUserRepository {
     User update(User user);
 
     User getById(Long id);
+
+    List<User> getByTeamId(Long id);
 }

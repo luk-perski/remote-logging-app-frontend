@@ -5,7 +5,6 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.TeamService;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import utils.api.ApiUtils;
 
 import javax.inject.Inject;
@@ -28,7 +27,13 @@ public class TeamController extends Controller {
     }
 
     public Result getById(Long id) {
-        throw new NotImplementedException();
+        Team team = teamService.getById(id);
+        return ApiUtils.getOkResult(team);
+    }
+
+    public Result getByManagerId(Long managerId) {
+        List<Team> teams = teamService.getByManagerId(managerId);
+        return ApiUtils.getOkResult(teams);
     }
 }
 

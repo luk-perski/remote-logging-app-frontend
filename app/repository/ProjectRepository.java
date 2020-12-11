@@ -33,4 +33,12 @@ public class ProjectRepository implements IProjectRepository {
     public Project getById(Long projectId) {
         return (projectId == null) ? null : finder.byId(projectId);
     }
+
+    @Override
+    public List<Project> getByManagerId(Long managerId) {
+        return (managerId == null) ? null :
+                finder.query()
+                        .where()
+                        .eq("manager.id", managerId).findList();
+    }
 }

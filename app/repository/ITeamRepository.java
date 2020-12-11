@@ -12,4 +12,6 @@ public interface ITeamRepository {
     Team update(Team team);
 
     Team getById(Long id);
+
+    List<Team> getByManagerId(Long id);
 }

@@ -35,4 +35,8 @@ public class ProjectService {
     public Project getById(Long id) {
         return projectRepository.getById(id);
     }
+
+    public List<Project> getByManagerId(Long id) {
+        return projectRepository.getByManagerId(id);
+    }
 }

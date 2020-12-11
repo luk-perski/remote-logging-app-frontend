@@ -34,4 +34,12 @@ public class UserRepository implements IUserRepository {
     public User getById(Long id) {
         return User.getByID(id);
     }
+
+    @Override
+    public List<User> getByTeamId(Long id) {
+        return (id == null) ? null :
+                finder.query()
+                        .where()
+                        .eq("team.id", id).findList();
+    }
 }

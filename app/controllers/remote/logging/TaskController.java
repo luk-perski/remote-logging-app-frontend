@@ -5,7 +5,6 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.TaskService;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import utils.api.ApiUtils;
 
 import javax.inject.Inject;
@@ -39,6 +38,18 @@ public class TaskController extends Controller {
     }
 
     public Result getById(Long id) {
-        throw new NotImplementedException();
+        Task task = taskService.getById(id);
+        return ApiUtils.getOkResult(task);
+    }
+
+    public Result getByAssigneeId(Long userId, int maxRows, int pageIndex) {
+        List<Task> userTasks = taskService.getUserTasks(userId, maxRows, pageIndex);
+        return ApiUtils.getOkResult(userTasks);
+    }
+
+    public Result getByProjectId(Long projectId) {
+        List<Task> tasks = taskService.getByProjectId(projectId);
+        return ApiUtils.getOkResult(tasks);
     }
 }
+

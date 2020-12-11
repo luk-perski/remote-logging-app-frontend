@@ -23,4 +23,9 @@ public class CategoryController extends Controller {
         Category category = categoryService.add(categoryName);
         return ApiUtils.getOkResult(category);
     }
+
+    public Result getById(Long id) {
+        Category category = categoryService.getById(id);
+        return ApiUtils.getOkResult(category);
+    }
 }

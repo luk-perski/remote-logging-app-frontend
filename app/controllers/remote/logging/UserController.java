@@ -21,13 +21,18 @@ public class UserController extends Controller {
         return ApiUtils.getOkResult(userList);
     }
 
-    //todo
-//    public Result addUserToTeam(){
-//
-//    }
+    public Result addUserToTeam(Long userId, Long teamId) {
+        userService.addUserToTeam(userId, teamId);
+        return ok();
+    }
 
     public Result getById(Long id) {
         User user = userService.getById(id);
         return ApiUtils.getOkResult(user);
+    }
+
+    public Result getByTeamId(Long teamId) {
+        List<User> users = userService.getByTeamId(teamId);
+        return ApiUtils.getOkResult(users);
     }
 }

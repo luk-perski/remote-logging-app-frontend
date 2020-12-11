@@ -30,4 +30,8 @@ public class TeamService {
     public Team getById(Long id) {
         return teamRepository.getById(id);
     }
+
+    public List<Team> getByManagerId(Long id) {
+        return teamRepository.getByManagerId(id);
+    }
 }

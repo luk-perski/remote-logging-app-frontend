@@ -11,7 +11,6 @@ import models.db.remote.logging.Team;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import play.mvc.Http.Request;
 import utils.auth.oauth.models.OAuthUserInfo;
 
 import javax.persistence.*;
@@ -55,6 +54,7 @@ public class User extends Model {
 	private List<UserRole> roles;
 
 	@ManyToOne
+	@JoinColumn(name = "team_id")
 	private Team team;
 
 	private static final Finder<Long, User> finder = new Finder<Long, User>(User.class);

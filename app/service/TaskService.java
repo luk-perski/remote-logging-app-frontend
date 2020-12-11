@@ -63,4 +63,12 @@ public class TaskService {
     public Task getById(Long id) {
         return taskRepository.getById(id);
     }
+
+    public List<Task> getUserTasks(Long userId, int maxRows, int pageIndex) {
+        return taskRepository.getByAssigneeId(userId, maxRows, pageIndex);
+    }
+
+    public List<Task> getByProjectId(Long projectId) {
+        return taskRepository.getByProjectId(projectId, -1, -1);
+    }
 }

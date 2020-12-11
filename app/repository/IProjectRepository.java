@@ -12,4 +12,6 @@ public interface IProjectRepository {
     Project update(Project project);
 
     Project getById(Long projectId);
+
+    List<Project> getByManagerId(Long managerId);
 }

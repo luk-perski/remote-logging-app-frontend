@@ -34,4 +34,21 @@ public class TaskRepository implements ITaskRepository {
     public Task getById(Long id) {
         return finder.byId(id);
     }
+
+    //todo inspect why paged list not works
+    @Override
+    public List<Task> getByAssigneeId(Long userId, int maxRows, int page_index) {
+        return (userId == null) ? null :
+                finder.query()
+                        .where()
+                        .eq("assignee.id", userId).findList();
+    }
+
+    @Override
+    public List<Task> getByProjectId(Long projectId, int maxRows, int page_index) {
+        return (projectId == null) ? null :
+                finder.query()
+                        .where()
+                        .eq("project.id", projectId).findList();
+    }
 }

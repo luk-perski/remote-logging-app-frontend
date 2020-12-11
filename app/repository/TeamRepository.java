@@ -34,4 +34,12 @@ public class TeamRepository implements ITeamRepository {
     public Team getById(Long id) {
         return finder.byId(id);
     }
+
+    @Override
+    public List<Team> getByManagerId(Long id) {
+        return (id == null) ? null :
+                finder.query()
+                        .where()
+                        .eq("manager.id", id).findList();
+    }
 }
