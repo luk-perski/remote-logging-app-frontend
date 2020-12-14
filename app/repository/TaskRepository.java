@@ -2,6 +2,7 @@ package repository;
 
 import io.ebean.Finder;
 import models.db.remote.logging.Task;
+import utils.repository.FinderUtils;
 
 import javax.inject.Singleton;
 import java.util.List;
@@ -37,18 +38,18 @@ public class TaskRepository implements ITaskRepository {
 
     //todo inspect why paged list not works
     @Override
-    public List<Task> getByAssigneeId(Long userId, int maxRows, int page_index) {
-        return (userId == null) ? null :
-                finder.query()
-                        .where()
-                        .eq("assignee.id", userId).findList();
+    public List<Task> getByAssigneeId(Long userId) {
+        return FinderUtils.getObjects(finder, Task.class, userId, "assignee.id");
     }
 
     @Override
-    public List<Task> getByProjectId(Long projectId, int maxRows, int page_index) {
-        return (projectId == null) ? null :
-                finder.query()
-                        .where()
-                        .eq("project.id", projectId).findList();
+    public List<Task> getByProjectId(Long projectId) {
+        return FinderUtils.getObjects(finder, Task.class, projectId, "project.id");
     }
+
+    @Override
+    public List<Task> getByCategoryId(Long categoryId) {
+        return FinderUtils.getObjects(finder, Task.class, categoryId, "category.id");
+    }
+
 }

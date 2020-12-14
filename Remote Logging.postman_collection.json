@@ -25,6 +25,137 @@
 			"response": []
 		},
 		{
+			"name": "user/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{user}}/2",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{user}}",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user/team",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{user}}/team/1",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{user}}",
+						"team",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user/team",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{user}}/{{team}}?userId=3&teamId=1",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{user}}",
+						"{{team}}"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "3"
+						},
+						{
+							"key": "teamId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "team",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{team}}",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{team}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "team/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{team}}/1",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{team}}",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "team/manager",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{team}}/manager/1",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{team}}",
+						"manager",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "team",
 			"request": {
 				"method": "POST",
@@ -59,25 +190,6 @@
 			"response": []
 		},
 		{
-			"name": "team",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{team}}",
-					"host": [
-						"{{server_url}}"
-					],
-					"port": "{{port}}",
-					"path": [
-						"{{api_root}}",
-						"{{team}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "task",
 			"request": {
 				"method": "GET",
@@ -97,6 +209,99 @@
 			"response": []
 		},
 		{
+			"name": "task/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}/1",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{task}}",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "task/userId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}/{{user}}/2?maxRows=25&pageIndex=0",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{task}}",
+						"{{user}}",
+						"2"
+					],
+					"query": [
+						{
+							"key": "maxRows",
+							"value": "25"
+						},
+						{
+							"key": "pageIndex",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "task/project",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}/{{project}}/1",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{task}}",
+						"{{project}}",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "task/category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}/{{category}}/1",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{task}}",
+						"{{category}}",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "task",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
@@ -106,7 +311,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \n}",
+					"raw": "{\n  \"name\" : \"First task\",\n  \"priority\" : 2,\n  \"estimate\" : 86400000\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -114,7 +319,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}?creatorId=1&projectId=1",
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}?creatorId=1&projectId=1&assigneeId=2&categoryId=2",
 					"host": [
 						"{{server_url}}"
 					],
@@ -131,6 +336,14 @@
 						{
 							"key": "projectId",
 							"value": "1"
+						},
+						{
+							"key": "assigneeId",
+							"value": "2"
+						},
+						{
+							"key": "categoryId",
+							"value": "2"
 						}
 					]
 				}
@@ -143,7 +356,7 @@
 				"method": "PATCH",
 				"header": [],
 				"url": {
-					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}/{{logWork}}?taskId&time",
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}/{{logWork}}?taskId=1&time=353535887777777",
 					"host": [
 						"{{server_url}}"
 					],
@@ -156,11 +369,41 @@
 					"query": [
 						{
 							"key": "taskId",
-							"value": null
+							"value": "1"
 						},
 						{
 							"key": "time",
-							"value": null
+							"value": "353535887777777"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "task/category",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}/{{category}}?taskId=1&categoryId=1",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{task}}",
+						"{{category}}"
+					],
+					"query": [
+						{
+							"key": "taskId",
+							"value": "1"
+						},
+						{
+							"key": "categoryId",
+							"value": "1"
 						}
 					]
 				}
@@ -172,6 +415,15 @@
 			"request": {
 				"method": "PATCH",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\" : \"First task\",\n  \"id\" : 3,\n  \"priority\" : 1,\n  \"estimate\" : 100\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{task}}",
 					"host": [
@@ -252,6 +504,71 @@
 			"response": []
 		},
 		{
+			"name": "project/id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Project Name\",\n    \"isActive\" : true,\n    \"description\" : \"Description\",\n    \"startDate\" : \"2020-12-09T15:02Z\",\n    \"endDate\" : \"2020-12-11T15:02Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{project}}/2",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{project}}",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "project/manager",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Project Name\",\n    \"isActive\" : true,\n    \"description\" : \"Description\",\n    \"startDate\" : \"2020-12-09T15:02Z\",\n    \"endDate\" : \"2020-12-11T15:02Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{project}}/manager/1",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{project}}",
+						"manager",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "project",
 			"request": {
 				"method": "PATCH",
@@ -274,6 +591,103 @@
 					"path": [
 						"{{api_root}}",
 						"{{project}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "category",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\" : 1,\n    \"name\" : \"Project Name 2\",\n    \"isActive\" : false,\n    \"description\" : \"Description Updated\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{category}}",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{category}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "category/id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\" : 1,\n    \"name\" : \"Project Name 2\",\n    \"isActive\" : false,\n    \"description\" : \"Description Updated\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{category}}/2",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{category}}",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "category",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\" : 1,\n    \"name\" : \"Project Name 2\",\n    \"isActive\" : false,\n    \"description\" : \"Description Updated\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server_url}}:{{port}}/{{api_root}}/{{category}}?categoryName=Software Development",
+					"host": [
+						"{{server_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{api_root}}",
+						"{{category}}"
+					],
+					"query": [
+						{
+							"key": "categoryName",
+							"value": "Software Development"
+						}
 					]
 				}
 			},
@@ -304,44 +718,49 @@
 	],
 	"variable": [
 		{
-			"id": "e5ead3e2-7e8c-42c6-9eba-793385c0116a",
+			"id": "ae111b69-7f51-45d3-b1fc-1dd6559006a0",
 			"key": "task",
 			"value": "task"
 		},
 		{
-			"id": "2891be79-2337-4df7-821b-8515bcc8fd04",
+			"id": "1ec0945e-7b0e-404c-a4ac-eb442a8a6682",
 			"key": "server_url",
 			"value": "http://localhost"
 		},
 		{
-			"id": "aa94f722-a840-4213-b773-1f31348e945c",
+			"id": "22637388-4316-4a3e-aaa6-22c068041d91",
 			"key": "port",
 			"value": "9292"
 		},
 		{
-			"id": "27d2b4c4-fd5e-45e7-a23a-ae4e2f728959",
+			"id": "8260d169-a5f0-4a42-9c52-56e1f10b51f5",
 			"key": "api_root",
 			"value": "api/v1/remote-logging"
 		},
 		{
-			"id": "7d939bf4-31c6-4345-b8dc-6bc352550051",
+			"id": "3e65e344-ac1f-4aa4-91f9-22e5f8b6d4c4",
 			"key": "team",
 			"value": "team"
 		},
 		{
-			"id": "65bca9e1-f033-4614-b73e-c5b7a154e39e",
+			"id": "130efde0-d088-4e04-9442-1ffe9ed7aa62",
 			"key": "user",
 			"value": "user"
 		},
 		{
-			"id": "6dadefb1-a00b-4d22-83e0-b7df55985b29",
+			"id": "83b50c5f-0137-4603-bbe0-4ef53dc66d6d",
 			"key": "logWork",
 			"value": "log-work"
 		},
 		{
-			"id": "4db21ef2-467d-4ee0-bb0f-f9ef74f90cdd",
+			"id": "b071235d-5092-4af9-afed-93ea8647c403",
 			"key": "project",
 			"value": "project"
+		},
+		{
+			"id": "4a683d76-a6ba-4c30-9258-192720b8a2a2",
+			"key": "category",
+			"value": "category"
 		}
 	],
 	"protocolProfileBehavior": {}

@@ -46,6 +46,7 @@ public class TaskService {
         return taskRepository.add(task);
     }
 
+    //todo add setting category, project, assignee
     public Task update(Task task) {
         return taskRepository.update(task);
     }
@@ -64,11 +65,23 @@ public class TaskService {
         return taskRepository.getById(id);
     }
 
-    public List<Task> getUserTasks(Long userId, int maxRows, int pageIndex) {
-        return taskRepository.getByAssigneeId(userId, maxRows, pageIndex);
+    public List<Task> getUserTasks(Long userId) {
+        return taskRepository.getByAssigneeId(userId);
     }
 
     public List<Task> getByProjectId(Long projectId) {
-        return taskRepository.getByProjectId(projectId, -1, -1);
+        return taskRepository.getByProjectId(projectId);
+    }
+
+    public List<Task> getByCategoryId(Long categoryId) {
+        return taskRepository.getByCategoryId(categoryId);
+    }
+
+    public boolean addCategoryToTask(Long taskId, Long categoryId){
+        Task task = taskRepository.getById(taskId);
+        Category category = categoryRepository.getById(categoryId);
+        task.setCategory(category);
+        taskRepository.update(task);
+        return true;
     }
 }

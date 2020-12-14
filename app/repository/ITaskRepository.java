@@ -13,7 +13,11 @@ public interface ITaskRepository {
 
     Task getById(Long id);
 
-    List<Task> getByAssigneeId(Long userId, int maxRows, int page_index);
 
-    List<Task> getByProjectId(Long projectId, int maxRows, int page_index);
+    //todo inspect why paged list not works
+    List<Task> getByAssigneeId(Long userId);
+
+    List<Task> getByProjectId(Long projectId);
+
+    List<Task> getByCategoryId(Long categoryId);
 }

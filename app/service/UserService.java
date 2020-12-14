@@ -7,6 +7,7 @@ import repository.UserRepository;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Objects;
 
 
 public class UserService {
@@ -25,9 +26,12 @@ public class UserService {
     public Boolean addUserToTeam(Long userId, Long teamId) {
         User user = userRepository.getById(userId);
         Team team = teamRepository.getById(teamId);
-        user.setTeam(team);
-        userRepository.update(user);
-        return user.getTeam() != null;
+        if (!Objects.equals(userId, team.getManager().getID())) {
+            user.setTeam(team);
+            userRepository.update(user);
+            return user.getTeam() != null;
+        }
+        return null; //todo handle exception
     }
 
     public User getById(Long id) {

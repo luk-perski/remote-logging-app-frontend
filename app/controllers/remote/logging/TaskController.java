@@ -42,14 +42,24 @@ public class TaskController extends Controller {
         return ApiUtils.getOkResult(task);
     }
 
-    public Result getByAssigneeId(Long userId, int maxRows, int pageIndex) {
-        List<Task> userTasks = taskService.getUserTasks(userId, maxRows, pageIndex);
+    public Result getByAssigneeId(Long userId) {
+        List<Task> userTasks = taskService.getUserTasks(userId);
         return ApiUtils.getOkResult(userTasks);
     }
 
     public Result getByProjectId(Long projectId) {
         List<Task> tasks = taskService.getByProjectId(projectId);
         return ApiUtils.getOkResult(tasks);
+    }
+
+    public Result getByCategoryId(Long categoryId) {
+        List<Task> tasks = taskService.getByCategoryId(categoryId);
+        return ApiUtils.getOkResult(tasks);
+    }
+
+    public Result addCategoryToTask(Long taskId, Long categoryId){
+        taskService.addCategoryToTask(taskId, categoryId);
+        return ok();
     }
 }
 
