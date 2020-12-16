@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Remote Logging",
+  "name": "Remote Logging App",
   "icons": [
     {
       "src": "favicon.ico",
