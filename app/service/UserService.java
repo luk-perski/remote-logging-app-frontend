@@ -1,5 +1,6 @@
 package service;
 
+import models.api.ApiUser;
 import models.db.remote.logging.Team;
 import models.db.user.User;
 import repository.TeamRepository;
@@ -40,5 +41,25 @@ public class UserService {
 
     public List<User> getByTeamId(Long teamId) {
         return userRepository.getByTeamId(teamId);
+    }
+
+    public User add(ApiUser apiUser) {
+        User user = User.builder().name(apiUser.getName()).username(apiUser.getUsername())
+                .display_name(apiUser.getDisplayName()).email(apiUser.getEmail()).build();
+        user.setPassword(apiUser.getLocalPwd());
+        Team team = teamRepository.getById(apiUser.getTeamId());
+        user.setTeam(team);
+        return userRepository.add(user);
+    }
+
+    public Long singIn(String userName, String localPwd) {
+        Long result = -1L;
+        if (localPwd != null && !localPwd.isEmpty()) {
+            User user = userRepository.getByUserName(userName);
+            if (user.authenticate(localPwd)) {
+                result = user.getID();
+            }
+        }
+        return result;
     }
 }

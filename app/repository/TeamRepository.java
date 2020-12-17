@@ -32,7 +32,7 @@ public class TeamRepository implements ITeamRepository {
 
     @Override
     public Team getById(Long id) {
-        return finder.byId(id);
+        return id == null ? null : finder.byId(id);
     }
 
     @Override

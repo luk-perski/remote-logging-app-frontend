@@ -2,6 +2,7 @@ package repository;
 
 import io.ebean.Finder;
 import models.db.user.User;
+import utils.repository.FinderUtils;
 
 import javax.inject.Singleton;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 @Singleton
 public class UserRepository implements IUserRepository {
 
-    Finder<Integer, User> finder = new Finder<Integer, User>(User.class);
+    Finder<Long, User> finder = new Finder<>(User.class);
 
     @Override
     public List<User> getAll() {
@@ -37,9 +38,16 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public List<User> getByTeamId(Long id) {
-        return (id == null) ? null :
-                finder.query()
-                        .where()
-                        .eq("team.id", id).findList();
+        return FinderUtils.getObjects(finder, User.class, id, "team.id");
+    }
+
+    @Override
+    public User getByUserName(String userName) {
+        try {
+            return FinderUtils.getObjects(finder, User.class, userName, "username").get(0);
+        } catch (Exception e) {
+            //todo handle exeption
+        }
+        return null;
     }
 }

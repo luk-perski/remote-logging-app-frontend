@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.ebean.Finder;
 import io.ebean.Model;
 import io.ebean.annotation.Index;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import models.db.app.files.ResourceAssociatedFile;
 import models.db.app.files.ResourceAssociatedFileType;
 import models.db.remote.logging.Team;
@@ -17,9 +20,12 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "user_user")
-@JsonIgnoreProperties({ "_ebean_intercept" })
+@JsonIgnoreProperties({"_ebean_intercept"})
 public class User extends Model {
 
 	private static final Logger log = LoggerFactory.getLogger(User.class);
@@ -72,7 +78,7 @@ public class User extends Model {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param oauth_user_info
 	 * @return
 	 */
@@ -104,7 +110,7 @@ public class User extends Model {
 
 	/**
 	 * Set the new password for the user. The password will first be encrypted using BCrypt.
-	 * 
+	 *
 	 * @param new_password
 	 *            The password to be stored
 	 * @throws IllegalArgumentException
@@ -124,7 +130,7 @@ public class User extends Model {
 	/**
 	 * Authenticate user with local password. Authentication method using a local password field in the DB. The password digest (with BCrypt) is
 	 * stored in the DB
-	 * 
+	 *
 	 * @param password
 	 *            The password to test
 	 * @return true if correct, false if not
@@ -141,7 +147,7 @@ public class User extends Model {
 
 	/**
 	 * Get the list of roles that this user can have
-	 * 
+	 *
 	 * @return A list of roles that this user can change into
 	 */
 	@JsonIgnore
@@ -164,7 +170,7 @@ public class User extends Model {
 
 	/**
 	 * Get the default role to assign to the user. This is the first active role in the list of possible roles for the user
-	 * 
+	 *
 	 * @return The Role that is considered the default for the user. Null if the user has no assigned active roles
 	 */
 	@JsonIgnore
@@ -178,7 +184,7 @@ public class User extends Model {
 
 	/**
 	 * Check if the user can have a certain role assigned
-	 * 
+	 *
 	 * @param role
 	 *            The role to test
 	 * @return True if this role can be assigned to the user. False otherwise.

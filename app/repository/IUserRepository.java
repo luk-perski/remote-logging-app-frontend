@@ -14,4 +14,6 @@ public interface IUserRepository {
     User getById(Long id);
 
     List<User> getByTeamId(Long id);
+
+    User getByUserName(String userName);
 }

@@ -10,6 +10,8 @@ GET 	/                           controllers.ApplicationController.index(request
 GET         /api/v1/remote-logging/user                     controllers.remote.logging.UserController.getAll()
 GET         /api/v1/remote-logging/user/$id<[\-0-9]+>       controllers.remote.logging.UserController.getById(id: Long)
 GET         /api/v1/remote-logging/user/team/$teamId<[\-0-9]+>       controllers.remote.logging.UserController.getByTeamId(teamId: Long)
+POST        /api/v1/remote-logging/user                       controllers.remote.logging.UserController.add(request: Request)
+POST        /api/v1/remote-logging/user/signIn                       controllers.remote.logging.UserController.signIn(userName: String, localPwd: String)
 PATCH        /api/v1/remote-logging/user/team                       controllers.remote.logging.UserController.addUserToTeam(userId: Long, teamId: Long)
 #   team
 GET         /api/v1/remote-logging/team                      controllers.remote.logging.TeamController.getAll()
