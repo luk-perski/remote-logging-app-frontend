@@ -46,11 +46,11 @@ public class UserController extends Controller {
 
     //todo make it in more save way
     public Result signIn(String userName, String localPwd) {
-        Long userId = userService.singIn(userName, localPwd);
-        if (userId == -1L) {
-            return forbidden();
+        User user = userService.singIn(userName, localPwd);
+        if (user == null) {
+            return unauthorized();
         } else {
-            return ApiUtils.getOkResult(userId);
+            return ApiUtils.getOkResult(user);
         }
     }
 }

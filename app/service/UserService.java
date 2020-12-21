@@ -52,12 +52,12 @@ public class UserService {
         return userRepository.add(user);
     }
 
-    public Long singIn(String userName, String localPwd) {
-        Long result = -1L;
+    public User singIn(String userName, String localPwd) {
+        User result = null;
         if (localPwd != null && !localPwd.isEmpty()) {
             User user = userRepository.getByUserName(userName);
-            if (user.authenticate(localPwd)) {
-                result = user.getID();
+            if (user!= null && user.authenticate(localPwd)) {
+                result = user;
             }
         }
         return result;
