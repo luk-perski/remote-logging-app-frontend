@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tab, Tabs } from '@material-ui/core';
-import { faCalendarAlt, faFileAlt, faList, faProjectDiagram, faSignInAlt, faSignOutAlt, faTasks } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faDoorOpen, faFileAlt, faList, faProjectDiagram, faSignInAlt, faSignOutAlt, faTasks } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -21,6 +21,11 @@ export const options = [
         icon: faProjectDiagram,
         label: 'Projects',
         value: '/projects',
+    },
+    {
+        icon: faDoorOpen,
+        label: 'Login',
+        value: '/login',
     }
 ];
 

@@ -17,11 +17,8 @@ export const updateSessionUser = (user: any)=> ({
     user,
 });
 
-export const getSessionUser = (token: string)=> {
+export const getSessionUser = (sessionUser: JsonSchema.ModelsApiUser)=> {
     return async (dispatch: Dispatch)=> {
-        if(!token) {
-            return;
-        }
 
         dispatch({
             type: 'SET_LOADING_SESSION_USER',
@@ -52,18 +49,18 @@ export const changeSessionUserActiveRole = (roleId: number)=> {
     }
 };
 
-export const setToken = (token: string)=> {
-    return async (dispatch: Dispatch)=> {
-        dispatch({
-            type: 'SET_TOKEN',
-            token: token,
-        });
+// export const setToken = (token: string)=> {
+//     return async (dispatch: Dispatch)=> {
+//         dispatch({
+//             type: 'SET_TOKEN',
+//             token: token,
+//         });
 
-        const user = await usersApi.getSessionUser();
+//         const user = await usersApi.getSessionUser();
 
-        dispatch(updateSessionUser(user));
-    }
-};
+//         dispatch(updateSessionUser(user));
+//     }
+// };
 
 export const environments = {
     PRODUCTION: 'production',

@@ -4,7 +4,7 @@ import * as tasksApi from '../../api/tasks';
 export const setTasks = (tasks: JsonSchema.ModelApiTask[])=> ({
     type: 'SET_TASKS',
     tasks,
-});
+}); 
 
 
 export const getTasks = () => {
@@ -13,8 +13,8 @@ export const getTasks = () => {
             type: 'LOADING_TASKS',
         });
 
-        const reports = await tasksApi.getTasks();
+        const tasks = await tasksApi.getTasks();
 
-        dispatch(setTasks(reports));
+        dispatch(setTasks(tasks));
     }
 };

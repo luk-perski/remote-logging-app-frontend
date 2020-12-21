@@ -14,6 +14,8 @@ import { RootState } from './store/reducers';
 import { useMediaQuery, useTheme } from '@material-ui/core';
 import { AppTabs } from './components/AppTabs';
 import { Tasks } from './pages/Tasks';
+import { useEffect } from 'react';
+import { getSessionUser } from './store/actions/app';
 
 function App() {
     const dispatch = useDispatch();
@@ -21,23 +23,23 @@ function App() {
     const state = useSelector((state: RootState) => state);
     const token = cookie.get('token');
     const matches = useMediaQuery(theme.breakpoints.up('md'));
-    // const {
-    //     loadingSessionUser,
-    //     loadedSessionUser,
-    //     sessionUser
-    // }: {
-    //     loadingSessionUser: boolean,
-    //     loadedSessionUser: boolean,
-    //     sessionUser: any
-    // } = state.app;
+    const {
+        loadingSessionUser,
+        loadedSessionUser,
+        sessionUser
+    }: {
+        loadingSessionUser: boolean,
+        loadedSessionUser: boolean,
+        sessionUser: any
+    } = state.app;
 
-    // console.log(sessionUser, 'sessionUser');
+    console.log(sessionUser, 'sessionUser');
 
-    // useEffect(() => {
-    //     if (token && !loadedSessionUser && !loadingSessionUser) {
-    //         dispatch(getSessionUser(token));
-    //     }
-    // }, [token, dispatch, loadingSessionUser, loadedSessionUser]);
+    useEffect(() => {
+        if (!sessionUser && !loadedSessionUser && !loadingSessionUser) {
+            history.push('/login');
+        }
+    }, [loadingSessionUser, loadedSessionUser]);
 
     return (
         <div className="App iul-font bg-iscte-gray-alt">

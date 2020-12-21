@@ -9,6 +9,7 @@ export const apiInstance = axios.create({
 
 apiInstance.interceptors.response.use((response)=> response, (error)=> {
     if(error.response?.status === 401) {
+        console.log("hello there")
         // cookie.remove('token');
         history.push('/login');
     } else if(error.response?.status === 403) {
