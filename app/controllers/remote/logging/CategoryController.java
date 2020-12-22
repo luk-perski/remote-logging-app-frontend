@@ -1,5 +1,6 @@
 package controllers.remote.logging;
 
+import models.api.v1.ApiCategory;
 import models.db.remote.logging.Category;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -15,7 +16,7 @@ public class CategoryController extends Controller {
     CategoryService categoryService;
 
     public Result getAll() {
-        List<Category> categories = categoryService.getAll();
+        List<ApiCategory> categories = categoryService.getAll();
         return ApiUtils.getOkResult(categories);
     }
 

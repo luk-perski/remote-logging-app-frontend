@@ -2,7 +2,7 @@ package models.db.remote.logging;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.ebean.Model;
-import lombok.Data;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import models.db.user.User;
@@ -13,6 +13,7 @@ import java.util.Date;
 
 @Getter
 @Setter
+@Builder
 @Entity
 @Table(name = "remote_logging_project")
 

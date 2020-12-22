@@ -32,7 +32,7 @@ PATCH        /api/v1/remote-logging/task/category                  controllers.r
 GET         /api/v1/remote-logging/project                          controllers.remote.logging.ProjectController.getAll()
 GET         /api/v1/remote-logging/project/$id<[\-0-9]+>         controllers.remote.logging.ProjectController.getById(id: Long)
 GET         /api/v1/remote-logging/project/manager/$managerId<[\-0-9]+>           controllers.remote.logging.ProjectController.getByManagerId(managerId: Long)
-POST        /api/v1/remote-logging/project                    controllers.remote.logging.ProjectController.add(request: Request, managerId: Long)
+POST        /api/v1/remote-logging/project                    controllers.remote.logging.ProjectController.add(request: Request)
 PATCH       /api/v1/remote-logging/project                      controllers.remote.logging.ProjectController.update(request: Request)
 #   category
 POST        /api/v1/remote-logging/category                 controllers.remote.logging.CategoryController.add(categoryName: String)

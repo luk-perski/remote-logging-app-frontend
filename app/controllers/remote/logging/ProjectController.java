@@ -1,5 +1,6 @@
 package controllers.remote.logging;
 
+import models.api.v1.ApiProject;
 import models.db.remote.logging.Project;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -15,20 +16,20 @@ public class ProjectController extends Controller {
     @Inject
     ProjectService projectService;
 
-    public Result add(Http.Request request, Long managerId) {
-        Project project = ApiUtils.getObjectFromRequest(request, Project.class);
-        projectService.add(project, managerId);
+    public Result add(Http.Request request) {
+        ApiProject project = ApiUtils.getObjectFromRequest(request, ApiProject.class);
+        projectService.add(project);
         return ApiUtils.getOkResult(project);
     }
 
     public Result update(Http.Request request) {
-        Project project = ApiUtils.getObjectFromRequest(request, Project.class);
+        ApiProject project = ApiUtils.getObjectFromRequest(request, ApiProject.class);
         projectService.update(project);
         return ApiUtils.getOkResult(project);
     }
 
     public Result getAll() {
-        List<Project> projects = projectService.getAll();
+        List<ApiProject> projects = projectService.getAll();
         return ApiUtils.getOkResult(projects);
     }
 

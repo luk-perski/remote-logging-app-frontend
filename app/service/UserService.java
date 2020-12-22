@@ -1,6 +1,6 @@
 package service;
 
-import models.api.ApiUser;
+import models.api.v1.ApiUser;
 import models.db.remote.logging.Team;
 import models.db.user.User;
 import repository.TeamRepository;

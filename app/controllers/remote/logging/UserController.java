@@ -1,7 +1,7 @@
 package controllers.remote.logging;
 
 import com.google.inject.Inject;
-import models.api.ApiUser;
+import models.api.v1.ApiUser;
 import models.db.user.User;
 import play.mvc.Controller;
 import play.mvc.Http;
