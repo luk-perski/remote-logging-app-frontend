@@ -16,14 +16,17 @@ import java.util.Date;
 @Setter
 public class ApiTask {
     private Long id;
-    private ApiProject project;
+    private Long projectId;
+    private String projectName;
     private String name;
-    private ApiUser creator;
+    private Long creatorId;
+    private String creatorName;
     @JsonValue
     private TaskType taskType;
     @JsonValue
     private Priority priority;
-    private ApiUser assignee;
+    private Long assigneeId;
+    private String assigneeName;
     private ApiCategory category;
     @JsonFormat(pattern = Constant.DATE_FORMAT)
     private Date cratedDate;

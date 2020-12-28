@@ -1,17 +1,17 @@
 package service;
 
+import models.api.v1.ApiTask;
 import models.db.remote.logging.Category;
-import models.db.remote.logging.Project;
 import models.db.remote.logging.Task;
-import models.db.user.User;
 import repository.CategoryRepository;
 import repository.ProjectRepository;
 import repository.TaskRepository;
 import repository.UserRepository;
 
 import javax.inject.Inject;
-import java.util.Date;
 import java.util.List;
+
+import static utils.api.v1.ModelsUtils.*;
 
 public class TaskService {
 
@@ -33,22 +33,16 @@ public class TaskService {
         taskRepository.update(task);
     }
 
-    public Task add(Task task, Long creatorId, Long projectId, Long assigneeId, Long categoryId) {
-        User creator = userRepository.getById(creatorId);
-        User assignee = userRepository.getById(assigneeId);
-        Project project = projectRepository.getById(projectId);
-        Category category = categoryRepository.getById(categoryId);
-        task.setCreator(creator);
-        task.setAssignee(assigneeId != -1 ? assignee : null);
-        task.setProject(project);
-        task.setCategory(category);
-        task.setCratedDate(new Date());
-        return taskRepository.add(task);
+    public ApiTask add(ApiTask apiTask) {
+        Task task = getTaskFromApi(apiTask, userRepository, projectRepository, categoryRepository);
+        taskRepository.add(task);
+        return getApiTaskFromModel(task);
     }
 
     //todo add setting category, project, assignee
-    public Task update(Task task) {
-        return taskRepository.update(task);
+    public Boolean update(ApiTask apiTask) {
+        taskRepository.update(getTaskFromApi(apiTask, userRepository, projectRepository, categoryRepository));
+        return true;
     }
 
     public boolean logWork(Long taskId, Long time) {
@@ -57,31 +51,38 @@ public class TaskService {
         return true;
     }
 
-    public List<Task> getAll() {
-        return taskRepository.getAll();
+    public List<ApiTask> getAll() {
+        List<Task> taskList = taskRepository.getAll();
+        return getApiTasks(taskList);
     }
 
-    public Task getById(Long id) {
-        return taskRepository.getById(id);
+    public ApiTask getById(Long id) {
+        Task task = taskRepository.getById(id);
+        return getApiTaskFromModel(task);
     }
 
-    public List<Task> getUserTasks(Long userId) {
-        return taskRepository.getByAssigneeId(userId);
+    public List<ApiTask> getUserTasks(Long userId) {
+        List<Task> tasks = taskRepository.getByAssigneeId(userId);
+        return getApiTasks(tasks);
     }
 
-    public List<Task> getByProjectId(Long projectId) {
-        return taskRepository.getByProjectId(projectId);
+    public List<ApiTask> getByProjectId(Long projectId) {
+        List<Task> tasks = taskRepository.getByProjectId(projectId);
+        return getApiTasks(tasks);
     }
 
-    public List<Task> getByCategoryId(Long categoryId) {
-        return taskRepository.getByCategoryId(categoryId);
+    public List<ApiTask> getByCategoryId(Long categoryId) {
+        List<Task> tasks = taskRepository.getByCategoryId(categoryId);
+        return getApiTasks(tasks);
     }
 
-    public boolean addCategoryToTask(Long taskId, Long categoryId){
+    public boolean addCategoryToTask(Long taskId, Long categoryId) {
         Task task = taskRepository.getById(taskId);
         Category category = categoryRepository.getById(categoryId);
         task.setCategory(category);
         taskRepository.update(task);
         return true;
     }
+
+
 }

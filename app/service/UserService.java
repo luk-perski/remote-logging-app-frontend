@@ -5,6 +5,7 @@ import models.db.remote.logging.Team;
 import models.db.user.User;
 import repository.TeamRepository;
 import repository.UserRepository;
+import utils.api.v1.ModelsUtils;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -19,9 +20,7 @@ public class UserService {
     private TeamRepository teamRepository;
 
 
-    public List<User> getAll() {
-        return userRepository.getAll();
-    }
+
 
     //todo allow user belong to more that one team
     public Boolean addUserToTeam(Long userId, Long teamId) {
@@ -35,28 +34,35 @@ public class UserService {
         return null; //todo handle exception
     }
 
-    public User getById(Long id) {
-        return userRepository.getById(id);
+    public ApiUser getById(Long id) {
+        User user = userRepository.getById(id);
+        return ModelsUtils.getApiUserFromModel(user);
     }
 
-    public List<User> getByTeamId(Long teamId) {
-        return userRepository.getByTeamId(teamId);
+    public List<ApiUser> getByTeamId(Long teamId) {
+        List<User> users = userRepository.getByTeamId(teamId);
+        return ModelsUtils.getApiUserListFromModels(users);
     }
 
-    public User add(ApiUser apiUser) {
-        User user = User.builder().name(apiUser.getName()).username(apiUser.getUsername())
-                .display_name(apiUser.getDisplayName()).email(apiUser.getEmail()).build();
+    public ApiUser add(ApiUser apiUser) {
+        User user = ModelsUtils.getUserModelFromApiUser(apiUser, teamRepository);
         user.setPassword(apiUser.getLocalPwd());
         Team team = teamRepository.getById(apiUser.getTeamId());
         user.setTeam(team);
-        return userRepository.add(user);
+        userRepository.add(user);
+        return ModelsUtils.getApiUserFromModel(user);
+    }
+
+    public List<ApiUser> getAll() {
+        List<User> users = userRepository.getAll();
+        return ModelsUtils.getApiUserListFromModels(users);
     }
 
     public User singIn(String userName, String localPwd) {
         User result = null;
         if (localPwd != null && !localPwd.isEmpty()) {
             User user = userRepository.getByUserName(userName);
-            if (user!= null && user.authenticate(localPwd)) {
+            if (user != null && user.authenticate(localPwd)) {
                 result = user;
             }
         }

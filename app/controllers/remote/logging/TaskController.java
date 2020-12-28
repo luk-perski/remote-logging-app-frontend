@@ -1,6 +1,6 @@
 package controllers.remote.logging;
 
-import models.db.remote.logging.Task;
+import models.api.v1.ApiTask;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -15,14 +15,14 @@ public class TaskController extends Controller {
     @Inject
     TaskService taskService;
 
-    public Result add(Http.Request request, Long creatorId, Long projectId, Long assigneeId, Long categoryId) {
-        Task task = ApiUtils.getObjectFromRequest(request, Task.class);
-        taskService.add(task, creatorId, projectId, assigneeId, categoryId);
-        return ApiUtils.getOkResult(task);
+    public Result add(Http.Request request) {
+        ApiTask apiTask = ApiUtils.getObjectFromRequest(request, ApiTask.class);
+        apiTask = taskService.add(apiTask);
+        return ApiUtils.getOkResult(apiTask);
     }
 
     public Result update(Http.Request request) {
-        Task task = ApiUtils.getObjectFromRequest(request, Task.class);
+        ApiTask task = ApiUtils.getObjectFromRequest(request, ApiTask.class);
         taskService.update(task);
         return ApiUtils.getOkResult(task);
     }
@@ -33,27 +33,27 @@ public class TaskController extends Controller {
     }
 
     public Result getAll() {
-        List<Task> tasks = taskService.getAll();
+        List<ApiTask> tasks = taskService.getAll();
         return ApiUtils.getOkResult(tasks);
     }
 
     public Result getById(Long id) {
-        Task task = taskService.getById(id);
+        ApiTask task = taskService.getById(id);
         return ApiUtils.getOkResult(task);
     }
 
     public Result getByAssigneeId(Long userId) {
-        List<Task> userTasks = taskService.getUserTasks(userId);
+        List<ApiTask> userTasks = taskService.getUserTasks(userId);
         return ApiUtils.getOkResult(userTasks);
     }
 
     public Result getByProjectId(Long projectId) {
-        List<Task> tasks = taskService.getByProjectId(projectId);
+        List<ApiTask> tasks = taskService.getByProjectId(projectId);
         return ApiUtils.getOkResult(tasks);
     }
 
     public Result getByCategoryId(Long categoryId) {
-        List<Task> tasks = taskService.getByCategoryId(categoryId);
+        List<ApiTask> tasks = taskService.getByCategoryId(categoryId);
         return ApiUtils.getOkResult(tasks);
     }
 

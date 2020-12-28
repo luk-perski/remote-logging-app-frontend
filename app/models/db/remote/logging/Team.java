@@ -2,6 +2,7 @@ package models.db.remote.logging;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.ebean.Model;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import models.db.user.User;
@@ -13,6 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "remote_logging_team")
 public class Team extends Model {
 

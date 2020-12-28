@@ -11,7 +11,7 @@ import utils.api.ApiUtils;
 
 import java.util.List;
 
-
+//todo ask if Service should works with different versions of API
 public class UserController extends Controller {
 
 
@@ -19,7 +19,7 @@ public class UserController extends Controller {
     private UserService userService;
 
     public Result getAll() {
-        List<User> userList = userService.getAll();
+        List<ApiUser> userList = userService.getAll();
         return ApiUtils.getOkResult(userList);
     }
 
@@ -29,19 +29,19 @@ public class UserController extends Controller {
     }
 
     public Result getById(Long id) {
-        User user = userService.getById(id);
+        ApiUser user = userService.getById(id);
         return ApiUtils.getOkResult(user);
     }
 
     public Result getByTeamId(Long teamId) {
-        List<User> users = userService.getByTeamId(teamId);
+        List<ApiUser> users = userService.getByTeamId(teamId);
         return ApiUtils.getOkResult(users);
     }
 
     public Result add(Http.Request request) {
         ApiUser apiUser = ApiUtils.getObjectFromRequest(request, ApiUser.class);
-        User user = userService.add(apiUser);
-        return ApiUtils.getOkResult(user);
+        apiUser = userService.add(apiUser);
+        return ApiUtils.getOkResult(apiUser);
     }
 
     //todo make it in more save way

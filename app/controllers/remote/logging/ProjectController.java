@@ -1,7 +1,6 @@
 package controllers.remote.logging;
 
 import models.api.v1.ApiProject;
-import models.db.remote.logging.Project;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -34,12 +33,12 @@ public class ProjectController extends Controller {
     }
 
     public Result getById(Long id) {
-        Project project = projectService.getById(id);
+        ApiProject project = projectService.getById(id);
         return ApiUtils.getOkResult(project);
     }
 
     public Result getByManagerId(Long managerId) {
-        List<Project> projects = projectService.getByManagerId(managerId);
+        List<ApiProject> projects = projectService.getByManagerId(managerId);
         return ApiUtils.getOkResult(projects);
     }
 }

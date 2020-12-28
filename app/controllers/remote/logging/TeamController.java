@@ -1,6 +1,6 @@
 package controllers.remote.logging;
 
-import models.db.remote.logging.Team;
+import models.api.v1.ApiTeam;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -15,24 +15,24 @@ public class TeamController extends Controller {
     TeamService teamService;
 
     //todo handle null team
-    public Result add(Http.Request request, Long managerId) {
-        Team team = ApiUtils.getObjectFromRequest(request, Team.class);
-        teamService.add(team, managerId);
+    public Result add(Http.Request request) {
+        ApiTeam team = ApiUtils.getObjectFromRequest(request, ApiTeam.class);
+        teamService.add(team);
         return ApiUtils.getOkResult(team);
     }
 
     public Result getAll() {
-        List<Team> teamList = teamService.getAll();
+        List<ApiTeam> teamList = teamService.getAll();
         return ApiUtils.getOkResult(teamList);
     }
 
     public Result getById(Long id) {
-        Team team = teamService.getById(id);
+        ApiTeam team = teamService.getById(id);
         return ApiUtils.getOkResult(team);
     }
 
     public Result getByManagerId(Long managerId) {
-        List<Team> teams = teamService.getByManagerId(managerId);
+        List<ApiTeam> teams = teamService.getByManagerId(managerId);
         return ApiUtils.getOkResult(teams);
     }
 }
