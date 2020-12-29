@@ -67,7 +67,7 @@ public class ModelsUtils {
         User creator = userRepository.getById(apiTask.getCreatorId());
         User assignee = userRepository.getById(apiTask.getAssigneeId());
         Project project = projectRepository.getById(apiTask.getProjectId());
-        Category category = categoryRepository.getById(apiTask.getCreatorId());
+        Category category = categoryRepository.getById(apiTask.getCategory() != null ? apiTask.getCategory().getId() : null);
         return Task.builder()
                 .name(apiTask.getName())
                 .description(apiTask.getDescription())
@@ -85,8 +85,8 @@ public class ModelsUtils {
     public static ApiTask getApiTaskFromModel(Task task) {
         return ApiTask.builder()
                 .id(task.getId())
-                .assigneeId(task.getAssignee().getID())
-                .assigneeName(task.getAssignee().getName())
+                .assigneeId(task.getAssignee() != null ? task.getAssignee().getID() : null)
+                .assigneeName(task.getAssignee() != null ? task.getAssignee().getName() : null)
                 .cratedDate(task.getCratedDate())
                 .name(task.getName())
                 .priority(Priority.orderOf(task.getPriority()).orElse(null))
@@ -143,7 +143,7 @@ public class ModelsUtils {
                 .username(user.getUsername())
                 .displayName(user.getDisplayName())
                 .roles(user.getRoles())
-                .teamId(user.getTeam().getId())
+                .teamId(user.getTeam() != null ? user.getTeam().getId() : null)
                 .build();
     }
 

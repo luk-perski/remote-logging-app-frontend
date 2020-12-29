@@ -12,3 +12,4 @@ public class ApiTeam {
     String name;
     ApiUser manager;
 }
+//todo add field validation
