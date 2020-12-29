@@ -15,22 +15,26 @@ import static utils.api.v1.ModelsUtils.*;
 
 public class TaskService {
 
-    @Inject
-    TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
+
+    private final UserRepository userRepository;
+
+    private final ProjectRepository projectRepository;
+
+    private final CategoryRepository categoryRepository;
 
     @Inject
-    UserRepository userRepository;
+    public TaskService(TaskRepository taskRepository, UserRepository userRepository, ProjectRepository projectRepository, CategoryRepository categoryRepository) {
+        this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
+        this.projectRepository = projectRepository;
+        this.categoryRepository = categoryRepository;
+    }
 
-    @Inject
-    ProjectRepository projectRepository;
-
-    @Inject
-    CategoryRepository categoryRepository;
-
-    private void addTimeToTask(Task task, Long time) {
+    private Task addTimeToTask(Task task, Long time) {
         Long newTime = task.getTimeSpent() != null ? task.getTimeSpent() + time : time;
         task.setTimeSpent(newTime);
-        taskRepository.update(task);
+        return taskRepository.update(task);
     }
 
     public ApiTask add(ApiTask apiTask) {
@@ -45,10 +49,9 @@ public class TaskService {
         return true;
     }
 
-    public boolean logWork(Long taskId, Long time) {
+    public Task logWork(Long taskId, Long time) {
         Task task = taskRepository.getById(taskId);
-        addTimeToTask(task, time);
-        return true;
+        return addTimeToTask(task, time);
     }
 
     public List<ApiTask> getAll() {

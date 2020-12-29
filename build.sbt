@@ -30,6 +30,7 @@ libraryDependencies ++=Seq(
 	"org.julienrf" %% "play-jsmessages" % "4.0.0",
 	// Lombok
 	"org.projectlombok" % "lombok" % "1.16.20",
+  "org.mockito" % "mockito-core" % "2.10.0" % "test",
 	// Play-related
 	guice,
 	ehcache,
