@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 import { LoginRootState } from '../reducers/login';
+import * as userApi from "../../api/users";
 
 
 export const handleSetField = (field: string, value: string) => {
@@ -20,6 +21,15 @@ export const handleSetShowPassword = (showPassowrd: boolean) => (
         dispatch(setShowPassword(showPassowrd))
     }
 );
+
+
+
+export const signIn = (userName: string, localPwd: string) => {
+    return async (dispatch: Dispatch) => {
+        const user = await userApi.signIn(userName, localPwd);
+        //todo dispatch and save userData
+    }
+}
 
 
 export const setUserName = (value: string) => ({

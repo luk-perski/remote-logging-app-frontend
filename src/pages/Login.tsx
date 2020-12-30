@@ -20,7 +20,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Button } from '@material-ui/core';
 import { IconButton } from '@material-ui/core';
 import { LoginRootState } from '../store/reducers/login';
-import { handleSetField, handleSetShowPassword } from '../store/actions/login';
+import { handleSetField, handleSetShowPassword, signIn } from '../store/actions/login';
 
 export const Login = () => {
     // const history = useHistory();
@@ -45,10 +45,12 @@ export const Login = () => {
 
 
     const handleClickShowPassword = (showPassword: boolean) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            dispatch(handleSetShowPassword(showPassword));
+        dispatch(handleSetShowPassword(showPassword));
     };
-    
 
+    const handleLoginBtn = () => {
+        dispatch(signIn(login.username, login.password))
+    }
 
     return (
         <div className="mx-auto">
@@ -92,8 +94,11 @@ export const Login = () => {
                     />
                 </FormControl></div>
 
-            <div>
-                <Button variant="contained" color="primary">
+            <div className="flex items-center">
+                <Button 
+                variant="contained" 
+                color="primary"
+                onClickCapture={handleLoginBtn}>
                     Login
                 </Button>
             </div>

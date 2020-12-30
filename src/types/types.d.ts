@@ -65,4 +65,9 @@ declare namespace JsonSchema {
         manager?: ModelApiUser;
         createdDate?: string; //date-time
     }
+
+    export interface ModelApiSignInData {
+        userName?: string;
+        localPwd?: string
+    }
 }

@@ -9,3 +9,13 @@ export const getSessionUser = async ()=> {
 export const changeCurrentUserActiveRole = async (roleId: number)=> {
     return null;
 }
+
+export const signIn = async (userName: string, localPwd: string) => {
+    const data = {
+        userName: userName,
+        localPwd: localPwd}
+      console.log(data)
+    const response = await apiInstance.post('/v1/remote-logging/user/signIn', data);
+    console.log(response.data)
+    return response.data;
+}
