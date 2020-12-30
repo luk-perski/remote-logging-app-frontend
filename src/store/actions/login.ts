@@ -2,12 +2,24 @@ import { Dispatch } from 'redux';
 import { LoginRootState } from '../reducers/login';
 
 
-export const handleChange = (prop: keyof LoginRootState) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    //todo switch with prop
-    return async (dispatch: Dispatch) => {
-        dispatch(setUserName(event.target.value));
+export const handleSetField = (field: string, value: string) => {
+    switch (field) {
+        case 'username':
+            return async (dispatch: Dispatch) => {
+                dispatch(setUserName(value));
+            }
+        case 'password':
+            return async (dispatch: Dispatch) => {
+                dispatch(setPassword(value));
+            }
     }
 };
+
+export const handleSetShowPassword = (showPassowrd: boolean) => (
+    async (dispatch: Dispatch) => {
+        dispatch(setShowPassword(showPassowrd))
+    }
+);
 
 
 export const setUserName = (value: string) => ({
@@ -24,10 +36,3 @@ export const setShowPassword = (showPassword: boolean) => ({
     type: 'SHOW_PASSWORD',
     showPassword
 })
-
-
-export const handleClickShowPassword = (showPassword: boolean) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    return async (dispatch: Dispatch) => {
-        dispatch(setShowPassword(showPassword));
-    }
-};

@@ -20,30 +20,35 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Button } from '@material-ui/core';
 import { IconButton } from '@material-ui/core';
 import { LoginRootState } from '../store/reducers/login';
-import { handleChange, handleClickShowPassword } from '../store/actions/login';
+import { handleSetField, handleSetShowPassword } from '../store/actions/login';
 
 export const Login = () => {
-    const history = useHistory();
+    // const history = useHistory();
     const location = useLocation();
     const dispatch = useDispatch();
     const state = useSelector((state: RootState) => state);
+    const login = state.login
     const app = state.app;
     const params = queryString.parse(location.search);
-    const username = state.login.username
-    const password = state.login.password
-    const showPassword = state.login.showPassword
-
-    // const env = app.environment;
-    const lang = app.language;
+    const username = login.username
+    const password = login.password
+    const showPassword = login.showPassword
 
 
-    // const handleClickShowPassword = () => {
-    //     setValues({ ...values, showPassword: !values.showPassword });
-    // };
+    const handleChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(handleSetField(field, event.target.value));
+    };
 
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
+
+
+    const handleClickShowPassword = (showPassword: boolean) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            dispatch(handleSetShowPassword(showPassword));
+    };
+    
+
 
     return (
         <div className="mx-auto">
@@ -80,7 +85,7 @@ export const Login = () => {
                                     onClick={handleClickShowPassword(!showPassword)}
                                     onMouseDown={handleMouseDownPassword}
                                 >
-                                    {password ? < Visibility/> : <VisibilityOff />}
+                                    {password ? < Visibility /> : <VisibilityOff />}
                                 </IconButton>
                             </InputAdornment>
                         }
