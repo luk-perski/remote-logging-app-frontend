@@ -1,5 +1,6 @@
 package service;
 
+import models.api.v1.ApiSignInData;
 import models.api.v1.ApiUser;
 import models.db.remote.logging.Team;
 import models.db.user.User;
@@ -13,13 +14,16 @@ import java.util.Objects;
 
 
 public class UserService {
-    @Inject
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
+
+    private final TeamRepository teamRepository;
 
     @Inject
-    private TeamRepository teamRepository;
-
-
+    public UserService(UserRepository userRepository, TeamRepository teamRepository) {
+        this.userRepository = userRepository;
+        this.teamRepository = teamRepository;
+    }
 
 
     //todo allow user belong to more that one team
@@ -58,11 +62,11 @@ public class UserService {
         return ModelsUtils.getApiUserListFromModels(users);
     }
 
-    public User singIn(String userName, String localPwd) {
+    public User singIn(ApiSignInData signInData) {
         User result = null;
-        if (localPwd != null && !localPwd.isEmpty()) {
-            User user = userRepository.getByUserName(userName);
-            if (user != null && user.authenticate(localPwd)) {
+        if (signInData.getLocalPwd() != null && !signInData.getLocalPwd().isEmpty()) {
+            User user = userRepository.getByUserName(signInData.getUserName());
+            if (user != null && user.authenticate(signInData.getLocalPwd())) {
                 result = user;
             }
         }

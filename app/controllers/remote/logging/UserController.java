@@ -1,6 +1,7 @@
 package controllers.remote.logging;
 
 import com.google.inject.Inject;
+import models.api.v1.ApiSignInData;
 import models.api.v1.ApiUser;
 import models.db.user.User;
 import play.mvc.Controller;
@@ -45,8 +46,9 @@ public class UserController extends Controller {
     }
 
     //todo make it in more save way
-    public Result signIn(String userName, String localPwd) {
-        User user = userService.singIn(userName, localPwd);
+    public Result signIn(Http.Request request) {
+        ApiSignInData signInData = ApiUtils.getObjectFromRequest(request, ApiSignInData.class);
+        User user = userService.singIn(signInData);
         if (user == null) {
             return unauthorized();
         } else {
