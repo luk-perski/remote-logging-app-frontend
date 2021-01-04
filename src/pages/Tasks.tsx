@@ -72,10 +72,10 @@ export const Tasks = () => {
                                                 {task.name}
                                             </TableCell>
                                             <TableCell>
-                                                {task.project?.name}
+                                                {task.projectName}
                                             </TableCell>
                                             <TableCell>
-                                                {task.assignee?.name}
+                                                {task.assigneeName}
                                             </TableCell>
                                             <TableCell>
                                                 {dayjs(task.cratedDate).format('YYYY-MM-DD HH:mm:ss')}

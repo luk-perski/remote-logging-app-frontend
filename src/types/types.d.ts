@@ -1,11 +1,14 @@
 declare namespace JsonSchema {
     export interface ModelApiTask {
         id?: number;
-        project?: ModelApiProject;
+        projectId?: number;
+        projectName?: string; 
         name?: string;
-        creator?: ModelsApiUser;
-        priority?: number;
-        assignee?: ModelsApiUser;
+        creatorId?: number;
+        creatorName?: string;
+        priority?: string;
+        assigneeId?: number;
+        assigneeName?: string;
         category?: ModelApiCategory;
         cratedDate?: string; //date-time
         description?: string;
@@ -19,12 +22,11 @@ declare namespace JsonSchema {
     export interface ModelsApiUser {
         id?: string;
         name?: string;
-        display_name?: string;
+        displayName?: string;
         username?: string;
         email?: string;
-        local_pwd?: string;
-        roles?: ModelApiUserRole[];
-        team?: ModelApiTeam;
+        roles?: string[],
+        team?: string
     }
 
     export interface ModelApiCategory {

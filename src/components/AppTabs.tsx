@@ -22,11 +22,6 @@ export const options = [
         label: 'Projects',
         value: '/projects',
     },
-    {
-        icon: faDoorOpen,
-        label: 'Login',
-        value: '/login',
-    }
 ];
 
 export const AppTabs = () => {

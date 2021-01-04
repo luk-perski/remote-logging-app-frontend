@@ -17,5 +17,5 @@ export const signIn = async (userName: string, localPwd: string) => {
       console.log(data)
     const response = await apiInstance.post('/v1/remote-logging/user/signIn', data);
     console.log(response.data)
-    return response.data;
+    return [response.status, response.data];
 }
