@@ -5,6 +5,10 @@ export const pages = {
     tasks : {
         Component: Tasks,
         url: ()=> '/tasks'
+    },    
+    projects : {
+        Component: Tasks,
+        url: ()=> '/projects'
     },
     login: {
         Component: Login,

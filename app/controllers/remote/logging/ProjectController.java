@@ -15,6 +15,7 @@ public class ProjectController extends Controller {
     @Inject
     ProjectService projectService;
 
+    //todo check why in response id is null
     public Result add(Http.Request request) {
         ApiProject project = ApiUtils.getObjectFromRequest(request, ApiProject.class);
         projectService.add(project);

@@ -14,6 +14,7 @@ import { RootState } from './store/reducers';
 import { useMediaQuery, useTheme } from '@material-ui/core';
 import { AppTabs } from './components/AppTabs';
 import { Tasks } from './pages/Tasks';
+import { Projects } from './pages/Projects';
 import { useEffect } from 'react';
 import { getSessionUser } from './store/actions/app';
 import { USER_ID } from './utils/lockrKeys';
@@ -61,6 +62,9 @@ function App() {
                                             </Route>
                                             <Route exact path="/tasks">
                                                 <Tasks />
+                                            </Route>
+                                            <Route exact path="/projects">
+                                                < Projects/>
                                             </Route>
                                         </Switch>
                                     </>

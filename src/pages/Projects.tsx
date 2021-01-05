@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { CircularProgress, Link } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/reducers';
-import { getTasks } from '../store/actions/tasks';
 import { Typography } from '@material-ui/core';
 import { TableContainer } from '@material-ui/core';
 import { Table } from '@material-ui/core';
@@ -11,39 +10,40 @@ import { TableCell } from '@material-ui/core';
 import { TableBody } from '@material-ui/core';
 import { TableRow } from '@material-ui/core';
 import dayjs from 'dayjs';
+import { getProjects } from '../store/actions/projects';
 
 
-const TaskResultRow = (
-    {
-        task,
-        onClick,
-        onClose
-    }: {
-        task: JsonSchema.ModelApiTask,
-        onClick: () => void,
-        onClose: () => void
-    }
-) => {
-    return (<div>TaskResult</div>)
-};
+// const ProjectResultRow = (
+//     {
+//         project,
+//         onClick,
+//         onClose
+//     }: {
+//         task: JsonSchema.ModelApiProject,
+//         onClick: () => void,
+//         onClose: () => void
+//     }
+// ) => {
+//     return (<div>ProjectResult</div>)
+// };
 
 
-export const Tasks = () => {
+export const Projects = () => {
     const state = useSelector((state: RootState) => state);
     const dispatch = useDispatch();
-    const tasks = state.tasks;
-    const tasksList = tasks.tasksList;
-    const loadingTasks = tasks.loadingTasks;
+    const projects = state.projects;
+    const projectsList = projects.projectsList;
+    const loadingProjects = projects.loadingProjects;
 
     useEffect(() => {
-        dispatch(getTasks());
+        dispatch(getProjects());
     }, [dispatch]);
 
     return (
         <div className="p-6">
-            <Typography variant="h4" component="h4">Tasks</Typography>
+            <Typography variant="h4" component="h4">Projects</Typography>
             <div>
-                {loadingTasks || !tasksList ? (
+                {loadingProjects || !projectsList ? (
                     <div className="text-center">
                         <CircularProgress />
                     </div>
@@ -55,29 +55,35 @@ export const Tasks = () => {
                                         Name
                                         </TableCell>
                                     <TableCell>
-                                        Project
+                                        Manager Name
                                         </TableCell>
                                     <TableCell>
-                                        Assignee
+                                        Description
+                                        </TableCell>
+                                    <TableCell>
+                                        Active
                                         </TableCell>
                                     <TableCell>
                                         Created Date
                                         </TableCell>
                                 </TableHead>
                                 <TableBody>
-                                    {tasksList?.map((task: JsonSchema.ModelApiTask) => (
+                                    {projectsList?.map((project: JsonSchema.ModelApiProject) => (
                                         <TableRow>
                                             <TableCell>
-                                                {task.name}
+                                                {project.name}
                                             </TableCell>
                                             <TableCell>
-                                                {task.projectName}
+                                                {project.managerName}
                                             </TableCell>
                                             <TableCell>
-                                                {task.assigneeName}
+                                                {project.description}
                                             </TableCell>
                                             <TableCell>
-                                                {dayjs(task.cratedDate).format('YYYY-MM-DD HH:mm:ss')}
+                                                {project.isActive ? 'Active' : 'Inactive'}
+                                            </TableCell>
+                                            <TableCell>
+                                                {dayjs(project.createdDate).format('YYYY-MM-DD HH:mm:ss')}
                                             </TableCell>
                                         </TableRow>
                                     ))}

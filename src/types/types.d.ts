@@ -38,8 +38,9 @@ declare namespace JsonSchema {
     export interface ModelApiProject {
         id?: number;
         name?: string;
-        manager?: ModelsApiUser;
         isActive?: boolean;
+        managerId?: number;
+        managerName?: string;
         description?: string;
         createdDate?: string; //date-time
         startDate?: string;
