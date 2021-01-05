@@ -11,6 +11,7 @@ import { TableCell } from '@material-ui/core';
 import { TableBody } from '@material-ui/core';
 import { TableRow } from '@material-ui/core';
 import dayjs from 'dayjs';
+import { PageTitle } from '../components/PageTitle';
 
 
 const TaskResultRow = (
@@ -41,6 +42,7 @@ export const Tasks = () => {
 
     return (
         <div className="p-6">
+            <PageTitle title="Tasks" />
             <Typography variant="h4" component="h4">Tasks</Typography>
             <div>
                 {loadingTasks || !tasksList ? (

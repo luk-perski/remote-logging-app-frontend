@@ -18,6 +18,7 @@ import { Projects } from './pages/Projects';
 import { useEffect } from 'react';
 import { getSessionUser } from './store/actions/app';
 import { USER_ID } from './utils/lockrKeys';
+import { pages } from './utils/pages';
 
 function App() {
     const Lockr = require("lockr");
@@ -55,15 +56,15 @@ function App() {
                                         <Switch>
                                             <Route exact path="/">
                                             </Route>
-                                            <Route exact path="/logout">
+                                            <Route exact path={pages.login.url()}>
                                                 <Logout />
                                             </Route>
                                             <Route exact path={['/', '/calendar']}>
                                             </Route>
-                                            <Route exact path="/tasks">
+                                            <Route exact path= {pages.tasks.url()}>
                                                 <Tasks />
                                             </Route>
-                                            <Route exact path="/projects">
+                                            <Route exact path= {pages.projects.url()}>
                                                 < Projects/>
                                             </Route>
                                         </Switch>
