@@ -62,7 +62,10 @@ function App() {
                                             <Route exact path={['/', '/calendar']}>
                                             </Route>
                                             <Route exact path= {pages.tasks.url()}>
-                                                <Tasks />
+                                                <pages.tasks.Component />
+                                            </Route>
+                                            <Route exact path= {pages.taskDetails.url()}>
+                                                <pages.taskDetails.Component />
                                             </Route>
                                             <Route exact path= {pages.projects.url()}>
                                                 < Projects/>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CircularProgress, Link } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/reducers';
@@ -12,6 +12,8 @@ import { TableBody } from '@material-ui/core';
 import { TableRow } from '@material-ui/core';
 import dayjs from 'dayjs';
 import { PageTitle } from '../components/PageTitle';
+import { pages } from '../utils/pages';
+import { Redirect } from 'react-router-dom';
 
 
 const TaskResultRow = (
@@ -30,6 +32,8 @@ const TaskResultRow = (
 
 
 export const Tasks = () => {
+    const [redirect, setRedirect] = useState<number | undefined>(undefined);
+
     const state = useSelector((state: RootState) => state);
     const dispatch = useDispatch();
     const tasks = state.tasks;
@@ -39,6 +43,10 @@ export const Tasks = () => {
     useEffect(() => {
         dispatch(getTasks());
     }, [dispatch]);
+
+    if (redirect) {
+        return <Redirect push to={pages.taskDetails.url(redirect.toString())} />
+    }
 
     return (
         <div className="p-6">
@@ -68,8 +76,14 @@ export const Tasks = () => {
                                 </TableHead>
                                 <TableBody>
                                     {tasksList?.map((task: JsonSchema.ModelApiTask) => (
-                                        <TableRow>
-                                            <TableCell>
+                                        <TableRow
+                                            key={task.id}
+                                            hover={true}
+                                        // onClick={setRedirect(task.id)}
+                                        >
+                                            <TableCell 
+                                            onClick={() => setRedirect(task.id)}
+                                            >
                                                 {task.name}
                                             </TableCell>
                                             <TableCell>
