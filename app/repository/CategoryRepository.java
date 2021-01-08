@@ -24,6 +24,6 @@ public class CategoryRepository implements ICategoryRepository {
 
     @Override
     public Category getById(Long id) {
-        return finder.byId(id);
+        return id != null ? finder.byId(id) : null;
     }
 }

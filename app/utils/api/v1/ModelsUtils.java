@@ -67,8 +67,9 @@ public class ModelsUtils {
         User creator = userRepository.getById(apiTask.getCreatorId());
         User assignee = userRepository.getById(apiTask.getAssigneeId());
         Project project = projectRepository.getById(apiTask.getProjectId());
-        Category category = categoryRepository.getById(apiTask.getCategory() != null ? apiTask.getCategory().getId() : null);
+        Category category = apiTask.getCategory() != null ? categoryRepository.getById(apiTask.getCategory().getId()) : null;
         return Task.builder()
+                .id(apiTask.getId())
                 .name(apiTask.getName())
                 .description(apiTask.getDescription())
                 .assignee(assignee)
