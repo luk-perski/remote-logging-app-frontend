@@ -62,5 +62,10 @@ public class TaskController extends Controller {
         taskService.addCategoryToTask(taskId, categoryId);
         return ok();
     }
+
+    public Result assignTaskToUser (Long taskId, Long userId){
+        taskService.assignTaskToUser(taskId, userId);
+        return ok();
+    }
 }
 

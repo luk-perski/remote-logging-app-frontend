@@ -28,6 +28,7 @@ POST        /api/v1/remote-logging/task                          controllers.rem
 PATCH        /api/v1/remote-logging/task                          controllers.remote.logging.TaskController.update(request: Request)
 PATCH        /api/v1/remote-logging/task/log-work                  controllers.remote.logging.TaskController.logWork(taskId: Long, time: Long)
 PATCH        /api/v1/remote-logging/task/category                  controllers.remote.logging.TaskController.addCategoryToTask(taskId: Long, categoryId: Long)
+PATCH        /api/v1/remote-logging/task/assign                  controllers.remote.logging.TaskController.assignTaskToUser(taskId: Long, userId: Long)
 #   project
 GET         /api/v1/remote-logging/project                          controllers.remote.logging.ProjectController.getAll()
 GET         /api/v1/remote-logging/project/$id<[\-0-9]+>         controllers.remote.logging.ProjectController.getById(id: Long)

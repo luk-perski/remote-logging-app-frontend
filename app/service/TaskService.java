@@ -3,6 +3,7 @@ package service;
 import models.api.v1.ApiTask;
 import models.db.remote.logging.Category;
 import models.db.remote.logging.Task;
+import models.db.user.User;
 import repository.CategoryRepository;
 import repository.ProjectRepository;
 import repository.TaskRepository;
@@ -43,9 +44,11 @@ public class TaskService {
         return getApiTaskFromModel(task);
     }
 
-    //todo add setting category, project, assignee
+    //todo
     public Boolean update(ApiTask apiTask) {
-        taskRepository.update(getTaskFromApi(apiTask, userRepository, projectRepository, categoryRepository));
+        Task task = taskRepository.getById(apiTask.getId());
+        task.setDescription(apiTask.getDescription());
+        taskRepository.update(task);
         return true;
     }
 
@@ -87,5 +90,12 @@ public class TaskService {
         return true;
     }
 
+    public boolean assignTaskToUser(Long taskId, Long userId){
+        User user = userRepository.getById(userId);
+        Task task = taskRepository.getById(taskId);
+        task.setAssignee(user);
+        taskRepository.update(task);
+        return true;
+    }
 
 }

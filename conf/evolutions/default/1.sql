@@ -180,7 +180,7 @@ create table remote_logging_task (
   assignee_id                   bigint,
   category_id                   bigint,
   crated_date                   DATETIME DEFAULT NOW() not null,
-  description                   varchar(255),
+  description                   varchar(1000),
   estimate                      bigint,
   resolved_date                 datetime(6),
   time_spent                    bigint,

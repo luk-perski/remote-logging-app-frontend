@@ -39,6 +39,7 @@ public class Task extends Model {
     @JsonFormat(pattern = Constant.DATE_FORMAT)
     @Column(nullable = false, columnDefinition = "DATETIME DEFAULT NOW()")
     Date cratedDate;
+    @Column(length = 1000)
     String description;
     Long estimate;
     Date resolvedDate;
