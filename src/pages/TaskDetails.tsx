@@ -1,9 +1,12 @@
 import { CircularProgress } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { useTheme, useMediaQuery } from '@material-ui/core';
+import dayjs from 'dayjs';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { ITextField } from '../components/ITextField';
 import { PageTitle } from '../components/PageTitle';
 import { getTask } from '../store/actions/tasks';
 import { RootState } from '../store/reducers';
@@ -18,6 +21,7 @@ export const TaskDetails = () => {
     const dispatch = useDispatch();
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('md'));
+    const humanizeDuration = require("humanize-duration");
 
     const task = state.tasks.selectedTaskRequest;
     const loadingTaskRequest = state.tasks.loadingTaskRequest;
@@ -29,48 +33,80 @@ export const TaskDetails = () => {
 
     return (
         <>
-            <PageTitle title={`Task ${task?.name}`} />
+            <PageTitle title={`Task - ${task?.name}`} />
             {loadingTaskRequest ? (
                 <div className="ml-64 mt-6">
                     <CircularProgress />
                 </div>
             ) : (
                     <>
-                        <div className="p-6">
-                        <Typography variant="h4" component="h4">{task?.name}</Typography>
-                            <form
-                                className='validate-form mb-3'
-                                onSubmit={(event) => {
-                                    event.preventDefault()
-
-                                }}
-                            >
-                                <div className="row">
-                                    <label>Name</label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        value={task?.name}
-                                    // onChange={handleInputChange}
+                        <div className="flex-col">
+                            <Typography className="p-6" variant="h5">{task?.name}</Typography>
+                            <div className="flex flex-row flex-wrap">
+                                <div className="p-10">
+                                    <ITextField
+                                        labelText="Description"
+                                        value={task?.description}
+                                        maxRows={32}
+                                        fullWidth={true}
+                                        multiline={true}
+                                    />
+                                    <ITextField
+                                        labelText="Category"
+                                        value={task?.category?.name}
                                     />
                                 </div>
-                                <div className="row">
-                                    <label>Assignee</label>
-                                    <input
-                                        type="text"
-                                        name="username"
+                                <div className="p-10 flex flex-col">
+                                    <ITextField
+                                        labelText="Assignee"
                                         value={task?.assigneeName}
-                                    // onChange={handleInputChange}
                                     />
+                                    <ITextField
+                                        labelText="Reporter"
+                                        value={task?.creatorName}
+                                    />
+                                    <ITextField
+                                        labelText="Project"
+                                        value={task?.projectName}
+                                    />
+                                    <ITextField
+                                        labelText="Time spent"
+                                        value={task?.timeSpent ? String(humanizeDuration(task?.timeSpent)) : "No time logged"}
+                                    />
+                                    <ITextField
+                                        labelText="Estimate"
+                                        value={String(humanizeDuration(task?.estimate))}
+                                    />
+                                    <ITextField
+                                        labelText="Created date"
+                                        value={dayjs(task?.cratedDate).format('YYYY-MM-DD HH:mm:ss')}
+                                    />
+                                    {task?.resolverDate ? (
+                                        <ITextField
+                                            labelText="Resolved date"
+                                            value={dayjs(task?.resolverDate).format('YYYY-MM-DD HH:mm:ss')}
+                                        />) : (
+                                            <>
+                                                {task?.runStart ? (
+                                                    <ITextField
+                                                        labelText="Last start date"
+                                                        value={dayjs(task?.runStart).format('YYYY-MM-DD HH:mm:ss')} />
+                                                ) : null
+                                                }
+                                                {task?.runEnd ?
+                                                    (<ITextField
+                                                        labelText="Last end date"
+                                                        value={dayjs(task?.runEnd).format('YYYY-MM-DD HH:mm:ss')}
+                                                    />
+                                                    ) : null
+                                                }
+                                            </>
+                                        )
+                                    }
                                 </div>
-                                <div className="row">
-                                    <button>Log time</button>
-                                </div>
-
-                            </form>
+                            </div>
                         </div>
                     </>
-
                 )}
         </>
     )
