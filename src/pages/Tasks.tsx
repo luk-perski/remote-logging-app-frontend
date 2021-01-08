@@ -81,8 +81,8 @@ export const Tasks = () => {
                                             hover={true}
                                         // onClick={setRedirect(task.id)}
                                         >
-                                            <TableCell 
-                                            onClick={() => setRedirect(task.id)}
+                                            <TableCell
+                                                onClick={() => setRedirect(task.id)}
                                             >
                                                 {task.name}
                                             </TableCell>
