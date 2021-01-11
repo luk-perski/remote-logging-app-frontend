@@ -64,6 +64,16 @@ create table sys_job_description (
   constraint pk_sys_job_description primary key (id)
 );
 
+create table remote_logging_log_work (
+  id                            bigint auto_increment not null,
+  time_spend                    bigint not null,
+  comment                       varchar(1000),
+  task_id                       bigint not null,
+  user_id                       bigint not null,
+  crated_date                   DATETIME DEFAULT NOW() not null,
+  constraint pk_remote_logging_log_work primary key (id)
+);
+
 create table remote_logging_project (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
@@ -246,6 +256,12 @@ create index ix_log_user_log_instant on log_user_log (instant);
 create index ix_app_config_application_configuration_property_applicat_1 on app_config_application_configuration_property (application_configuration_id);
 alter table app_config_application_configuration_property add constraint fk_app_config_application_configuration_property_applicat_1 foreign key (application_configuration_id) references app_config_application_configuration (id) on delete restrict on update restrict;
 
+create index ix_remote_logging_log_work_task_id on remote_logging_log_work (task_id);
+alter table remote_logging_log_work add constraint fk_remote_logging_log_work_task_id foreign key (task_id) references remote_logging_task (id) on delete restrict on update restrict;
+
+create index ix_remote_logging_log_work_user_id on remote_logging_log_work (user_id);
+alter table remote_logging_log_work add constraint fk_remote_logging_log_work_user_id foreign key (user_id) references user_user (id) on delete restrict on update restrict;
+
 create index ix_remote_logging_project_manager_id on remote_logging_project (manager_id);
 alter table remote_logging_project add constraint fk_remote_logging_project_manager_id foreign key (manager_id) references user_user (id) on delete restrict on update restrict;
 
@@ -293,6 +309,12 @@ alter table user_user_role add constraint fk_user_user_role_role_id foreign key 
 
 alter table app_config_application_configuration_property drop foreign key fk_app_config_application_configuration_property_applicat_1;
 drop index ix_app_config_application_configuration_property_applicat_1 on app_config_application_configuration_property;
+
+alter table remote_logging_log_work drop foreign key fk_remote_logging_log_work_task_id;
+drop index ix_remote_logging_log_work_task_id on remote_logging_log_work;
+
+alter table remote_logging_log_work drop foreign key fk_remote_logging_log_work_user_id;
+drop index ix_remote_logging_log_work_user_id on remote_logging_log_work;
 
 alter table remote_logging_project drop foreign key fk_remote_logging_project_manager_id;
 drop index ix_remote_logging_project_manager_id on remote_logging_project;
@@ -345,6 +367,8 @@ drop table if exists log_application_log;
 drop table if exists remote_logging_category;
 
 drop table if exists sys_job_description;
+
+drop table if exists remote_logging_log_work;
 
 drop table if exists remote_logging_project;
 

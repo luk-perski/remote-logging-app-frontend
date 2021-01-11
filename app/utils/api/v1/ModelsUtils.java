@@ -3,20 +3,15 @@ package utils.api.v1;
 import enums.Priority;
 import enums.TaskType;
 import models.api.v1.*;
-import models.db.remote.logging.Category;
-import models.db.remote.logging.Project;
-import models.db.remote.logging.Task;
-import models.db.remote.logging.Team;
+import models.db.remote.logging.*;
 import models.db.user.User;
-import repository.CategoryRepository;
-import repository.ProjectRepository;
-import repository.TeamRepository;
-import repository.UserRepository;
+import repository.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+//todo remove and add https://mapstruct.org/ library
 public class ModelsUtils {
     public static List<ApiCategory> getApiCategories(List<Category> categories) {
         List<ApiCategory> result = new ArrayList<>();
@@ -168,5 +163,33 @@ public class ModelsUtils {
         return result;
     }
 
+    public static ApiLogWork getApiWorkLogFromModel(LogWork logWork) {
+        return ApiLogWork.builder()
+                .id(logWork.getId())
+                .comment(logWork.getComment())
+                .taskId(logWork.getTask().getId())
+                .taskName(logWork.getTask().getName())
+                .timeSpend(logWork.getTimeSpend())
+                .userDisplayName(logWork.getUser().getDisplayName())
+                .userId(logWork.getUser().getID())
+                .build();
+    }
 
+    public static LogWork getLogWorkModelFromApiLogWork(ApiLogWork apiLogWork, UserRepository userRepository, TaskRepository taskRepository) {
+        User user = userRepository.getById(apiLogWork.getUserId());
+        Task task = taskRepository.getById(apiLogWork.getTaskId());
+        return LogWork.builder()
+                .id(apiLogWork.getId())
+                .timeSpend(apiLogWork.getTimeSpend())
+                .comment(apiLogWork.getComment())
+                .task(task)
+                .user(user)
+                .build();
+    }
+
+    public static List<ApiLogWork> getApiWorkLogsListFromModels(List<LogWork> logWorks, UserRepository userRepository, TaskRepository taskRepository) {
+        List<ApiLogWork> result = new ArrayList<>();
+        logWorks.forEach(logWork -> result.add(getApiWorkLogFromModel(logWork)));
+        return result;
+    }
 }

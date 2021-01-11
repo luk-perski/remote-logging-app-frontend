@@ -26,7 +26,7 @@ GET        /api/v1/remote-logging/task/project/$projectId<[\-0-9]+>         cont
 GET        /api/v1/remote-logging/task/category/$categoryId<[\-0-9]+>         controllers.remote.logging.TaskController.getByCategoryId(categoryId: Long)
 POST        /api/v1/remote-logging/task                          controllers.remote.logging.TaskController.add(request: Request)
 PATCH        /api/v1/remote-logging/task                          controllers.remote.logging.TaskController.update(request: Request)
-PATCH        /api/v1/remote-logging/task/log-work                  controllers.remote.logging.TaskController.logWork(taskId: Long, time: Long)
+#PATCH        /api/v1/remote-logging/task/log-work                  controllers.remote.logging.TaskController.logWork(taskId: Long, time: Long)
 PATCH        /api/v1/remote-logging/task/category                  controllers.remote.logging.TaskController.addCategoryToTask(taskId: Long, categoryId: Long)
 PATCH        /api/v1/remote-logging/task/assign                  controllers.remote.logging.TaskController.assignTaskToUser(taskId: Long, userId: Long)
 #   project
@@ -39,3 +39,6 @@ PATCH       /api/v1/remote-logging/project                      controllers.remo
 POST        /api/v1/remote-logging/category                 controllers.remote.logging.CategoryController.add(categoryName: String)
 GET         /api/v1/remote-logging/category                 controllers.remote.logging.CategoryController.getAll()
 GET         /api/v1/remote-logging/category/$id<[\-0-9]+>     controllers.remote.logging.CategoryController.getById(id: Long)
+#log-work
+GET         /api/v1/remote-logging/log-work                    controllers.remote.logging.LogWorkController.getAll()
+POST         /api/v1/remote-logging/log-work                    controllers.remote.logging.LogWorkController.add(request: Request)
