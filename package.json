@@ -13,6 +13,7 @@
         "eject": "craco eject"
     },
     "dependencies": {
+        "@date-io/date-fns": "^2.10.6",
         "@date-io/dayjs": "^1.3.13",
         "@fortawesome/fontawesome-svg-core": "^1.2.30",
         "@fortawesome/free-solid-svg-icons": "^5.14.0",
@@ -26,6 +27,7 @@
         "@testing-library/user-event": "^7.2.1",
         "axios": "^0.20.0",
         "class-transformer": "^0.3.1",
+        "date-fns": "^2.16.1",
         "dayjs": "^1.8.36",
         "humanize-duration": "^3.25.1",
         "js-cookie": "^2.2.1",
@@ -40,6 +42,7 @@
         "react-redux": "^7.2.1",
         "react-router-dom": "^5.2.0",
         "react-scripts": "3.4.3",
+        "react-time-picker": "^4.1.2",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
         "typeorm": "^0.2.28"

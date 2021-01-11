@@ -1,12 +1,12 @@
 import React, { ReactNode } from 'react';
 import { Button, ButtonProps } from '@material-ui/core';
 
-export const IButton = ({ classes, children, ...props }: { classes?: any, children: ReactNode } & ButtonProps)=> (
+export const IButton = ({ classes, children, isSecondary, ...props }: { classes?: any, children: ReactNode, isSecondary?: boolean } & ButtonProps)=> (
 
     <Button
-        classes={{ ...classes, root: `capitalize font-bold text-center ${classes?.root || ''}` }}
+        classes={{ ...classes, root: `capitalize font-bold text-center m-2 ${classes?.root || ''}` }}
         variant="contained"
-        color="primary"
+        color={isSecondary? "secondary" : "primary"}
         {...props}
     >
         {children}
