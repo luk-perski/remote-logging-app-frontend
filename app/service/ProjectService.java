@@ -1,5 +1,6 @@
 package service;
 
+import com.google.protobuf.Api;
 import models.api.v1.ApiProject;
 import models.db.remote.logging.Project;
 import repository.ProjectRepository;
@@ -19,18 +20,18 @@ public class ProjectService {
     @Inject
     UserRepository userRepository;
 
-    public Project add(ApiProject apiProject) {
+    public ApiProject add(ApiProject apiProject) {
         Project project = getProjectFromApi(apiProject, userRepository);
         project.setCratedDate(new Date());
-        return projectRepository.add(project);
+        return getApiProjectFromProject(projectRepository.add(project));
     }
 
-    public Project update(ApiProject apiProject) {
+    public ApiProject update(ApiProject apiProject) {
         Project project = getProjectFromApi(apiProject, userRepository);
         if (apiProject.getEndDate() != null) {
             project.setEndDate(apiProject.getEndDate());
         }
-        return projectRepository.update(project);
+        return getApiProjectFromProject(projectRepository.update(project));
     }
 
     public List<ApiProject> getAll() {

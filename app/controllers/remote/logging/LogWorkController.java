@@ -17,7 +17,7 @@ public class LogWorkController extends Controller {
 
     public Result add(Http.Request request) {
         ApiLogWork apiLogWork = ApiUtils.getObjectFromRequest(request, ApiLogWork.class);
-        logWorkService.add(apiLogWork);
+        apiLogWork = logWorkService.add(apiLogWork);
         return ApiUtils.getOkResult(apiLogWork);
     }
 
