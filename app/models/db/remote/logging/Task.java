@@ -50,4 +50,5 @@ public class Task extends Model {
     Date runStart;
     Date runEnd;
     int taskType;
+    int taskStatus;
 }

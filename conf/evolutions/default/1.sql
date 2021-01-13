@@ -197,6 +197,7 @@ create table remote_logging_task (
   run_start                     datetime(6),
   run_end                       datetime(6),
   task_type                     integer not null,
+  task_status                   integer not null,
   constraint pk_remote_logging_task primary key (id)
 );
 

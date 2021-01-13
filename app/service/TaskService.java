@@ -1,5 +1,6 @@
 package service;
 
+import enums.TaskStatus;
 import models.api.v1.ApiTask;
 import models.db.remote.logging.Category;
 import models.db.remote.logging.Task;
@@ -32,14 +33,10 @@ public class TaskService {
         this.categoryRepository = categoryRepository;
     }
 
-    private Task addTimeToTask(Task task, Long time) {
-        Long newTime = task.getTimeSpent() != null ? task.getTimeSpent() + time : time;
-        task.setTimeSpent(newTime);
-        return taskRepository.update(task);
-    }
 
     public ApiTask add(ApiTask apiTask) {
         Task task = getTaskFromApi(apiTask, userRepository, projectRepository, categoryRepository);
+        task.setTaskStatus(TaskStatus.NEW.ordinal());
         taskRepository.add(task);
         return getApiTaskFromModel(task);
     }
@@ -50,11 +47,6 @@ public class TaskService {
         task.setDescription(apiTask.getDescription());
         taskRepository.update(task);
         return true;
-    }
-
-    public Task logWork(Long taskId, Long time) {
-        Task task = taskRepository.getById(taskId);
-        return addTimeToTask(task, time);
     }
 
     public List<ApiTask> getAll() {
@@ -90,11 +82,39 @@ public class TaskService {
         return true;
     }
 
-    public boolean assignTaskToUser(Long taskId, Long userId){
+    public boolean assignTaskToUser(Long taskId, Long userId) {
         User user = userRepository.getById(userId);
         Task task = taskRepository.getById(taskId);
         task.setAssignee(user);
         taskRepository.update(task);
+        return true;
+    }
+
+    //todo change to one method with case to change status
+    public boolean startProgress(Long taskId, Long userId) {
+        Task task = taskRepository.getById(taskId);
+        if (task.getAssignee() != null && !userId.equals(task.getAssignee().getID())) {
+            //todo throw exception
+            return false;
+        }
+        task.setTaskStatus(TaskStatus.IN_PROGRESS.ordinal());
+        taskRepository.update(task);
+        return true;
+    }
+
+    public boolean suspend(Long taskId, Long userId) {
+        Task task = taskRepository.getById(taskId);
+        if (task.getAssignee() != null && !userId.equals(task.getAssignee().getID())) {
+            //todo throw exception
+            return false;
+        }
+        if (task.getTaskStatus() != TaskStatus.IN_PROGRESS.ordinal()) {
+            //todo throw exception
+            return false;
+        }
+        task.setTaskStatus(TaskStatus.SUSPEND.ordinal());
+        taskRepository.update(task);
+
         return true;
     }
 

@@ -10,7 +10,6 @@ import utils.api.ApiUtils;
 import javax.inject.Inject;
 import java.util.List;
 
-//todo add assignee to task endpoint
 public class TaskController extends Controller {
 
     @Inject
@@ -26,11 +25,6 @@ public class TaskController extends Controller {
         ApiTask task = ApiUtils.getObjectFromRequest(request, ApiTask.class);
         taskService.update(task);
         return ApiUtils.getOkResult(task);
-    }
-
-    public Result logWork(Long taskId, Long time) {
-        taskService.logWork(taskId, time);
-        return ok();
     }
 
     public Result getAll() {
@@ -65,6 +59,16 @@ public class TaskController extends Controller {
 
     public Result assignTaskToUser (Long taskId, Long userId){
         taskService.assignTaskToUser(taskId, userId);
+        return ok();
+    }
+
+    public Result startProgress (Long taskId, Long userId){
+        taskService.startProgress(taskId, userId);
+        return ok();
+    }
+
+    public Result suspend (Long taskId, Long userId){
+        taskService.suspend(taskId, userId);
         return ok();
     }
 }

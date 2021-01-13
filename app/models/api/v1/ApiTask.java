@@ -2,6 +2,7 @@ package models.api.v1;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import enums.Priority;
+import enums.TaskStatus;
 import enums.TaskType;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class ApiTask {
     private Long creatorId;
     private String creatorName;
     private TaskType taskType;
+    private TaskStatus taskStatus;
     private Priority priority;
     private Long assigneeId;
     private String assigneeName;

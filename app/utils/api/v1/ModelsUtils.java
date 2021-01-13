@@ -1,6 +1,7 @@
 package utils.api.v1;
 
 import enums.Priority;
+import enums.TaskStatus;
 import enums.TaskType;
 import models.api.v1.*;
 import models.db.remote.logging.*;
@@ -75,6 +76,8 @@ public class ModelsUtils {
                 .project(project)
                 .creator(creator)
                 .cratedDate(new Date())
+                .taskType(apiTask.getTaskType() != null ? apiTask.getTaskType().ordinal() : -1)
+                .taskStatus(apiTask.getTaskStatus() != null ? apiTask.getTaskStatus().ordinal() : -1)
                 .build();
     }
 
@@ -90,6 +93,7 @@ public class ModelsUtils {
                 .creatorId(task.getCreator().getID())
                 .creatorName(task.getCreator().getDisplayName())
                 .taskType(TaskType.orderOf(task.getTaskType()).orElse(null))
+                .taskStatus(TaskStatus.orderOf(task.getTaskStatus()).orElse(null))
                 .category(ApiCategory.builder().id(task.getCategory().getId()).name(task.getCategory().getName()).build())
                 .estimate(task.getEstimate())
                 .projectName(task.getProject().getName())

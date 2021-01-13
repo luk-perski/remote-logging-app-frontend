@@ -12,7 +12,6 @@ import utils.api.ApiUtils;
 
 import java.util.List;
 
-//todo ask if Service should works with different versions of API
 public class UserController extends Controller {
 
 
