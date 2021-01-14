@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@JsonIgnoreProperties(value = "localPwd")
 public class ApiUser {
     private Long id;
     private String name;

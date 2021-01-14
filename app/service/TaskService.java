@@ -12,6 +12,7 @@ import repository.TaskRepository;
 import repository.UserRepository;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 import static utils.api.v1.ModelsUtils.*;
@@ -97,6 +98,7 @@ public class TaskService {
             //todo throw exception
         }
         task.setTaskStatus(TaskStatus.IN_PROGRESS.ordinal());
+        task.setRunStart(new Date());
         return getApiTaskFromModel(taskRepository.update(task));
     }
 
@@ -109,6 +111,7 @@ public class TaskService {
             //todo throw exception
         }
         task.setTaskStatus(TaskStatus.SUSPEND.ordinal());
+        task.setRunEnd(new Date());
         return getApiTaskFromModel(taskRepository.update(task));
     }
 
