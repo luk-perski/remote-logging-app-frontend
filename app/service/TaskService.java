@@ -1,5 +1,6 @@
 package service;
 
+import com.google.protobuf.Api;
 import enums.TaskStatus;
 import models.api.v1.ApiTask;
 import models.db.remote.logging.Category;
@@ -82,40 +83,33 @@ public class TaskService {
         return true;
     }
 
-    public boolean assignTaskToUser(Long taskId, Long userId) {
+    public ApiTask assignTaskToUser(Long taskId, Long userId) {
         User user = userRepository.getById(userId);
         Task task = taskRepository.getById(taskId);
         task.setAssignee(user);
-        taskRepository.update(task);
-        return true;
+        return getApiTaskFromModel(taskRepository.update(task));
     }
 
     //todo change to one method with case to change status
-    public boolean startProgress(Long taskId, Long userId) {
+    public ApiTask startProgress(Long taskId, Long userId) {
         Task task = taskRepository.getById(taskId);
         if (task.getAssignee() != null && !userId.equals(task.getAssignee().getID())) {
             //todo throw exception
-            return false;
         }
         task.setTaskStatus(TaskStatus.IN_PROGRESS.ordinal());
-        taskRepository.update(task);
-        return true;
+        return getApiTaskFromModel(taskRepository.update(task));
     }
 
-    public boolean suspend(Long taskId, Long userId) {
+    public ApiTask suspend(Long taskId, Long userId) {
         Task task = taskRepository.getById(taskId);
         if (task.getAssignee() != null && !userId.equals(task.getAssignee().getID())) {
             //todo throw exception
-            return false;
         }
         if (task.getTaskStatus() != TaskStatus.IN_PROGRESS.ordinal()) {
             //todo throw exception
-            return false;
         }
         task.setTaskStatus(TaskStatus.SUSPEND.ordinal());
-        taskRepository.update(task);
-
-        return true;
+        return getApiTaskFromModel(taskRepository.update(task));
     }
 
 }

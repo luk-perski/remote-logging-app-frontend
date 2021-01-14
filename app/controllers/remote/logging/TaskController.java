@@ -58,18 +58,18 @@ public class TaskController extends Controller {
     }
 
     public Result assignTaskToUser (Long taskId, Long userId){
-        taskService.assignTaskToUser(taskId, userId);
-        return ok();
+        ApiTask task = taskService.assignTaskToUser(taskId, userId);
+        return ApiUtils.getOkResult(task);
     }
 
-    public Result startProgress (Long taskId, Long userId){
-        taskService.startProgress(taskId, userId);
-        return ok();
+    public Result startProgress (Long taskId, Long userId) {
+        ApiTask apiTask = taskService.startProgress(taskId, userId);
+        return ApiUtils.getOkResult(apiTask);
     }
 
-    public Result suspend (Long taskId, Long userId){
-        taskService.suspend(taskId, userId);
-        return ok();
+    public Result suspend (Long taskId, Long userId) {
+        ApiTask apiTask = taskService.suspend(taskId, userId);
+        return ApiUtils.getOkResult(apiTask);
     }
 }
 
