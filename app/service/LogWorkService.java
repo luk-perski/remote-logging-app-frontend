@@ -1,6 +1,8 @@
 package service;
 
+import com.google.protobuf.Api;
 import models.api.v1.ApiLogWork;
+import models.api.v1.ApiLogWorkResult;
 import models.db.remote.logging.LogWork;
 import models.db.remote.logging.Task;
 import repository.LogWorkRepository;
@@ -28,13 +30,17 @@ public class LogWorkService {
         this.logWorkRepository = logWorkRepository;
     }
 
-    public ApiLogWork add(ApiLogWork apiLogWork) {
+    public ApiLogWorkResult add(ApiLogWork apiLogWork) {
         LogWork logWork = getLogWorkModelFromApiLogWork(apiLogWork, userRepository, taskRepository);
         logWork.setCratedDate(new Date());
         Task task = taskRepository.getById(apiLogWork.getTaskId());
         addTimeToTask(task, apiLogWork.getTimeSpend());
         taskRepository.update(task);
-        return getApiWorkLogFromModel(logWorkRepository.add(logWork));
+        logWorkRepository.add(logWork);
+        return ApiLogWorkResult.builder()
+                .logWork(getApiWorkLogFromModel(logWork))
+                .task(getApiTaskFromModel(task))
+                .build();
     }
 
     public List<ApiLogWork> getAll() {

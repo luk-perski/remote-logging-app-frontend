@@ -1,6 +1,7 @@
 package controllers.remote.logging;
 
 import models.api.v1.ApiLogWork;
+import models.api.v1.ApiLogWorkResult;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -17,8 +18,8 @@ public class LogWorkController extends Controller {
 
     public Result add(Http.Request request) {
         ApiLogWork apiLogWork = ApiUtils.getObjectFromRequest(request, ApiLogWork.class);
-        apiLogWork = logWorkService.add(apiLogWork);
-        return ApiUtils.getOkResult(apiLogWork);
+        ApiLogWorkResult result = logWorkService.add(apiLogWork);
+        return ApiUtils.getOkResult(result);
     }
 
     public Result getAll() {
