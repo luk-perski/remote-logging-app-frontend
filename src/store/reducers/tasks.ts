@@ -8,8 +8,9 @@ export interface TasksRootState {
     logWorkHours: number;
     logWorkMinutes: string;
     loadingAddLogWork: boolean;
-    openDialog: boolean;
-    taskStatus: string;
+    openLogDialog: boolean;
+    openAssignDialog: boolean;
+    userToAssignId: number;
 }
 
 export const tasks = (state: TasksRootState = {
@@ -22,8 +23,9 @@ export const tasks = (state: TasksRootState = {
     logWorkDays: 0,
     logWorkHours: 0,
     logWorkMinutes: "0",
-    openDialog: false,
-    taskStatus: ''
+    openLogDialog: false,
+    openAssignDialog: false,
+    userToAssignId: -1
 }, action: Record<string, any>) => {
     switch (action.type) {
         case 'LOADING_TASKS':
@@ -41,12 +43,15 @@ export const tasks = (state: TasksRootState = {
         case 'SET_LOG_HOURS':
             return { ...state, logWorkHours: action.value }
         case 'SET_LOG_MINUTES':
-            console.log(action.value)
             return { ...state, logWorkMinutes: action.value }
-        case 'OPEN_DIALOG':
-            return {...state, openDialog: action.value}
+        case 'SET_USER_TO_ASSIGN_ID':
+            return { ...state, userToAssignId: action.value }
+        case 'OPEN_LOG_DIALOG':
+            return { ...state, openLogDialog: action.value }
+        case 'OPEN_ASSIGN_DIALOG':
+            return { ...state, openAssignDialog: action.value }
         case 'SET_TASK_STATUS':
-            return {...state, taskStatus: action.status}
+            return { ...state, taskStatus: action.status }
         default:
             return state;
     }

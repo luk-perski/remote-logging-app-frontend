@@ -41,17 +41,17 @@ export const assign = (taskId: number, userId: number) => {
 
 export const startProgress = (taskId: number, userId: number) => {
     return async (dispatch: Dispatch) => {
-        const result = await tasksApi.startProgress(taskId, userId);
+        const task = await tasksApi.startProgress(taskId, userId);
 
-        dispatch(setTaskStatus(result.taskStatus))
+        dispatch(setTaskRequest(task));
     }
 }
 
 export const suspend = (taskId: number, userId: number) => {
     return async (dispatch: Dispatch) => {
-        const result = await tasksApi.suspend(taskId, userId);
+        const task = await tasksApi.suspend(taskId, userId);
 
-        dispatch(setTaskStatus(result.taskStatus))
+        dispatch(setTaskRequest(task));
     }
 }
 
@@ -69,6 +69,10 @@ export const handleSetDialogField = (field: string, value: string) => {
         case 'minutes':
             return async (dispatch: Dispatch) => {
                 dispatch(setMinutes(value));
+            }
+        case 'userToAssignId':
+            return async (dispatch: Dispatch) => {
+                dispatch(setUserToAssignId(value));
             }
     }
 }
@@ -88,8 +92,18 @@ export const setMinutes = (value: string) => ({
     value,
 });
 
-export const setOpenDialog = (value: boolean) => ({
-    type: 'OPEN_DIALOG',
+export const setUserToAssignId = (value: string) => ({
+    type: 'SET_USER_TO_ASSIGN_ID',
+    value,
+});
+
+export const setOpenLogDialog = (value: boolean) => ({
+    type: 'OPEN_LOG_DIALOG',
+    value
+})
+
+export const setOpenAssignDialog = (value: boolean) => ({
+    type: 'OPEN_ASSIGN_DIALOG',
     value
 })
 

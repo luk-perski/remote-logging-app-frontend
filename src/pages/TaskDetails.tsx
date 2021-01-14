@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import { IButton } from '../components/IButton';
 import { ITextField } from '../components/ITextField';
 import { PageTitle } from '../components/PageTitle';
-import { getTask, handleSetDialogField, setOpenDialog, assign, startProgress, suspend } from '../store/actions/tasks';
+import { getTask, handleSetDialogField, setOpenLogDialog as setOpenLogDialog, assign, startProgress, suspend, setOpenAssignDialog } from '../store/actions/tasks';
 import { RootState } from '../store/reducers';
 import { ITextInput } from '../components/ITextInput';
 import { USER_ID } from '../utils/lockrKeys';
@@ -36,33 +36,45 @@ export const TaskDetails = () => {
     const days = tasks.logWorkDays;
     const hours = tasks.logWorkHours;
     const minutes = tasks.logWorkMinutes;
-    const status = tasks.taskStatus;
+    const userToAssignId = tasks.userToAssignId;
 
     if (!loadingTaskRequest && (!task || task.id !== taskId)) {
         dispatch(getTask(taskId));
     }
 
     // const [open, setOpen] = React.useState(false);
-    const open = tasks.openDialog
-
+    const openLogDialog = tasks.openLogDialog;
+    const openAssignDialog = tasks.openAssignDialog;
 
     const handleClickLogDialogOpen = () => {
-        console.log('from class: ' + hours);
-        console.log('from state: ' + state.tasks.logWorkHours)
-
-        dispatch(setOpenDialog(true));
+        dispatch(setOpenLogDialog(true));
     };
 
-    const handleClose = () => {
-        dispatch(setOpenDialog(false));
+    const handleCloseLogDialog = () => {
+        dispatch(setOpenLogDialog(false));
     };
 
 
-    const handleSubmit = () => {
-        dispatch(setOpenDialog(false));
+    const handleSubmitLogDialog = () => {
+        dispatch(setOpenLogDialog(false));
     };
 
-    // ask if I need use there dispatch()
+    const handleClickAssignDialogOpen = () => {
+        dispatch(setOpenAssignDialog(true));
+    };
+
+    const handleCloseAssignDialog = () => {
+        dispatch(setOpenAssignDialog(false));
+    };
+
+
+    const handleSubmitAssignDialog = () => {
+        dispatch(setOpenAssignDialog(false));
+
+        dispatch(assign(taskId, userToAssignId));
+    };
+
+    // ask why I need use there dispatch()
     const handleDialogFieldChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(handleSetDialogField(field, event.target.value));
     };
@@ -80,7 +92,6 @@ export const TaskDetails = () => {
         dispatch(suspend(taskId, userId));
     }
 
-
     return (
         <>
             <PageTitle title={`Task - ${task?.name}`} />
@@ -93,14 +104,15 @@ export const TaskDetails = () => {
                         <div className="flex-col p-6">
                             <div className="flex">
                                 <Typography variant="h5">{task?.name}</Typography>
-                                <Typography className={"m-1"} variant="button">{status}</Typography>
+                                <Typography className={"m-1"} variant="button">{task?.taskStatus}</Typography>
                             </div>
                             <div className="py-3">
+                                <IButton onClick={handleClickAssignDialogOpen}>Assign</IButton>
                                 <IButton onClick={handleClickLogDialogOpen}>Log work</IButton>
                                 {userId === task?.assigneeId ?
                                     <>
                                         {/* ask why I have logs after login, TabsBar, App in cosole after click buttons */}
-                                        {status === "NEW" || status === "SUSPEND" ?
+                                        {task?.taskStatus === "NEW" || task?.taskStatus === "SUSPEND" ?
                                             <IButton onClick={handleStartProgress}>Start progress</IButton>
                                             : <IButton onClick={handleSupspend} isSecondary={true}>Supspend</IButton>}
                                     </>
@@ -178,8 +190,9 @@ export const TaskDetails = () => {
                                 </div>
                             </div>
                         </div>
-                        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                            <DialogTitle id="form-dialog-title">Log work</DialogTitle>
+                        {/* todo extract this to component */}
+                        <Dialog open={openLogDialog} onClose={handleCloseLogDialog} aria-labelledby="form-dialog-title">
+                            <DialogTitle id="form-dialog-log-work">Log work</DialogTitle>
                             <DialogContent>
                                 <DialogContentText>
                                     Log time to task {task?.name}:
@@ -218,11 +231,45 @@ export const TaskDetails = () => {
                                 </MuiPickersUtilsProvider> */}
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={handleClose} color="primary">
+                                <Button onClick={handleCloseLogDialog} color="primary">
                                     Cancel
                                 </Button>
-                                <Button onClick={handleSubmit} color="primary">
+                                <Button onClick={handleSubmitLogDialog} color="primary">
                                     Submit
+                              </Button>
+                            </DialogActions>
+                        </Dialog>
+                        {/* todo extract this to component */}
+                        <Dialog open={openAssignDialog} onClose={handleCloseAssignDialog} aria-labelledby="form-dialog-title">
+                            <DialogTitle id="form-dialog-assign">Assign to task</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                    Assign person to {task?.name}:
+                               </DialogContentText>
+                                {/* todo change to chose user from team */}
+                                <div className="flex flex-col w-1/3 m-auto">
+                                    <ITextInput
+                                        className={"m-1"}
+                                        labelText="Choose person"
+                                        type="number"
+                                        value={userToAssignId > -1? userToAssignId : undefined}
+                                        onChange={handleDialogFieldChange("userToAssignId")}
+                                    />
+                                </div>
+
+                                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <TimePicker
+                                    onChange={void 0}
+                                    value={value}
+                                />
+                                </MuiPickersUtilsProvider> */}
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleCloseAssignDialog} color="primary">
+                                    Cancel
+                                </Button>
+                                <Button onClick={handleSubmitAssignDialog} color="primary">
+                                    Assign
                               </Button>
                             </DialogActions>
                         </Dialog>
