@@ -17,7 +17,7 @@ declare namespace JsonSchema {
         resolverDate?: string;
         runStart?: string;
         runEnd?: string;
-
+        taskStatus?: string
     }
     export interface ModelsApiUser {
         id?: string;
@@ -71,6 +71,16 @@ declare namespace JsonSchema {
 
     export interface ModelApiSignInData {
         userName?: string;
-        localPwd?: string
+        localPwd?: string;
+    }
+
+    export interface ModelApiLogWork {
+        id?: number;
+        timeSpend?: number;
+        comment?: string;
+        taskId?: number;
+        taskName?: string;
+        userId?: number;
+        userDisplayName?: string;
     }
 }

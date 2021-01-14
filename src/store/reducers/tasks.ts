@@ -1,15 +1,29 @@
 export interface TasksRootState {
-    loadingTasks: boolean,
-    tasksList: JsonSchema.ModelApiTask[] | null,
-    selectedTaskRequest: JsonSchema.ModelApiTask | null,
-    loadingTaskRequest: boolean,
+    loadingTasks: boolean;
+    tasksList: JsonSchema.ModelApiTask[] | null;
+    selectedTaskRequest: JsonSchema.ModelApiTask | null;
+    loadingTaskRequest: boolean;
+    logWorkToAdd?: JsonSchema.ModelApiLogWork | null;
+    logWorkDays: number;
+    logWorkHours: number;
+    logWorkMinutes: string;
+    loadingAddLogWork: boolean;
+    openDialog: boolean;
+    taskStatus: string;
 }
 
 export const tasks = (state: TasksRootState = {
     loadingTasks: false,
     tasksList: null,
     selectedTaskRequest: null,
-    loadingTaskRequest: false
+    loadingTaskRequest: false,
+    logWorkToAdd: null,
+    loadingAddLogWork: false,
+    logWorkDays: 0,
+    logWorkHours: 0,
+    logWorkMinutes: "0",
+    openDialog: false,
+    taskStatus: ''
 }, action: Record<string, any>) => {
     switch (action.type) {
         case 'LOADING_TASKS':
@@ -17,9 +31,22 @@ export const tasks = (state: TasksRootState = {
         case 'LOADING_TASK_REQUEST':
             return { ...state, loadingTaskRequest: true };
         case 'SET_TASKS':
-            return { state, tasksList: action.tasks, loadingTasks: false };
+            return { ...state, tasksList: action.tasks, loadingTasks: false };
         case 'SET_TASK_REQUEST':
-            return {state, selectedTaskRequest: action.task, loadingTaskRequest: false};
+            return { ...state, selectedTaskRequest: action.task, loadingTaskRequest: false };
+        case 'LOADING_ADD_LOG':
+            return { ...state, loadingAddLogWork: action.value };
+        case 'SET_LOG_DAYS':
+            return { ...state, logWorkDays: action.value }
+        case 'SET_LOG_HOURS':
+            return { ...state, logWorkHours: action.value }
+        case 'SET_LOG_MINUTES':
+            console.log(action.value)
+            return { ...state, logWorkMinutes: action.value }
+        case 'OPEN_DIALOG':
+            return {...state, openDialog: action.value}
+        case 'SET_TASK_STATUS':
+            return {...state, taskStatus: action.status}
         default:
             return state;
     }

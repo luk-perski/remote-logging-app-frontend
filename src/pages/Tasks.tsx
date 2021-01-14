@@ -45,6 +45,7 @@ export const Tasks = () => {
     }, [dispatch]);
 
     if (redirect) {
+        console.log(state);
         return <Redirect push to={pages.taskDetails.url(redirect.toString())} />
     }
 
@@ -62,7 +63,13 @@ export const Tasks = () => {
                             <Table>
                                 <TableHead>
                                     <TableCell>
+                                        ID
+                                        </TableCell>
+                                    <TableCell>
                                         Name
+                                        </TableCell>
+                                    <TableCell>
+                                        Status
                                         </TableCell>
                                     <TableCell>
                                         Project
@@ -81,9 +88,14 @@ export const Tasks = () => {
                                             hover={true}
                                             onClick={() => setRedirect(task.id)}
                                         >
-                                            <TableCell
-                                            >
+                                            <TableCell>
+                                                {task.id}
+                                            </TableCell>
+                                            <TableCell>
                                                 {task.name}
+                                            </TableCell>
+                                            <TableCell>
+                                                {task.taskStatus}
                                             </TableCell>
                                             <TableCell>
                                                 {task.projectName}

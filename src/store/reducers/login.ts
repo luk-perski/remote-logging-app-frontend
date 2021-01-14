@@ -3,7 +3,7 @@ export interface LoginRootState {
     password: string;
     showPassword: boolean;
     user: JsonSchema.ModelsApiUser | null
-}
+};
 
 export const login = (state: LoginRootState = {
     username: '',

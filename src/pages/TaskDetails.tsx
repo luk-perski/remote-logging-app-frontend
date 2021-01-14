@@ -1,57 +1,85 @@
-import { CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, Input, InputLabel, TextField } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { useTheme, useMediaQuery } from '@material-ui/core';
-import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers';
 import dayjs from 'dayjs';
 import React from 'react';
-import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { IButton } from '../components/IButton';
 import { ITextField } from '../components/ITextField';
 import { PageTitle } from '../components/PageTitle';
-import { getTask } from '../store/actions/tasks';
+import { getTask, handleSetDialogField, setOpenDialog, assign, startProgress, suspend } from '../store/actions/tasks';
 import { RootState } from '../store/reducers';
-import DateFnsUtils from '@date-io/date-fns';
 import { ITextInput } from '../components/ITextInput';
+import { USER_ID } from '../utils/lockrKeys';
 
 interface RouteParams {
     taskId: string
 }
 
 export const TaskDetails = () => {
-    const state = useSelector((state: RootState) => state);
-    const params = useParams<RouteParams>();
     const dispatch = useDispatch();
+    const params = useParams<RouteParams>();
+    const state = useSelector((state: RootState) => state);
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('md'));
     const humanizeDuration = require("humanize-duration");
+    const Lockr = require("lockr");
 
-    const task = state.tasks.selectedTaskRequest;
-    const loadingTaskRequest = state.tasks.loadingTaskRequest;
+    const tasks = state.tasks
+    const userId = Lockr.get(USER_ID)     //change it!!!
+    const task = tasks.selectedTaskRequest;
+    const loadingTaskRequest = tasks.loadingTaskRequest;
     const taskId = Number(params.taskId)
+    const logWork = tasks.logWorkToAdd;
+    const days = tasks.logWorkDays;
+    const hours = tasks.logWorkHours;
+    const minutes = tasks.logWorkMinutes;
+    const status = tasks.taskStatus;
 
     if (!loadingTaskRequest && (!task || task.id !== taskId)) {
-        dispatch(getTask(state, taskId));
+        dispatch(getTask(taskId));
     }
 
-    //todo add to TaskDetailsState
-    const [open, setOpen] = useState(false);
-    // const [value, onChange] = useState(new Date(Date.now()));
+    // const [open, setOpen] = React.useState(false);
+    const open = tasks.openDialog
 
-    const handleClickOpen = () => {
-        setOpen(true);
+
+    const handleClickLogDialogOpen = () => {
+        console.log('from class: ' + hours);
+        console.log('from state: ' + state.tasks.logWorkHours)
+
+        dispatch(setOpenDialog(true));
     };
 
     const handleClose = () => {
-        setOpen(false);
+        dispatch(setOpenDialog(false));
     };
 
 
     const handleSubmit = () => {
-        setOpen(false);
+        dispatch(setOpenDialog(false));
     };
+
+    // ask if I need use there dispatch()
+    const handleDialogFieldChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(handleSetDialogField(field, event.target.value));
+    };
+
+    const handleAssign = () => {
+        assign(taskId, 4)
+    }
+
+    //todo ask Artur why I need here dispatch 
+    const handleStartProgress = () => {
+        dispatch(startProgress(taskId, userId));
+    }
+
+    const handleSupspend = () => {
+        dispatch(suspend(taskId, userId));
+    }
+
 
     return (
         <>
@@ -63,11 +91,20 @@ export const TaskDetails = () => {
             ) : (
                     <>
                         <div className="flex-col p-6">
-                            <Typography className="" variant="h5">{task?.name}</Typography>
+                            <div className="flex">
+                                <Typography variant="h5">{task?.name}</Typography>
+                                <Typography className={"m-1"} variant="button">{status}</Typography>
+                            </div>
                             <div className="py-3">
-                                <IButton onClick={handleClickOpen}>Log work</IButton>
-                                <IButton onClick={() => { alert('clicked') }}>Start progress</IButton>
-                                <IButton onClick={() => { alert('clicked') }} isSecondary={true}>Stop progress</IButton>
+                                <IButton onClick={handleClickLogDialogOpen}>Log work</IButton>
+                                {userId === task?.assigneeId ?
+                                    <>
+                                        {/* ask why I have logs after login, TabsBar, App in cosole after click buttons */}
+                                        {status === "NEW" || status === "SUSPEND" ?
+                                            <IButton onClick={handleStartProgress}>Start progress</IButton>
+                                            : <IButton onClick={handleSupspend} isSecondary={true}>Supspend</IButton>}
+                                    </>
+                                    : null}
 
                             </div>
                             <div className="flex flex-row flex-wrap pt-10">
@@ -85,6 +122,10 @@ export const TaskDetails = () => {
                                     />
                                 </div>
                                 <div className="flex flex-col">
+                                    <ITextField
+                                        labelText="Priority"
+                                        value={task?.priority}
+                                    />
                                     <ITextField
                                         labelText="Assignee"
                                         value={task?.assigneeName}
@@ -143,20 +184,31 @@ export const TaskDetails = () => {
                                 <DialogContentText>
                                     Log time to task {task?.name}:
                                </DialogContentText>
-                               {/* todo add nicer pickers */}
+                                {/* todo add nicer pickers */}
                                 <div className="flex flex-col w-1/3 m-auto">
                                     <ITextInput
-                                    labelText="Days"
-                                    type="number"
-                                />
-                                    <ITextInput
-                                        labelText="Hours"
+                                        className={"m-1"}
+                                        labelText="Days"
                                         type="number"
+                                        value={days}
+                                        onChange={handleDialogFieldChange("days")}
                                     />
                                     <ITextInput
+                                        className={"m-1"}
+                                        labelText="Hours"
+                                        type="number"
+                                        value={hours}
+                                        onChange={handleDialogFieldChange("hours")}
+
+                                    />
+                                    <ITextInput
+                                        className={"m-1"}
                                         labelText="Minutes"
                                         type="number"
-                                    /></div>
+                                        value={minutes}
+                                        onChange={handleDialogFieldChange("minutes")}
+                                    />
+                                </div>
 
                                 {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <TimePicker
