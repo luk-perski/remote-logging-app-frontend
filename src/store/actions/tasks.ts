@@ -1,13 +1,6 @@
 import { Dispatch } from 'redux';
 import * as tasksApi from '../../api/tasks';
-import { RootState } from "../reducers";
-
-export const kurwa = (jaJebie: string) => {
-    return async (dispatch: Dispatch) => {
-        dispatch(setMinutes(jaJebie));
-    }
-}
-
+import * as logWorkApi from '../../api/log-work';
 
 export const getTasks = () => {
     return async (dispatch: Dispatch) => {
@@ -31,7 +24,7 @@ export const getTask = (taskId: number) => {
     }
 }
 
-export const assign = (taskId: number, userId: number) => {
+export const assignUser = (taskId: number, userId: number) => {
     return async (dispatch: Dispatch) => {
         const task = await tasksApi.assign(taskId, userId);
 
@@ -47,7 +40,7 @@ export const startProgress = (taskId: number, userId: number) => {
     }
 }
 
-export const suspend = (taskId: number, userId: number) => {
+export const suspendTask = (taskId: number, userId: number) => {
     return async (dispatch: Dispatch) => {
         const task = await tasksApi.suspend(taskId, userId);
 
@@ -55,8 +48,21 @@ export const suspend = (taskId: number, userId: number) => {
     }
 }
 
+export const addLogWork = (taskId: number, userId: number, days: number, hours: number, minutes: number, comment?: string) => {
+    return async (dispatch: Dispatch) => {
+        const timeSpend = (days * 86400000) + (hours * 3600000) + (minutes * 60000);
+        const logWork: JsonSchema.ModelApiLogWork = {
+            taskId: taskId,
+            timeSpend: timeSpend,
+            userId: userId
+        };
+        const result = await logWorkApi.addLogWork(logWork);
+
+        dispatch(setTaskRequest(result.task));
+    }
+}
+
 export const handleSetDialogField = (field: string, value: string) => {
-    console.log("actions here")
     switch (field) {
         case 'days':
             return async (dispatch: Dispatch) => {
@@ -73,6 +79,10 @@ export const handleSetDialogField = (field: string, value: string) => {
         case 'userToAssignId':
             return async (dispatch: Dispatch) => {
                 dispatch(setUserToAssignId(value));
+            }
+        case 'logWorkComment':
+            return async (dispatch: Dispatch) => {
+                dispatch(setLogWorkComment(value));
             }
     }
 }
@@ -127,5 +137,10 @@ export const setLoadingTask = () => ({
 
 export const setTaskStatus = (status: string) => ({
     type: 'SET_TASK_STATUS',
+    status
+})
+
+export const setLogWorkComment = (status: string) => ({
+    type: 'SET_LOG_COMMENT',
     status
 })

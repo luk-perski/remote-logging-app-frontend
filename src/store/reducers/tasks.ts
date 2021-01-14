@@ -6,11 +6,12 @@ export interface TasksRootState {
     logWorkToAdd?: JsonSchema.ModelApiLogWork | null;
     logWorkDays: number;
     logWorkHours: number;
-    logWorkMinutes: string;
+    logWorkMinutes: number;
     loadingAddLogWork: boolean;
     openLogDialog: boolean;
     openAssignDialog: boolean;
     userToAssignId: number;
+    logWorkComment: string;
 }
 
 export const tasks = (state: TasksRootState = {
@@ -22,10 +23,11 @@ export const tasks = (state: TasksRootState = {
     loadingAddLogWork: false,
     logWorkDays: 0,
     logWorkHours: 0,
-    logWorkMinutes: "0",
+    logWorkMinutes: 0,
     openLogDialog: false,
     openAssignDialog: false,
-    userToAssignId: -1
+    userToAssignId: -1,
+    logWorkComment: "",
 }, action: Record<string, any>) => {
     switch (action.type) {
         case 'LOADING_TASKS':
@@ -52,6 +54,8 @@ export const tasks = (state: TasksRootState = {
             return { ...state, openAssignDialog: action.value }
         case 'SET_TASK_STATUS':
             return { ...state, taskStatus: action.status }
+        case 'SET_LOG_COMMENT':
+            return {...state, logWorkComment: action.value}
         default:
             return state;
     }

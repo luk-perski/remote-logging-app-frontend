@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import { IButton } from '../components/IButton';
 import { ITextField } from '../components/ITextField';
 import { PageTitle } from '../components/PageTitle';
-import { getTask, handleSetDialogField, setOpenLogDialog as setOpenLogDialog, assign, startProgress, suspend, setOpenAssignDialog } from '../store/actions/tasks';
+import { getTask, handleSetDialogField, setOpenLogDialog as setOpenLogDialog, assignUser, startProgress, suspendTask, setOpenAssignDialog, addLogWork } from '../store/actions/tasks';
 import { RootState } from '../store/reducers';
 import { ITextInput } from '../components/ITextInput';
 import { USER_ID } from '../utils/lockrKeys';
@@ -37,6 +37,7 @@ export const TaskDetails = () => {
     const hours = tasks.logWorkHours;
     const minutes = tasks.logWorkMinutes;
     const userToAssignId = tasks.userToAssignId;
+    const logWorkComment = tasks.logWorkComment;
 
     if (!loadingTaskRequest && (!task || task.id !== taskId)) {
         dispatch(getTask(taskId));
@@ -57,6 +58,8 @@ export const TaskDetails = () => {
 
     const handleSubmitLogDialog = () => {
         dispatch(setOpenLogDialog(false));
+
+        dispatch(addLogWork(taskId, userId, days, hours, minutes, logWorkComment));
     };
 
     const handleClickAssignDialogOpen = () => {
@@ -71,7 +74,7 @@ export const TaskDetails = () => {
     const handleSubmitAssignDialog = () => {
         dispatch(setOpenAssignDialog(false));
 
-        dispatch(assign(taskId, userToAssignId));
+        dispatch(assignUser(taskId, userToAssignId));
     };
 
     // ask why I need use there dispatch()
@@ -80,7 +83,7 @@ export const TaskDetails = () => {
     };
 
     const handleAssign = () => {
-        assign(taskId, 4)
+        assignUser(taskId, 4)
     }
 
     //todo ask Artur why I need here dispatch 
@@ -89,7 +92,7 @@ export const TaskDetails = () => {
     }
 
     const handleSupspend = () => {
-        dispatch(suspend(taskId, userId));
+        dispatch(suspendTask(taskId, userId));
     }
 
     return (
@@ -252,30 +255,32 @@ export const TaskDetails = () => {
                                         className={"m-1"}
                                         labelText="Choose person"
                                         type="number"
-                                        value={userToAssignId > -1? userToAssignId : undefined}
+                                        value={userToAssignId > -1 ? userToAssignId : undefined}
                                         onChange={handleDialogFieldChange("userToAssignId")}
                                     />
                                 </div>
-
-                                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <TimePicker
-                                    onChange={void 0}
-                                    value={value}
+                                <ITextInput
+                                    className={"m-1"}
+                                    labelText="Comment"
+                                    value={logWorkComment}
+                                    onChange={handleDialogFieldChange("logWorkComment")}
+                                    maxRows={32}
+                                    fullWidth={true}
+                                    multiline={true}
                                 />
-                                </MuiPickersUtilsProvider> */}
                             </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleCloseAssignDialog} color="primary">
-                                    Cancel
+                        <DialogActions>
+                            <Button onClick={handleCloseAssignDialog} color="primary">
+                                Cancel
                                 </Button>
-                                <Button onClick={handleSubmitAssignDialog} color="primary">
-                                    Assign
+                            <Button onClick={handleSubmitAssignDialog} color="primary">
+                                Assign
                               </Button>
-                            </DialogActions>
-                        </Dialog>
+                        </DialogActions>
+                    </Dialog>
                     </>
-                )
-            }
+    )
+}
         </>
     )
 }

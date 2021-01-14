@@ -1,4 +1,3 @@
-import { RepeatOneSharp } from '@material-ui/icons';
 import { apiInstance } from '.';
 
 export const getTasks = async () => {
