@@ -1,7 +1,6 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
 import React from 'react';
 import { ITextField } from './ITextField';
-import { ITextInput } from './ITextInput';
 
 export const IDialogLogWork = ({ task, days, hours, minutes, logWorkComment, openLogDialog, handleDialogFieldChange, handleCloseLogDialog, handleSubmitLogDialog }: { task: JsonSchema.ModelApiTask | null, days: number, hours: number, minutes: number,logWorkComment: string, openLogDialog: boolean, handleDialogFieldChange: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, handleCloseLogDialog: () => void, handleSubmitLogDialog: () => void }) => {
     return (
@@ -21,7 +20,7 @@ export const IDialogLogWork = ({ task, days, hours, minutes, logWorkComment, ope
                         onChange={handleDialogFieldChange("days")
                         }
                     />
-                    <ITextInput
+                    <ITextField
                         className={"m-1"}
                         labelText="Hours"
                         type="number"
@@ -29,7 +28,7 @@ export const IDialogLogWork = ({ task, days, hours, minutes, logWorkComment, ope
                         onChange={handleDialogFieldChange("hours")}
 
                     />
-                    <ITextInput
+                    <ITextField
                         className={"m-1"}
                         labelText="Minutes"
                         type="number"
@@ -37,7 +36,7 @@ export const IDialogLogWork = ({ task, days, hours, minutes, logWorkComment, ope
                         onChange={handleDialogFieldChange("minutes")}
                     />
                 </div>
-                <ITextInput
+                <ITextField
                     className={"m-1"}
                     labelText="Comment"
                     value={logWorkComment}

@@ -1,6 +1,6 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
 import React from 'react';
-import { ITextInput } from './ITextInput';
+import { ITextField } from './ITextField';
 
 export const IDialogAssign = ({ task, userToAssignId, openAssignDialog, handleSubmitAssignDialog, handleCloseAssignDialog, handleDialogFieldChange }
     : { task: JsonSchema.ModelApiTask | null, userToAssignId: number, openAssignDialog: boolean, handleSubmitAssignDialog: () => void, handleCloseAssignDialog: () => void, handleDialogFieldChange: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void}) => {
@@ -14,7 +14,7 @@ export const IDialogAssign = ({ task, userToAssignId, openAssignDialog, handleSu
        </DialogContentText>
                 {/* todo change to chose user from team */}
                 <div className="flex flex-col w-1/2 m-auto">
-                    <ITextInput
+                    <ITextField
                         className={"m-1"}
                         labelText="Choose person"
                         type="number"

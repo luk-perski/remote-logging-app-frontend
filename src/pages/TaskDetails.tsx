@@ -11,7 +11,6 @@ import { ITextField } from '../components/ITextField';
 import { PageTitle } from '../components/PageTitle';
 import { getTask, handleSetDialogField, setOpenLogDialog as setOpenLogDialog, assignUser, startProgress, suspendTask, setOpenAssignDialog, addLogWork } from '../store/actions/tasks';
 import { RootState } from '../store/reducers';
-import { ITextInput } from '../components/ITextInput';
 import { USER_ID } from '../utils/lockrKeys';
 import { ITaskDetails } from '../components/ITaskDetails';
 import { IDialogLogWork } from '../components/IDialogLogWork';
