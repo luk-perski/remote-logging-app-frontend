@@ -13,7 +13,9 @@ import { getTask, handleSetDialogField, setOpenLogDialog as setOpenLogDialog, as
 import { RootState } from '../store/reducers';
 import { ITextInput } from '../components/ITextInput';
 import { USER_ID } from '../utils/lockrKeys';
-import { ITaskDetails } from '../components/TaskDetails';
+import { ITaskDetails } from '../components/ITaskDetails';
+import { IDialogLogWork } from '../components/IDialogLogWork';
+import { IDialogAssign } from '../components/IDialogAssign';
 
 interface RouteParams {
     taskId: string
@@ -60,6 +62,7 @@ export const TaskDetails = () => {
     const handleSubmitLogDialog = () => {
         dispatch(setOpenLogDialog(false));
 
+        console.log("comment: " + logWorkComment)
         dispatch(addLogWork(taskId, userId, days, hours, minutes, logWorkComment));
     };
 
@@ -125,92 +128,25 @@ export const TaskDetails = () => {
                             </div>
                             <ITaskDetails task={task} disabled={true} />
                         </div>
-                        {/* todo extract this to component */}
-                        <Dialog open={openLogDialog} onClose={handleCloseLogDialog} aria-labelledby="form-dialog-title">
-                            <DialogTitle id="form-dialog-log-work">Log work</DialogTitle>
-                            <DialogContent>
-                                <DialogContentText>
-                                    Log time to task {task?.name}:
-                               </DialogContentText>
-                                {/* todo add nicer pickers */}
-                                <div className="flex flex-col w-1/3 m-auto">
-                                    <ITextField
-                                        className={"m-1"}
-                                        labelText="Days"
-                                        type="number"
-                                        value={days}
-                                        onChange={handleDialogFieldChange("days")
-                                        }
-                                    />
-                                    <ITextInput
-                                        className={"m-1"}
-                                        labelText="Hours"
-                                        type="number"
-                                        value={hours}
-                                        onChange={handleDialogFieldChange("hours")}
-
-                                    />
-                                    <ITextInput
-                                        className={"m-1"}
-                                        labelText="Minutes"
-                                        type="number"
-                                        value={minutes}
-                                        onChange={handleDialogFieldChange("minutes")}
-                                    />
-                                </div>
-
-                                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <TimePicker
-                                    onChange={void 0}
-                                    value={value}
-                                />
-                                </MuiPickersUtilsProvider> */}
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleCloseLogDialog} color="primary">
-                                    Cancel
-                                </Button>
-                                <Button onClick={handleSubmitLogDialog} color="primary">
-                                    Submit
-                              </Button>
-                            </DialogActions>
-                        </Dialog>
-                        {/* todo extract this to component */}
-                        <Dialog open={openAssignDialog} onClose={handleCloseAssignDialog} aria-labelledby="form-dialog-title">
-                            <DialogTitle id="form-dialog-assign">Assign to task</DialogTitle>
-                            <DialogContent>
-                                <DialogContentText>
-                                    Assign person to {task?.name}:
-                               </DialogContentText>
-                                {/* todo change to chose user from team */}
-                                <div className="flex flex-col w-1/3 m-auto">
-                                    <ITextInput
-                                        className={"m-1"}
-                                        labelText="Choose person"
-                                        type="number"
-                                        value={userToAssignId > -1 ? userToAssignId : undefined}
-                                        onChange={handleDialogFieldChange("userToAssignId")}
-                                    />
-                                </div>
-                                <ITextInput
-                                    className={"m-1"}
-                                    labelText="Comment"
-                                    value={logWorkComment}
-                                    onChange={handleDialogFieldChange("logWorkComment")}
-                                    maxRows={32}
-                                    fullWidth={true}
-                                    multiline={true}
-                                />
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleCloseAssignDialog} color="primary">
-                                    Cancel
-                                </Button>
-                                <Button onClick={handleSubmitAssignDialog} color="primary">
-                                    Assign
-                              </Button>
-                            </DialogActions>
-                        </Dialog>
+                        <IDialogLogWork
+                            task={task}
+                            days={days}
+                            hours={hours}
+                            minutes={minutes}
+                            logWorkComment={logWorkComment}
+                            handleCloseLogDialog={handleCloseLogDialog}
+                            handleDialogFieldChange={handleDialogFieldChange}
+                            handleSubmitLogDialog={handleSubmitLogDialog}
+                            openLogDialog={openLogDialog}
+                        />
+                        <IDialogAssign
+                        task={task}
+                        userToAssignId={userToAssignId}
+                        openAssignDialog={openAssignDialog}
+                        handleCloseAssignDialog={handleCloseAssignDialog}
+                        handleSubmitAssignDialog={handleSubmitAssignDialog}
+                        handleDialogFieldChange={handleDialogFieldChange}
+                        />
                     </>
                 )
             }

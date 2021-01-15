@@ -82,5 +82,6 @@ declare namespace JsonSchema {
         taskName?: string;
         userId?: number;
         userDisplayName?: string;
+        comment?: string
     }
 }

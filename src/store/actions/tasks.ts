@@ -54,11 +54,17 @@ export const addLogWork = (taskId: number, userId: number, days: number, hours: 
         const logWork: JsonSchema.ModelApiLogWork = {
             taskId: taskId,
             timeSpend: timeSpend,
-            userId: userId
+            userId: userId,
+            comment: comment
         };
         const result = await logWorkApi.addLogWork(logWork);
 
         dispatch(setTaskRequest(result.task));
+
+        dispatch(setDays("0"))
+        dispatch(setHours("0"))
+        dispatch(setMinutes("0"))
+        dispatch(setLogWorkComment(""))
     }
 }
 
@@ -140,7 +146,7 @@ export const setTaskStatus = (status: string) => ({
     status
 })
 
-export const setLogWorkComment = (status: string) => ({
+export const setLogWorkComment = (value: string) => ({
     type: 'SET_LOG_COMMENT',
-    status
+    value
 })
