@@ -13,6 +13,7 @@ import { getTask, handleSetDialogField, setOpenLogDialog as setOpenLogDialog, as
 import { RootState } from '../store/reducers';
 import { ITextInput } from '../components/ITextInput';
 import { USER_ID } from '../utils/lockrKeys';
+import { ITaskDetails } from '../components/TaskDetails';
 
 interface RouteParams {
     taskId: string
@@ -122,76 +123,7 @@ export const TaskDetails = () => {
                                     : null}
 
                             </div>
-                            <div className="flex flex-row flex-wrap pt-10">
-                                <div className="flex-col">
-                                    <ITextField
-                                        labelText="Description"
-                                        value={task?.description}
-                                        maxRows={32}
-                                        fullWidth={true}
-                                        multiline={true}
-                                    />
-                                    <ITextField
-                                        labelText="Category"
-                                        value={task?.category?.name}
-                                    />
-                                </div>
-                                <div className="flex flex-col">
-                                    <ITextField
-                                        labelText="Priority"
-                                        value={task?.priority}
-                                    />
-                                    <ITextField
-                                        labelText="Assignee"
-                                        value={task?.assigneeName}
-                                    />
-                                    <ITextField
-                                        labelText="Reporter"
-                                        value={task?.creatorName}
-                                    />
-                                    <ITextField
-                                        labelText="Project"
-                                        value={task?.projectName}
-                                    />
-                                    <ITextField
-                                        labelText="Created date"
-                                        value={dayjs(task?.cratedDate).format('YYYY-MM-DD HH:mm:ss')}
-                                    />
-
-                                </div>
-                                <div className="flex flex-col">
-                                    <ITextField
-                                        labelText="Time spent"
-                                        value={task?.timeSpent ? String(humanizeDuration(task?.timeSpent)) : "No time logged"}
-                                    />
-                                    <ITextField
-                                        labelText="Estimate"
-                                        value={String(humanizeDuration(task?.estimate))}
-                                    />
-                                    {task?.resolverDate ? (
-                                        <ITextField
-                                            labelText="Resolved date"
-                                            value={dayjs(task?.resolverDate).format('YYYY-MM-DD HH:mm:ss')}
-                                        />) : (
-                                            <>
-                                                {task?.runStart ? (
-                                                    <ITextField
-                                                        labelText="Last start date"
-                                                        value={dayjs(task?.runStart).format('YYYY-MM-DD HH:mm:ss')} />
-                                                ) : null
-                                                }
-                                                {task?.runEnd ?
-                                                    (<ITextField
-                                                        labelText="Last end date"
-                                                        value={dayjs(task?.runEnd).format('YYYY-MM-DD HH:mm:ss')}
-                                                    />
-                                                    ) : null
-                                                }
-                                            </>
-                                        )
-                                    }
-                                </div>
-                            </div>
+                            <ITaskDetails task={task} disabled={true} />
                         </div>
                         {/* todo extract this to component */}
                         <Dialog open={openLogDialog} onClose={handleCloseLogDialog} aria-labelledby="form-dialog-title">
@@ -202,12 +134,13 @@ export const TaskDetails = () => {
                                </DialogContentText>
                                 {/* todo add nicer pickers */}
                                 <div className="flex flex-col w-1/3 m-auto">
-                                    <ITextInput
+                                    <ITextField
                                         className={"m-1"}
                                         labelText="Days"
                                         type="number"
                                         value={days}
-                                        onChange={handleDialogFieldChange("days")}
+                                        onChange={handleDialogFieldChange("days")
+                                        }
                                     />
                                     <ITextInput
                                         className={"m-1"}
@@ -269,18 +202,18 @@ export const TaskDetails = () => {
                                     multiline={true}
                                 />
                             </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleCloseAssignDialog} color="primary">
-                                Cancel
+                            <DialogActions>
+                                <Button onClick={handleCloseAssignDialog} color="primary">
+                                    Cancel
                                 </Button>
-                            <Button onClick={handleSubmitAssignDialog} color="primary">
-                                Assign
+                                <Button onClick={handleSubmitAssignDialog} color="primary">
+                                    Assign
                               </Button>
-                        </DialogActions>
-                    </Dialog>
+                            </DialogActions>
+                        </Dialog>
                     </>
-    )
-}
+                )
+            }
         </>
     )
 }
