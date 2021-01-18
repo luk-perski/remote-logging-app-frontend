@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { CircularProgress, Link } from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/reducers';
 import { Typography } from '@material-ui/core';
@@ -12,21 +12,6 @@ import { TableRow } from '@material-ui/core';
 import dayjs from 'dayjs';
 import { getProjects } from '../store/actions/projects';
 import { PageTitle } from '../components/PageTitle';
-
-
-// const ProjectResultRow = (
-//     {
-//         project,
-//         onClick,
-//         onClose
-//     }: {
-//         task: JsonSchema.ModelApiProject,
-//         onClick: () => void,
-//         onClose: () => void
-//     }
-// ) => {
-//     return (<div>ProjectResult</div>)
-// };
 
 
 export const Projects = () => {

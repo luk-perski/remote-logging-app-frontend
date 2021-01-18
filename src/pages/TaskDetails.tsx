@@ -1,6 +1,5 @@
 import { Breadcrumbs, CircularProgress, Link } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
-import { useTheme, useMediaQuery } from '@material-ui/core';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, useParams } from 'react-router-dom';
@@ -37,21 +36,20 @@ export const TaskDetails = () => {
     const userToAssignId = tasks.userToAssignId;
     const logWorkComment = tasks.logWorkComment;
     const users = tasks.users
+    const openLogDialog = tasks.openLogDialog;
+    const openAssignDialog = tasks.openAssignDialog;
 
     useEffect(() => {
         dispatch(getUsers());
     }, [dispatch]);
 
 
-    const [redirect, setRedirect] = useState<boolean>(false);
+    const [redirect, setRedirect] = useState<boolean>(false); //todo move to TaskRootState
 
 
     if (!loadingTaskRequest && (!task || task.id !== taskId)) {
         dispatch(getTask(taskId));
     }
-
-    const openLogDialog = tasks.openLogDialog;
-    const openAssignDialog = tasks.openAssignDialog;
 
     const handleClickLogDialogOpen = () => {
         dispatch(setOpenLogDialog(true));
@@ -64,8 +62,6 @@ export const TaskDetails = () => {
 
     const handleSubmitLogDialog = () => {
         dispatch(setOpenLogDialog(false));
-
-        console.log("comment: " + logWorkComment)
         dispatch(addLogWork(taskId, userId, days, hours, minutes, logWorkComment));
     };
 
@@ -84,13 +80,11 @@ export const TaskDetails = () => {
         dispatch(assignUser(taskId, userToAssignId));
     };
 
-    // ask why I need use there dispatch()
     const handleDialogFieldChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(handleSetDialogField(field, event.target.value));
     };
 
 
-    //todo ask Artur why I need here dispatch 
     const handleStartProgress = () => {
         dispatch(startProgress(taskId, userId));
     }

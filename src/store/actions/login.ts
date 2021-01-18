@@ -1,9 +1,6 @@
 import { Dispatch } from 'redux';
-import { LoginRootState } from '../reducers/login';
 import * as userApi from "../../api/users";
 import { history } from '../../utils/history';
-import { ApiOkResponse } from '@nestjs/swagger';
-import { TypedUseSelectorHook } from 'react-redux';
 import { USER_ID } from '../../utils/lockrKeys';
 
 const Lockr = require("lockr");
@@ -35,11 +32,10 @@ export const signIn = (userName: string, localPwd: string) => {
         const [status, user] = await userApi.signIn(userName, localPwd);
         console.log(status);
         if (status == 200 && user != null) {
-            history.push('/index');
+            history.push('/tasks');
             Lockr.set(USER_ID, user.id);
             dispatch(setUser(user))
         }
-        //todo dispatch and save userData
     }
 }
 

@@ -1,8 +1,6 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import dayjs from 'dayjs';
 import React, { ChangeEvent, ReactNode } from 'react';
-import { useDispatch } from 'react-redux';
-import { handleSetTaskField } from '../store/actions/tasks';
 import { ITextField } from './ITextField';
 
 export const ITaskDetails = ({ task, disabled, editable, handleFieldChange, handlePriorityChange, handleAssigneeChange, handleProjectChange, handleCategoryChange, users, projects, categories }: { task: JsonSchema.ModelApiTask, disabled?: boolean, editable?: boolean, handleFieldChange?: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, handlePriorityChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, users?: JsonSchema.ModelsApiUser[] | null, handleAssigneeChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, handleProjectChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, projects?: JsonSchema.ModelApiProject[] | null, handleCategoryChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, categories?: JsonSchema.ModelApiCategory[] | null }) => {

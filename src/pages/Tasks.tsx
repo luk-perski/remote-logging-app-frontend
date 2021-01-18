@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumbs, CircularProgress, Fab, Link, useMediaQuery, useTheme } from '@material-ui/core';
+import { CircularProgress, useMediaQuery, useTheme } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/reducers';
 import { getTasks } from '../store/actions/tasks';
@@ -14,7 +14,6 @@ import dayjs from 'dayjs';
 import { PageTitle } from '../components/PageTitle';
 import { pages } from '../utils/pages';
 import { Redirect } from 'react-router-dom';
-import AddIcon from '@material-ui/icons/Add';
 import { IButton } from '../components/IButton';
 
 
@@ -106,14 +105,10 @@ export const Tasks = () => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-
                         </>
-
                     )
                 }
-
             </div>
-
         </div>
     )
 }

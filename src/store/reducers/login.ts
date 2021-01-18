@@ -11,7 +11,7 @@ export const login = (state: LoginRootState = {
     showPassword: false,
     user: null 
 }, action: Record<string, any>) => {
-    console.log("login reducer here")
+    console.log("login reducer here") //todo remove this after speak with Artur
     switch (action.type) {
         case 'SET_USER_NAME':
             return {...state, username: action.value};
@@ -20,7 +20,6 @@ export const login = (state: LoginRootState = {
         case 'SHOW_PASSWORD':
         return {...state, showPassword: action.showPassword}
         case 'SET_USER':
-            console.log('setUser')
             return {...state, user: action.user}
         default:
             return state;

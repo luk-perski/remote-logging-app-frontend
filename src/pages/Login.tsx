@@ -1,15 +1,9 @@
 import React from 'react';
 import queryString from 'query-string';
-import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faLock } from "@fortawesome/free-solid-svg-icons";
-import { languages } from '../language-strings';
-import { API_URL } from '../config';
 import { RootState } from '../store/reducers';
 import { Input, InputAdornment } from '@material-ui/core';
-import { TextField } from '@material-ui/core';
-import { Grid } from '@material-ui/core';
 import IconUserName from '@material-ui/icons/AccountCircle';
 import { FormControl } from '@material-ui/core';
 import { InputLabel } from '@material-ui/core';
@@ -18,17 +12,14 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Button } from '@material-ui/core';
 import { IconButton } from '@material-ui/core';
-import { LoginRootState } from '../store/reducers/login';
 import { handleSetField, handleSetShowPassword, signIn } from '../store/actions/login';
 
 export const Login = () => {
-    // const history = useHistory();
     const location = useLocation();
     const dispatch = useDispatch();
     const state = useSelector((state: RootState) => state);
-    
+
     const login = state.login
-    const app = state.app;
     const params = queryString.parse(location.search);
     const username = login.username
     const password = login.password
@@ -95,10 +86,10 @@ export const Login = () => {
                 </FormControl></div>
 
             <div className="flex items-center">
-                <Button 
-                variant="contained" 
-                color="primary"
-                onClickCapture={handleLoginBtn}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClickCapture={handleLoginBtn}>
                     Login
                 </Button>
             </div>

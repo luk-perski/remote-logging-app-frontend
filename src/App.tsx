@@ -4,8 +4,7 @@ import {
     Switch,
     Route,
 } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import cookie from 'js-cookie';
+import { useSelector} from 'react-redux';
 import { TopBar } from './components/TopBar';
 import { Login } from './pages/Login';
 import { history } from './utils/history';
@@ -31,7 +30,6 @@ function App() {
     useEffect(() => {
         if (userId == null) {
             history.push('/login');
-            console.log('User == null')
         }
     });
 

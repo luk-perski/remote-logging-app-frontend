@@ -1,5 +1,5 @@
 import { Breadcrumbs, Link, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { IButton } from '../components/IButton';
@@ -8,7 +8,7 @@ import { ITextField } from '../components/ITextField';
 import { PageTitle } from '../components/PageTitle';
 import { getCategories } from '../store/actions/category';
 import { getProjects } from '../store/actions/projects';
-import { handleSetTaskField, addTask, setReturnToTasks, setTaskToAdd, getUsers } from '../store/actions/tasks';
+import { handleSetTaskField, addTask, setReturnToTasks, getUsers } from '../store/actions/tasks';
 import { RootState } from '../store/reducers';
 import { pages } from '../utils/pages';
 
@@ -17,7 +17,6 @@ export const AddTask = () => {
 
     const dispatch = useDispatch();
     const state = useSelector((state: RootState) => state);
-    const Lockr = require("lockr");
     const tasks = state.tasks
     const category = state.categories
     const categories = category.categoryList
@@ -38,13 +37,10 @@ export const AddTask = () => {
     }, [dispatch]);
 
     const handleAddButton = () => {
-        console.log(categories)
-        console.log(state)
         dispatch(addTask(task));
     }
 
     const handleChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(task)
         dispatch(handleSetTaskField(field, event.target.value, task));
     };
 
@@ -69,8 +65,6 @@ export const AddTask = () => {
     }
 
     if (redirect) {
-        console.log("If:")
-        console.log(redirect)
         return <Redirect push to={pages.tasks.url()} />
     }
     return (
@@ -93,18 +87,18 @@ export const AddTask = () => {
                         value={task.name}
                         onChange={handleChange("name")}
                     />
-                    <ITaskDetails 
-                    task={task} 
-                    editable={true} 
-                    handleFieldChange={handleChange}
-                     handlePriorityChange={handlePriorityChange} 
-                     users={users} 
-                     handleAssigneeChange={handleAssigneeChange}
-                     projects={projects}
-                     handleProjectChange={handleProjectChange}
-                     categories={categories}
-                     handleCategoryChange={handleCategoryChange}
-                     />
+                    <ITaskDetails
+                        task={task}
+                        editable={true}
+                        handleFieldChange={handleChange}
+                        handlePriorityChange={handlePriorityChange}
+                        users={users}
+                        handleAssigneeChange={handleAssigneeChange}
+                        projects={projects}
+                        handleProjectChange={handleProjectChange}
+                        categories={categories}
+                        handleCategoryChange={handleCategoryChange}
+                    />
                 </div>
                 <IButton onClick={() => handleAddButton()}>Add</IButton>
             </div>

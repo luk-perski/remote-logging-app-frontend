@@ -1,9 +1,8 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, FormControl, InputLabel, Select } from '@material-ui/core';
 import React, { ChangeEvent, ReactNode } from 'react';
-import { ITextField } from './ITextField';
 
 export const IDialogAssign = ({ task, userToAssignId, openAssignDialog, handleSubmitAssignDialog, handleCloseAssignDialog, handleDialogFieldChange, users, handleAssigneeChange }
-    : { task: JsonSchema.ModelApiTask | null, userToAssignId: number, openAssignDialog: boolean, handleSubmitAssignDialog: () => void, handleCloseAssignDialog: () => void, handleDialogFieldChange: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, users: JsonSchema.ModelsApiUser[] | null, handleAssigneeChange: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined}) => {
+    : { task: JsonSchema.ModelApiTask | null, userToAssignId: number, openAssignDialog: boolean, handleSubmitAssignDialog: () => void, handleCloseAssignDialog: () => void, handleDialogFieldChange: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, users: JsonSchema.ModelsApiUser[] | null, handleAssigneeChange: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined }) => {
 
     return (
         <Dialog open={openAssignDialog} onClose={handleCloseAssignDialog} aria-labelledby="form-dialog-title">
@@ -12,15 +11,7 @@ export const IDialogAssign = ({ task, userToAssignId, openAssignDialog, handleSu
                 <DialogContentText>
                     Assign person to {task?.name}:
        </DialogContentText>
-                {/* todo change to chose user from team */}
                 <div className="flex flex-col m-auto">
-                    {/* <ITextField
-                        className={"m-1"}
-                        labelText="Choose person"
-                        type="number"
-                        value={userToAssignId > -1 ? userToAssignId : undefined}
-                        onChange={handleDialogFieldChange("userToAssignId")}
-                    /> */}
                     <FormControl variant="outlined">
                         <InputLabel >Choose person</InputLabel>
                         <Select

@@ -77,8 +77,6 @@ export const addTask = (task: JsonSchema.ModelApiTask) => {
     return async (dispatch: Dispatch) => {
         task.creatorId = userId
         const result = await tasksApi.addTask(task);
-        console.log(result)
-        console.log(result.status)
         if (result.status == 200) {
             dispatch(setReturnToTasks(true))
             dispatch(setReturnToTasks(false))
@@ -143,7 +141,6 @@ export const handleSetTaskField = (field: string, value: string, task: JsonSchem
     }
 
     return async (dispatch: Dispatch) => {
-        console.log(task)
         dispatch(setTaskToAdd(task));
     }
 }

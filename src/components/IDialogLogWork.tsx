@@ -2,7 +2,7 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, B
 import React from 'react';
 import { ITextField } from './ITextField';
 
-export const IDialogLogWork = ({ task, days, hours, minutes, logWorkComment, openLogDialog, handleDialogFieldChange, handleCloseLogDialog, handleSubmitLogDialog }: { task: JsonSchema.ModelApiTask | null, days: number, hours: number, minutes: number,logWorkComment: string, openLogDialog: boolean, handleDialogFieldChange: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, handleCloseLogDialog: () => void, handleSubmitLogDialog: () => void }) => {
+export const IDialogLogWork = ({ task, days, hours, minutes, logWorkComment, openLogDialog, handleDialogFieldChange, handleCloseLogDialog, handleSubmitLogDialog }: { task: JsonSchema.ModelApiTask | null, days: number, hours: number, minutes: number, logWorkComment: string, openLogDialog: boolean, handleDialogFieldChange: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, handleCloseLogDialog: () => void, handleSubmitLogDialog: () => void }) => {
     return (
         <Dialog open={openLogDialog} onClose={handleCloseLogDialog} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-log-work">Log work</DialogTitle>
