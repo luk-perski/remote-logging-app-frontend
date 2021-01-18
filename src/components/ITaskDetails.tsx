@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { handleSetTaskField } from '../store/actions/tasks';
 import { ITextField } from './ITextField';
 
-export const ITaskDetails = ({ task, disabled, editable, handleFieldChange, handlePriorityChange, handleAssigneeChange, users }: { task: JsonSchema.ModelApiTask, disabled?: boolean, editable?: boolean, handleFieldChange?: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, handlePriorityChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, users?: JsonSchema.Option[] | null, handleAssigneeChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined }) => {
+export const ITaskDetails = ({ task, disabled, editable, handleFieldChange, handlePriorityChange, handleAssigneeChange, handleProjectChange, users, projects }: { task: JsonSchema.ModelApiTask, disabled?: boolean, editable?: boolean, handleFieldChange?: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, handlePriorityChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, users?: JsonSchema.Option[] | null, handleAssigneeChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, handleProjectChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, projects?: JsonSchema.ModelApiProject[] | null }) => {
     const humanizeDuration = require("humanize-duration");
     const dispatch = useDispatch();
 
@@ -77,12 +77,28 @@ export const ITaskDetails = ({ task, disabled, editable, handleFieldChange, hand
                         value={task?.creatorName}
                         disabled={disabled}
                     />}
-                <ITextField
-                    labelText="Project"
-                    value={task?.projectName}
-                    // disabled={disabled}
-                    disabled={true} //todo
-                />
+                {editable ?
+                    <FormControl variant="outlined" className="p-4">
+                        <InputLabel >Project</InputLabel>
+                        <Select
+                            native
+                            label="Project"
+                            onChange={handleProjectChange}
+                        >
+                            {projects?.map((project) => (
+                                <option value={project.id}>
+                                    {project.name} ({project.id})
+                                </option>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    :
+                    <ITextField
+                        labelText="Project"
+                        value={task?.projectName}
+                        disabled={disabled}
+                    />
+                }
                 {editable ? null :
                     <ITextField
                         labelText="Created date"

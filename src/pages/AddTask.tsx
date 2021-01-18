@@ -6,6 +6,7 @@ import { IButton } from '../components/IButton';
 import { ITaskDetails } from '../components/ITaskDetails';
 import { ITextField } from '../components/ITextField';
 import { PageTitle } from '../components/PageTitle';
+import { getProjects } from '../store/actions/projects';
 import { handleSetTaskField, addTask, setReturnToTasks, setTaskToAdd, getUsers } from '../store/actions/tasks';
 import { RootState } from '../store/reducers';
 import { pages } from '../utils/pages';
@@ -17,15 +18,19 @@ export const AddTask = () => {
     const state = useSelector((state: RootState) => state);
     const Lockr = require("lockr");
     const tasks = state.tasks
+    const project = state.projects
+    const projects = project.projectsList
     const task = tasks.taskToAdd
     const redirect = tasks.isReturnToTasks
     const users = tasks.users
 
     useEffect(() => {
         dispatch(setReturnToTasks(false))
+        //todo ask why useEffect works like this
         console.log("Use effect:")
         console.log(redirect)
         dispatch(getUsers());
+        dispatch(getProjects())
     }, [dispatch]);
 
     const handleAddButton = () => {
@@ -44,6 +49,10 @@ export const AddTask = () => {
 
     const handleAssigneeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         dispatch(handleSetTaskField("assignee", event.target.value as string, task));
+    };
+
+    const handleProjectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        dispatch(handleSetTaskField("project", event.target.value as string, task));
     };
 
     const handleRedirect = (value: boolean) => {
@@ -82,6 +91,8 @@ export const AddTask = () => {
                      handlePriorityChange={handlePriorityChange} 
                      users={users} 
                      handleAssigneeChange={handleAssigneeChange}
+                     projects={projects}
+                     handleProjectChange={handleProjectChange}
                      />
                 </div>
                 <IButton onClick={() => handleAddButton()}>Add</IButton>

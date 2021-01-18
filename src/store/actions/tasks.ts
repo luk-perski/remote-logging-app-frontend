@@ -134,6 +134,9 @@ export const handleSetTaskField = (field: string, value: string, task: JsonSchem
         case "assignee":
             task.assigneeId = parseInt(value);
             break;
+        case "project":
+            task.projectId = parseInt(value);
+            break;
     }
 
     return async (dispatch: Dispatch) => {
