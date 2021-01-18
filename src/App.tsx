@@ -13,19 +13,15 @@ import { Logout } from './pages/Logout';
 import { RootState } from './store/reducers';
 import { useMediaQuery, useTheme } from '@material-ui/core';
 import { AppTabs } from './components/AppTabs';
-import { Tasks } from './pages/Tasks';
 import { Projects } from './pages/Projects';
 import { useEffect } from 'react';
-import { getSessionUser } from './store/actions/app';
 import { USER_ID } from './utils/lockrKeys';
 import { pages } from './utils/pages';
 
 function App() {
     const Lockr = require("lockr");
-    const dispatch = useDispatch();
     const theme = useTheme();
     const state = useSelector((state: RootState) => state);
-    const token = cookie.get('token');
     const matches = useMediaQuery(theme.breakpoints.up('md'));
     const login = state.login
     const userId = Lockr.get(USER_ID)
@@ -66,6 +62,9 @@ function App() {
                                             </Route>
                                             <Route exact path= {pages.taskDetails.url()}>
                                                 <pages.taskDetails.Component />
+                                            </Route>
+                                            <Route exact path= {pages.addTask.url()}>
+                                                <pages.addTask.Component />
                                             </Route>
                                             <Route exact path= {pages.projects.url()}>
                                                 < Projects/>

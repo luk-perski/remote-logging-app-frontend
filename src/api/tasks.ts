@@ -29,3 +29,9 @@ export const suspend = async (taskId: number, userId: number) => {
 
     return response.data;
 }
+
+export const addTask = async (task: JsonSchema.ModelApiTask)=>{
+    const response = await apiInstance.post('/v1/remote-logging/task', task)
+    
+    return response;
+}

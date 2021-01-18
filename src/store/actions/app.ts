@@ -1,6 +1,9 @@
 import { Dispatch } from 'redux';
 import * as usersApi from '../../api/users';
 import { languages } from '../../language-strings';
+import { USER_ID } from '../../utils/lockrKeys';
+
+const Lockr = require("lockr");
 
 export const userRoleFieldByLanguage = {
     [languages.ENGLISH]: 'name_en',
@@ -18,13 +21,14 @@ export const updateSessionUser = (user: any)=> ({
 });
 
 export const getSessionUser = (sessionUser: JsonSchema.ModelsApiUser)=> {
+    const userId = Lockr.get(USER_ID)
     return async (dispatch: Dispatch)=> {
 
         dispatch({
             type: 'SET_LOADING_SESSION_USER',
         });
 
-        const user = await usersApi.getSessionUser();
+        const user = await usersApi.getSessionUser(userId);
 
         dispatch({
             type: 'SET_SESSION_USER',
@@ -32,6 +36,7 @@ export const getSessionUser = (sessionUser: JsonSchema.ModelsApiUser)=> {
         });
     }
 };
+
 
 export const removeSessionUser = ()=> ({
     type: 'REMOVE_SESSION_USER',
