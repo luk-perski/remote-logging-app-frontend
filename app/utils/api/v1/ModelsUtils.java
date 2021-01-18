@@ -71,7 +71,7 @@ public class ModelsUtils {
                 .assignee(assignee)
                 .category(category)
                 .estimate(apiTask.getEstimate())
-                .priority(apiTask.getPriority().ordinal())
+                .priority(apiTask.getPriority() != null ? apiTask.getPriority().ordinal() : -1)
                 .runStart(apiTask.getRunStart())
                 .project(project)
                 .creator(creator)
