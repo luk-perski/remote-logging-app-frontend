@@ -6,6 +6,7 @@ import { IButton } from '../components/IButton';
 import { ITaskDetails } from '../components/ITaskDetails';
 import { ITextField } from '../components/ITextField';
 import { PageTitle } from '../components/PageTitle';
+import { getCategories } from '../store/actions/category';
 import { getProjects } from '../store/actions/projects';
 import { handleSetTaskField, addTask, setReturnToTasks, setTaskToAdd, getUsers } from '../store/actions/tasks';
 import { RootState } from '../store/reducers';
@@ -18,6 +19,8 @@ export const AddTask = () => {
     const state = useSelector((state: RootState) => state);
     const Lockr = require("lockr");
     const tasks = state.tasks
+    const category = state.categories
+    const categories = category.categoryList
     const project = state.projects
     const projects = project.projectsList
     const task = tasks.taskToAdd
@@ -30,11 +33,13 @@ export const AddTask = () => {
         console.log("Use effect:")
         console.log(redirect)
         dispatch(getUsers());
-        dispatch(getProjects())
+        dispatch(getProjects());
+        dispatch(getCategories());
     }, [dispatch]);
 
     const handleAddButton = () => {
-        console.log(users)
+        console.log(categories)
+        console.log(state)
         dispatch(addTask(task));
     }
 
@@ -53,6 +58,10 @@ export const AddTask = () => {
 
     const handleProjectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         dispatch(handleSetTaskField("project", event.target.value as string, task));
+    };
+
+    const handleCategoryChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        dispatch(handleSetTaskField("category", event.target.value as string, task));
     };
 
     const handleRedirect = (value: boolean) => {
@@ -93,6 +102,8 @@ export const AddTask = () => {
                      handleAssigneeChange={handleAssigneeChange}
                      projects={projects}
                      handleProjectChange={handleProjectChange}
+                     categories={categories}
+                     handleCategoryChange={handleCategoryChange}
                      />
                 </div>
                 <IButton onClick={() => handleAddButton()}>Add</IButton>

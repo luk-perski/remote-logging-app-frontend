@@ -14,7 +14,7 @@ export interface TasksRootState {
     userToAssignId: number;
     logWorkComment: string;
     isReturnToTasks: boolean;
-    users: JsonSchema.Option[] | null
+    users: JsonSchema.ModelsApiUser[] | null
 }
 
 export const tasks = (state: TasksRootState = {

@@ -137,6 +137,9 @@ export const handleSetTaskField = (field: string, value: string, task: JsonSchem
         case "project":
             task.projectId = parseInt(value);
             break;
+        case "category":
+            const category = {id: parseInt(value)}
+            task.category = category;
     }
 
     return async (dispatch: Dispatch) => {
@@ -147,13 +150,7 @@ export const handleSetTaskField = (field: string, value: string, task: JsonSchem
 
 export const getUsers = () => {
     return async (dispatch: Dispatch) => {
-        const usersData = await usersApi.getAll();
-        console.log(usersData)
-
-        const users = usersData.map((d: JsonSchema.ModelApiTask) => ({
-            "value": d.id,
-            "label": d.name
-        }))
+        const users = await usersApi.getAll();
 
         dispatch(setUsersList(users));
     }
@@ -227,7 +224,7 @@ export const setReturnToTasks = (value: boolean) => ({
     value
 })
 
-export const setUsersList = (users: JsonSchema.ModelApiTask[]) => ({
+export const setUsersList = (users: JsonSchema.ModelsApiUser[]) => ({
     type: 'SET_USERS',
     users
 })

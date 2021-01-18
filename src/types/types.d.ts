@@ -84,9 +84,4 @@ declare namespace JsonSchema {
         userDisplayName?: string;
         comment?: string
     }
-
-    export interface Option{
-        value: number,
-        label: string
-    }
 }

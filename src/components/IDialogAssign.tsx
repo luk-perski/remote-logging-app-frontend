@@ -3,7 +3,7 @@ import React, { ChangeEvent, ReactNode } from 'react';
 import { ITextField } from './ITextField';
 
 export const IDialogAssign = ({ task, userToAssignId, openAssignDialog, handleSubmitAssignDialog, handleCloseAssignDialog, handleDialogFieldChange, users, handleAssigneeChange }
-    : { task: JsonSchema.ModelApiTask | null, userToAssignId: number, openAssignDialog: boolean, handleSubmitAssignDialog: () => void, handleCloseAssignDialog: () => void, handleDialogFieldChange: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, users: JsonSchema.Option[] | null, handleAssigneeChange: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined}) => {
+    : { task: JsonSchema.ModelApiTask | null, userToAssignId: number, openAssignDialog: boolean, handleSubmitAssignDialog: () => void, handleCloseAssignDialog: () => void, handleDialogFieldChange: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, users: JsonSchema.ModelsApiUser[] | null, handleAssigneeChange: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined}) => {
 
     return (
         <Dialog open={openAssignDialog} onClose={handleCloseAssignDialog} aria-labelledby="form-dialog-title">
@@ -29,8 +29,8 @@ export const IDialogAssign = ({ task, userToAssignId, openAssignDialog, handleSu
                             onChange={handleAssigneeChange}
                         >
                             {users?.map((user) => (
-                                <option value={user.value}>
-                                    {user.label} ({user.value})
+                                <option value={user.id}>
+                                    {user.name} ({user.id})
                                 </option>
                             ))}
                         </Select>

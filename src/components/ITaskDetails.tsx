@@ -5,9 +5,8 @@ import { useDispatch } from 'react-redux';
 import { handleSetTaskField } from '../store/actions/tasks';
 import { ITextField } from './ITextField';
 
-export const ITaskDetails = ({ task, disabled, editable, handleFieldChange, handlePriorityChange, handleAssigneeChange, handleProjectChange, users, projects }: { task: JsonSchema.ModelApiTask, disabled?: boolean, editable?: boolean, handleFieldChange?: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, handlePriorityChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, users?: JsonSchema.Option[] | null, handleAssigneeChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, handleProjectChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, projects?: JsonSchema.ModelApiProject[] | null }) => {
+export const ITaskDetails = ({ task, disabled, editable, handleFieldChange, handlePriorityChange, handleAssigneeChange, handleProjectChange, handleCategoryChange, users, projects, categories }: { task: JsonSchema.ModelApiTask, disabled?: boolean, editable?: boolean, handleFieldChange?: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, handlePriorityChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, users?: JsonSchema.ModelsApiUser[] | null, handleAssigneeChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, handleProjectChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, projects?: JsonSchema.ModelApiProject[] | null, handleCategoryChange?: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined, categories?: JsonSchema.ModelApiCategory[] | null }) => {
     const humanizeDuration = require("humanize-duration");
-    const dispatch = useDispatch();
 
     return (
         <div className="flex flex-row flex-wrap pt-10">
@@ -21,12 +20,28 @@ export const ITaskDetails = ({ task, disabled, editable, handleFieldChange, hand
                     disabled={disabled}
                     onChange={handleFieldChange ? handleFieldChange("description") : () => void 0}
                 />
-                <ITextField
-                    labelText="Category"
-                    value={task?.category?.name}
-                    // disabled={disabled}
-                    disabled={true} //todo
-                />
+                {editable ?
+                    <FormControl variant="outlined" className="p-4">
+                        <InputLabel >Category</InputLabel>
+                        <Select
+                            native
+                            label="Category"
+                            onChange={handleCategoryChange}
+                        >
+                            {categories?.map((category) => (
+                                <option value={category.id}>
+                                    {category.name} ({category.id})
+                                </option>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    :
+                    <ITextField
+                        labelText="Category"
+                        value={task?.category?.name}
+                        disabled={disabled}
+                    />
+                }
             </div>
             <div className="flex flex-col">
                 {editable ?
@@ -58,8 +73,8 @@ export const ITaskDetails = ({ task, disabled, editable, handleFieldChange, hand
                             onChange={handleAssigneeChange}
                         >
                             {users?.map((user) => (
-                                <option value={user.value}>
-                                    {user.label} ({user.value})
+                                <option value={user.id}>
+                                    {user.displayName} ({user.id})
                                 </option>
                             ))}
                         </Select>
