@@ -9,7 +9,7 @@ import { Login } from './pages/Login';
 import { history } from './utils/history';
 import { Logout } from './pages/Logout';
 import { RootState } from './store/reducers';
-import { useMediaQuery, useTheme } from '@material-ui/core';
+import { Toolbar, useMediaQuery, useTheme } from '@material-ui/core';
 import { AppTabs } from './components/AppTabs';
 import { Projects } from './pages/Projects';
 import { useEffect } from 'react';
@@ -37,6 +37,7 @@ function App() {
             <div className="flex h-screen flex-col">
                 <Router history={history}>
                     <div className="flex h-screen flex-col">
+                    <Toolbar>Remote Loging App</Toolbar>
                         <div className={`relative flex flex-1 ${matches ? '' : 'mx-4'}`}>
                             {userId == null ? (
                                     <Login />
