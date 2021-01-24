@@ -31,7 +31,7 @@ export const signIn = (userName: string, localPwd: string) => {
     return async (dispatch: Dispatch) => {
         const [status, user] = await userApi.signIn(userName, localPwd);
         console.log(status);
-        if (status == 200 && user != null) {
+        if (status === 200 && user != null) {
             history.push('/tasks');
             Lockr.set(USER_ID, user.id);
             dispatch(setUser(user))

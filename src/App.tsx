@@ -5,7 +5,6 @@ import {
     Route,
 } from 'react-router-dom';
 import { useSelector} from 'react-redux';
-import { TopBar } from './components/TopBar';
 import { Login } from './pages/Login';
 import { history } from './utils/history';
 import { Logout } from './pages/Logout';
@@ -38,7 +37,6 @@ function App() {
             <div className="flex h-screen flex-col">
                 <Router history={history}>
                     <div className="flex h-screen flex-col">
-                        <TopBar />
                         <div className={`relative flex flex-1 ${matches ? '' : 'mx-4'}`}>
                             {userId == null ? (
                                     <Login />

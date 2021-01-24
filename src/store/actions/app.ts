@@ -1,19 +1,8 @@
 import { Dispatch } from 'redux';
 import * as usersApi from '../../api/users';
-import { languages } from '../../language-strings';
 import { USER_ID } from '../../utils/lockrKeys';
 
 const Lockr = require("lockr");
-
-export const userRoleFieldByLanguage = {
-    [languages.ENGLISH]: 'name_en',
-    [languages.PORTUGUESE]: 'name_pt',
-}
-
-export const setLanguage = (language = languages.ENGLISH)=> ({
-    type: 'CHANGE_LANGUAGE',
-    language,
-});
 
 export const updateSessionUser = (user: any)=> ({
     type: 'UPDATE_SESSION_USER',
@@ -53,22 +42,3 @@ export const changeSessionUserActiveRole = (roleId: number)=> {
         dispatch(updateSessionUser(user));
     }
 };
-
-// export const setToken = (token: string)=> {
-//     return async (dispatch: Dispatch)=> {
-//         dispatch({
-//             type: 'SET_TOKEN',
-//             token: token,
-//         });
-
-//         const user = await usersApi.getSessionUser();
-
-//         dispatch(updateSessionUser(user));
-//     }
-// };
-
-export const environments = {
-    PRODUCTION: 'production',
-    STAGING: 'test',
-    DEVELOPMENT: 'development'
-}

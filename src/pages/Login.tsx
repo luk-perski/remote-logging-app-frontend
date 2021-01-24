@@ -1,6 +1,4 @@
 import React from 'react';
-import queryString from 'query-string';
-import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/reducers';
 import { Input, InputAdornment } from '@material-ui/core';
@@ -15,12 +13,10 @@ import { IconButton } from '@material-ui/core';
 import { handleSetField, handleSetShowPassword, signIn } from '../store/actions/login';
 
 export const Login = () => {
-    const location = useLocation();
     const dispatch = useDispatch();
     const state = useSelector((state: RootState) => state);
 
     const login = state.login
-    const params = queryString.parse(location.search);
     const username = login.username
     const password = login.password
     const showPassword = login.showPassword

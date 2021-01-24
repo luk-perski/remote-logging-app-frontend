@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tab, Tabs } from '@material-ui/core';
-import { faCalendarAlt, faDoorOpen, faFileAlt, faList, faProjectDiagram, faSignInAlt, faSignOutAlt, faTasks, faUserTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faProjectDiagram,  faTasks, faUserTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -33,8 +33,6 @@ export const AppTabs = () => {
     const history = useHistory();
     const location = useLocation();
     const state = useSelector((state: RootState) => state);
-
-    const app = state.app;
 
     if (history.location?.pathname === '/') {
         history.replace('/calendar');

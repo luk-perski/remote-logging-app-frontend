@@ -77,7 +77,7 @@ export const addTask = (task: JsonSchema.ModelApiTask) => {
     return async (dispatch: Dispatch) => {
         task.creatorId = userId
         const result = await tasksApi.addTask(task);
-        if (result.status == 200) {
+        if (result.status === 200) {
             dispatch(setReturnToTasks(true))
             dispatch(setReturnToTasks(false))
             dispatch(setTaskToAdd({

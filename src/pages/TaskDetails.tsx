@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, useParams } from 'react-router-dom';
 import { IButton } from '../components/IButton';
 import { PageTitle } from '../components/PageTitle';
-import { getTask, handleSetDialogField, setOpenLogDialog as setOpenLogDialog, assignUser, startProgress, suspendTask, setOpenAssignDialog, addLogWork, getUsers } from '../store/actions/tasks';
+import { getTask, handleSetDialogField, setOpenLogDialog, assignUser, startProgress, suspendTask, setOpenAssignDialog, addLogWork, getUsers } from '../store/actions/tasks';
 import { RootState } from '../store/reducers';
 import { USER_ID } from '../utils/lockrKeys';
 import { ITaskDetails } from '../components/ITaskDetails';

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import cookie from 'js-cookie';
 import { history } from '../utils/history';
 import { API_URL } from '../config';
 
