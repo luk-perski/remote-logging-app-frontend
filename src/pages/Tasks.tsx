@@ -30,7 +30,7 @@ export const Tasks = () => {
     const matches = useMediaQuery(theme.breakpoints.up('md'));
 
     useEffect(() => {
-        dispatch(getTasks());
+        if (!tasksList) { dispatch(getTasks()); }
     }, [dispatch]);
 
     if (redirect) {
@@ -58,22 +58,22 @@ export const Tasks = () => {
                                     <TableHead>
                                         <TableCell>
                                             ID
-                                        </TableCell>
+                </TableCell>
                                         <TableCell>
                                             Name
-                                        </TableCell>
+                </TableCell>
                                         <TableCell>
                                             Status
-                                        </TableCell>
+                </TableCell>
                                         <TableCell>
                                             Project
-                                        </TableCell>
+                </TableCell>
                                         <TableCell>
                                             Assignee
-                                        </TableCell>
+                </TableCell>
                                         <TableCell>
                                             Created Date
-                                        </TableCell>
+                </TableCell>
                                     </TableHead>
                                     <TableBody>
                                         {tasksList?.map((task: JsonSchema.ModelApiTask) => (

@@ -2,12 +2,12 @@ declare namespace JsonSchema {
     export interface ModelApiTask {
         id?: number;
         projectId?: number;
-        projectName?: string; 
+        projectName?: string;
         name?: string;
         creatorId?: number;
         creatorName?: string;
         priority?: string;
-        assigneeId?: number;
+        assigneeId?: number | null;
         assigneeName?: string;
         category?: ModelApiCategory;
         cratedDate?: string; //date-time
@@ -77,7 +77,7 @@ declare namespace JsonSchema {
     export interface ModelApiLogWork {
         id?: number;
         timeSpend?: number;
-        comment?: string;
+        comment?: string | null;
         taskId?: number;
         taskName?: string;
         userId?: number;

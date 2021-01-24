@@ -28,9 +28,9 @@ export const getTask = (taskId: number) => {
     }
 }
 
-export const assignUser = (taskId: number, userId: number) => {
+export const assignUser = (taskId: number, userId: number | null) => {
     return async (dispatch: Dispatch) => {
-        const task = await tasksApi.assign(taskId, userId);
+        const task = await tasksApi.assignUser(taskId, userId);
 
         dispatch(setTaskRequest(task));
     }
@@ -52,7 +52,7 @@ export const suspendTask = (taskId: number, userId: number) => {
     }
 }
 
-export const addLogWork = (taskId: number, userId: number, days: number, hours: number, minutes: number, comment?: string) => {
+export const addLogWork = (taskId: number, userId: number, days: number, hours: number, minutes: number, comment?: string | null) => {
     return async (dispatch: Dispatch) => {
         const timeSpend = (days * 86400000) + (hours * 3600000) + (minutes * 60000);
         const logWork: JsonSchema.ModelApiLogWork = {
@@ -72,21 +72,32 @@ export const addLogWork = (taskId: number, userId: number, days: number, hours: 
     }
 }
 
-export const addTask = (task: JsonSchema.ModelApiTask) => {
+export const addTask = (
+    task: JsonSchema.ModelApiTask,
+    projects: JsonSchema.ModelApiProject[] | null,
+    categories: JsonSchema.ModelApiCategory[] | null,
+) => {
     const userId = Lockr.get(USER_ID)
+
+    if (!task.projectId && projects) {
+        task.projectId = projects[0]?.id
+    }
+
+    if (!task.creatorId && categories) {
+        task.category = categories[0]
+    }
+
+    task.assigneeId = task.assigneeId != -1 ? task.assigneeId : null
+
     return async (dispatch: Dispatch) => {
         task.creatorId = userId
         const result = await tasksApi.addTask(task);
-        if (result.status === 200) {
+        if (result.status == 201) {
             dispatch(setReturnToTasks(true))
             dispatch(setReturnToTasks(false))
+            dispatch(addTaskToList(result.data))
             dispatch(setTaskToAdd({
-                priority: "LOW",
                 estimate: 86400000,
-                projectId: 1,
-                category: {
-                    id: 1
-                },
                 creatorId: userId,
             }));
         }
@@ -136,7 +147,7 @@ export const handleSetTaskField = (field: string, value: string, task: JsonSchem
             task.projectId = parseInt(value);
             break;
         case "category":
-            const category = {id: parseInt(value)}
+            const category = { id: parseInt(value) }
             task.category = category;
     }
 
@@ -152,6 +163,13 @@ export const getUsers = () => {
         dispatch(setUsersList(users));
     }
 }
+
+export const addTaskToList = (task: JsonSchema.ModelApiTask) => ({
+    type: 'ADD_TASK_TO_LIST',
+    task
+})
+
+
 
 export const setDays = (value: string) => ({
     type: 'SET_LOG_DAYS',

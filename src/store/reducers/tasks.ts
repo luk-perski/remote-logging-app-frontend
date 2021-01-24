@@ -11,8 +11,8 @@ export interface TasksRootState {
     loadingAddLogWork: boolean;
     openLogDialog: boolean;
     openAssignDialog: boolean;
-    userToAssignId: number;
-    logWorkComment: string;
+    userToAssignId: number | null;
+    logWorkComment: string | null;
     isReturnToTasks: boolean;
     users: JsonSchema.ModelsApiUser[] | null
 }
@@ -22,14 +22,8 @@ export const tasks = (state: TasksRootState = {
     tasksList: null,
     selectedTaskRequest: {},
     taskToAdd: {
-        priority : "LOW",
-        estimate : 86400000,
-        projectId : 1,
-        category : {
-            id : 1
-        },
-        creatorId : 1,
-},
+        estimate: 86400000,
+    },
     loadingTaskRequest: false,
     logWorkToAdd: null,
     loadingAddLogWork: false,
@@ -38,8 +32,8 @@ export const tasks = (state: TasksRootState = {
     logWorkMinutes: 0,
     openLogDialog: false,
     openAssignDialog: false,
-    userToAssignId: -1,
-    logWorkComment: "",
+    userToAssignId: null,
+    logWorkComment: null,
     isReturnToTasks: false,
     users: null
 }, action: Record<string, any>) => {
@@ -73,9 +67,11 @@ export const tasks = (state: TasksRootState = {
         case 'SET_TASK_TO_ADD':
             return { ...state, taskToAdd: action.task }
         case 'RETURN_TO_TASKS':
-            return {...state, isReturnToTasks: action.value}
+            return { ...state, isReturnToTasks: action.value }
         case 'SET_USERS':
-            return {...state, users: action.users}
+            return { ...state, users: action.users }
+        case 'ADD_TASK_TO_LIST':
+            return { ...state, tasksList: state.tasksList?.concat(action.task) }
         default:
             return state;
     }

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, useParams } from 'react-router-dom';
 import { IButton } from '../components/IButton';
 import { PageTitle } from '../components/PageTitle';
-import { getTask, handleSetDialogField, setOpenLogDialog, assignUser, startProgress, suspendTask, setOpenAssignDialog, addLogWork, getUsers } from '../store/actions/tasks';
+import { getTask, handleSetDialogField, setOpenLogDialog as setOpenLogDialog, assignUser, startProgress, suspendTask, setOpenAssignDialog, addLogWork, getUsers } from '../store/actions/tasks';
 import { RootState } from '../store/reducers';
 import { USER_ID } from '../utils/lockrKeys';
 import { ITaskDetails } from '../components/ITaskDetails';
@@ -40,7 +40,7 @@ export const TaskDetails = () => {
     const openAssignDialog = tasks.openAssignDialog;
 
     useEffect(() => {
-        dispatch(getUsers());
+        if (!users) { dispatch(getUsers()); }
     }, [dispatch]);
 
 
@@ -109,7 +109,7 @@ export const TaskDetails = () => {
                     <Link color="inherit"
                         onClick={() => setRedirect(true)}>
                         Tasks
-                </Link>
+                    </Link>
                     <Typography color="textPrimary">{task?.name} ({task?.id})</Typography>
                 </Breadcrumbs>
                 {
@@ -152,11 +152,9 @@ export const TaskDetails = () => {
                                 />
                                 <IDialogAssign
                                     task={task}
-                                    userToAssignId={userToAssignId}
                                     openAssignDialog={openAssignDialog}
                                     handleCloseAssignDialog={handleCloseAssignDialog}
                                     handleSubmitAssignDialog={handleSubmitAssignDialog}
-                                    handleDialogFieldChange={handleDialogFieldChange}
                                     users={users}
                                     handleAssigneeChange={handleAssigneeChange}
                                 />

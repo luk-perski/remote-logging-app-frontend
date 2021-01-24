@@ -1,8 +1,20 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, FormControl, InputLabel, Select } from '@material-ui/core';
 import React, { ChangeEvent, ReactNode } from 'react';
 
-export const IDialogAssign = ({ task, userToAssignId, openAssignDialog, handleSubmitAssignDialog, handleCloseAssignDialog, handleDialogFieldChange, users, handleAssigneeChange }
-    : { task: JsonSchema.ModelApiTask | null, userToAssignId: number, openAssignDialog: boolean, handleSubmitAssignDialog: () => void, handleCloseAssignDialog: () => void, handleDialogFieldChange: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, users: JsonSchema.ModelsApiUser[] | null, handleAssigneeChange: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => void) | undefined }) => {
+export const IDialogAssign = ({
+    task,
+    openAssignDialog,
+    handleSubmitAssignDialog,
+    handleCloseAssignDialog,
+    users,
+    handleAssigneeChange }
+    : {
+         task: JsonSchema.ModelApiTask | null,
+        openAssignDialog: boolean,
+        handleSubmitAssignDialog: () => void,
+        handleCloseAssignDialog: () => void,
+        users: JsonSchema.ModelsApiUser[] | null, handleAssigneeChange: ((event: ChangeEvent<{ name?: string | undefined; value: unknown; }>,
+        child: ReactNode) => void) | undefined }) => {
 
     return (
         <Dialog open={openAssignDialog} onClose={handleCloseAssignDialog} aria-labelledby="form-dialog-title">

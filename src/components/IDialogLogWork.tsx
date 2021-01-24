@@ -2,7 +2,26 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, B
 import React from 'react';
 import { ITextField } from './ITextField';
 
-export const IDialogLogWork = ({ task, days, hours, minutes, logWorkComment, openLogDialog, handleDialogFieldChange, handleCloseLogDialog, handleSubmitLogDialog }: { task: JsonSchema.ModelApiTask | null, days: number, hours: number, minutes: number, logWorkComment: string, openLogDialog: boolean, handleDialogFieldChange: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void, handleCloseLogDialog: () => void, handleSubmitLogDialog: () => void }) => {
+export const IDialogLogWork = ({
+    task,
+    days,
+    hours,
+    minutes,
+    logWorkComment,
+    openLogDialog,
+    handleDialogFieldChange,
+    handleCloseLogDialog,
+    handleSubmitLogDialog
+}: {
+    task: JsonSchema.ModelApiTask | null,
+    days: number,
+    hours: number,
+    minutes: number,
+    logWorkComment: string | null,
+    openLogDialog: boolean,
+    handleDialogFieldChange: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void,
+    handleCloseLogDialog: () => void, handleSubmitLogDialog: () => void
+}) => {
     return (
         <Dialog open={openLogDialog} onClose={handleCloseLogDialog} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-log-work">Log work</DialogTitle>
@@ -13,7 +32,7 @@ export const IDialogLogWork = ({ task, days, hours, minutes, logWorkComment, ope
                 {/* todo add nicer pickers */}
                 <div className="flex flex-col w-1/3 m-auto">
                     <ITextField
-                        className={"m-1"}
+                        className="m-1"
                         labelText="Days"
                         type="number"
                         value={days}
@@ -21,7 +40,7 @@ export const IDialogLogWork = ({ task, days, hours, minutes, logWorkComment, ope
                         }
                     />
                     <ITextField
-                        className={"m-1"}
+                        className="m-1"
                         labelText="Hours"
                         type="number"
                         value={hours}
@@ -29,7 +48,7 @@ export const IDialogLogWork = ({ task, days, hours, minutes, logWorkComment, ope
 
                     />
                     <ITextField
-                        className={"m-1"}
+                        className="m-1"
                         labelText="Minutes"
                         type="number"
                         value={minutes}
@@ -37,7 +56,7 @@ export const IDialogLogWork = ({ task, days, hours, minutes, logWorkComment, ope
                     />
                 </div>
                 <ITextField
-                    className={"m-1"}
+                    className="m-1"
                     labelText="Comment"
                     value={logWorkComment}
                     onChange={handleDialogFieldChange("logWorkComment")}
@@ -47,7 +66,7 @@ export const IDialogLogWork = ({ task, days, hours, minutes, logWorkComment, ope
                 />
                 {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <TimePicker
-                onChange={void 0}
+                onChange={()=> void 0}
                 value={value}
             />
             </MuiPickersUtilsProvider> */}

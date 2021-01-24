@@ -28,16 +28,13 @@ export const AddTask = () => {
 
     useEffect(() => {
         dispatch(setReturnToTasks(false))
-        //todo ask why useEffect works like this
-        console.log("Use effect:")
-        console.log(redirect)
-        dispatch(getUsers());
-        dispatch(getProjects());
-        dispatch(getCategories());
+        if (!users) { dispatch(getUsers()); }
+        if (!projects) { dispatch(getProjects()); }
+        if (!categories) { dispatch(getCategories()); }
     }, [dispatch]);
 
     const handleAddButton = () => {
-        dispatch(addTask(task));
+        dispatch(addTask(task, projects, categories));
     }
 
     const handleChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +50,7 @@ export const AddTask = () => {
     };
 
     const handleProjectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        console.log("project!!!!!!!!!!!!!!!!!!")
         dispatch(handleSetTaskField("project", event.target.value as string, task));
     };
 
@@ -65,6 +63,7 @@ export const AddTask = () => {
     }
 
     if (redirect) {
+        console.log("HA!" + redirect)
         return <Redirect push to={pages.tasks.url()} />
     }
     return (
@@ -75,7 +74,7 @@ export const AddTask = () => {
                     <Link color="inherit"
                         onClick={() => handleRedirect(true)}>
                         Tasks
-                </Link>
+            </Link>
                     <Typography color="textPrimary">Add task</Typography>
                 </Breadcrumbs>
                 <div className="flex-col p-6">

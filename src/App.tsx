@@ -4,7 +4,7 @@ import {
     Switch,
     Route,
 } from 'react-router-dom';
-import { useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Login } from './pages/Login';
 import { history } from './utils/history';
 import { Logout } from './pages/Logout';
@@ -37,10 +37,10 @@ function App() {
             <div className="flex h-screen flex-col">
                 <Router history={history}>
                     <div className="flex h-screen flex-col">
-                    <Toolbar>Remote Loging App</Toolbar>
+                        <Toolbar>Remote Loging App</Toolbar>
                         <div className={`relative flex flex-1 ${matches ? '' : 'mx-4'}`}>
                             {userId == null ? (
-                                    <Login />
+                                <Login />
                             ) : (
                                     <>
                                         {matches && (
@@ -54,17 +54,17 @@ function App() {
                                             </Route>
                                             <Route exact path={['/', '/calendar']}>
                                             </Route>
-                                            <Route exact path= {pages.tasks.url()}>
+                                            <Route exact path={pages.tasks.url()}>
                                                 <pages.tasks.Component />
                                             </Route>
-                                            <Route exact path= {pages.taskDetails.url()}>
-                                                <pages.taskDetails.Component />
-                                            </Route>
-                                            <Route exact path= {pages.addTask.url()}>
+                                            <Route exact path={pages.addTask.url()}>
                                                 <pages.addTask.Component />
                                             </Route>
-                                            <Route exact path= {pages.projects.url()}>
-                                                < Projects/>
+                                            <Route exact path={pages.taskDetails.url()}>
+                                                <pages.taskDetails.Component />
+                                            </Route>
+                                            <Route exact path={pages.projects.url()}>
+                                                < pages.projects.Component />
                                             </Route>
                                         </Switch>
                                     </>

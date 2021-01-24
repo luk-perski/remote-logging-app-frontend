@@ -22,15 +22,15 @@ export const Projects = () => {
     const loadingProjects = projects.loadingProjects;
 
     useEffect(() => {
-        dispatch(getProjects());
+        if (!projectsList) { dispatch(getProjects()); }
     }, [dispatch]);
 
     return (
         <div className="p-6">
-           <PageTitle title="Projects" /> 
+            <PageTitle title="Projects" />
             <Typography variant="h4" component="h4">Projects</Typography>
             <div>
-                {loadingProjects || !projectsList ? (
+                {loadingProjects && !projectsList ? (
                     <div className="text-center">
                         <CircularProgress />
                     </div>
@@ -40,19 +40,19 @@ export const Projects = () => {
                                 <TableHead>
                                     <TableCell>
                                         Name
-                                        </TableCell>
+                    </TableCell>
                                     <TableCell>
                                         Manager Name
-                                        </TableCell>
+                    </TableCell>
                                     <TableCell>
                                         Description
-                                        </TableCell>
+                    </TableCell>
                                     <TableCell>
                                         Active
-                                        </TableCell>
+                    </TableCell>
                                     <TableCell>
                                         Created Date
-                                        </TableCell>
+                    </TableCell>
                                 </TableHead>
                                 <TableBody>
                                     {projectsList?.map((project: JsonSchema.ModelApiProject) => (

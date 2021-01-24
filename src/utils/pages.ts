@@ -1,27 +1,28 @@
 import { AddTask } from "../pages/AddTask";
 import { Login } from "../pages/Login";
+import { Projects } from "../pages/Projects";
 import { TaskDetails } from "../pages/TaskDetails";
 import { Tasks } from "../pages/Tasks";
 
 export const pages = {
-    tasks : {
+    tasks: {
         Component: Tasks,
-        url: ()=> '/tasks'
+        url: () => '/tasks'
     },
-    taskDetails : {
+    taskDetails: {
         Component: TaskDetails,
-        url: (id?: string)=> id? `/tasks/${id}` : '/tasks/:taskId' 
-    },  
+        url: (id?: string) => id ? `/tasks/${id}` : '/tasks/:taskId'
+    },
     addTask: {
         Component: AddTask,
-        url: ()=> '/addTask'
+        url: () => '/tasks/new'
     },
-    projects : {
-        Component: Tasks,
-        url: ()=> '/projects'
+    projects: {
+        Component: Projects,
+        url: () => '/projects'
     },
     login: {
         Component: Login,
-        url: ()=> '/login'
+        url: () => '/login'
     }
 }
