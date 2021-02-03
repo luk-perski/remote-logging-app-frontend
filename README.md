@@ -36,18 +36,14 @@ The first time the app runs, it will say that the DB is in an inconsistent state
 Frontend
 -------------
 Available scripts:
-* start:dev
-* start:stage
-* start:prod
-* build:dev
-* build:stage
-* build:prod
+* start
+* build
 * test
 * eject
 
 E.g. to run:
 
-    npm rum start:dev
+    npm rum start
 
 The application is now running in your server on port 3000 (which you can set to whatever you like).
 
