@@ -3,14 +3,10 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "start:dev": "REACT_APP_HOST_TYPE=dev craco start",
-        "start:stage": "REACT_APP_HOST_TYPE=stage craco start",
-        "start:prod": "REACT_APP_HOST_TYPE=prod craco start",
-        "build:dev": "REACT_APP_HOST_TYPE=dev craco build",
-        "build:stage": "REACT_APP_HOST_TYPE=stage craco build",
-        "build:prod": "REACT_APP_HOST_TYPE=prod craco build",
-        "test": "craco test",
-        "eject": "craco eject"
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
     },
     "dependencies": {
         "@date-io/date-fns": "^2.10.6",
