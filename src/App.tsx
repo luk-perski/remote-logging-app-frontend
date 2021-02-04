@@ -11,7 +11,6 @@ import { Logout } from './pages/Logout';
 import { RootState } from './store/reducers';
 import { Toolbar, useMediaQuery, useTheme } from '@material-ui/core';
 import { AppTabs } from './components/AppTabs';
-import { Projects } from './pages/Projects';
 import { useEffect } from 'react';
 import { USER_ID } from './utils/lockrKeys';
 import { pages } from './utils/pages';
@@ -22,7 +21,7 @@ function App() {
     const state = useSelector((state: RootState) => state);
     const matches = useMediaQuery(theme.breakpoints.up('md'));
     const login = state.login
-    const userId = Lockr.get(USER_ID)
+    const userId = Lockr.get(USER_ID) //todo change it after backend will be ready for using token
 
     console.log(login)
 

@@ -32,7 +32,6 @@ export const options = [
 export const AppTabs = () => {
     const history = useHistory();
     const location = useLocation();
-    const state = useSelector((state: RootState) => state);
 
     if (history.location?.pathname === '/') {
         history.replace('/calendar');

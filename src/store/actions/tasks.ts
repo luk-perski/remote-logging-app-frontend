@@ -87,12 +87,12 @@ export const addTask = (
         task.category = categories[0]
     }
 
-    task.assigneeId = task.assigneeId != -1 ? task.assigneeId : null
+    task.assigneeId = task.assigneeId !== -1 ? task.assigneeId : null
 
     return async (dispatch: Dispatch) => {
         task.creatorId = userId
         const result = await tasksApi.addTask(task);
-        if (result.status == 201) {
+        if (result.status === 201) {
             dispatch(setReturnToTasks(true))
             dispatch(setReturnToTasks(false))
             dispatch(addTaskToList(result.data))
